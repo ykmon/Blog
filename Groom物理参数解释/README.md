@@ -27,11 +27,11 @@
 
 **解算弯曲 Solve Bend**：根据 guide 信息产生的约束来单独解算
 
-![Solve Bend Demo](images/202cab87-219b-4eef-b6a9-625ca707c951.gif)
+![Solve Bend Demo](images/1.gif)
 
 **投射弯曲 Project Bend**：顶点之间相关信息的约束解算
 
-![Project Bend Demo](images/e13f3e09-3451-4e5f-bd8e-2d79c82bace8.gif)
+![Project Bend Demo](images/2.gif)
 
 - **弯曲阻尼 Bend Damping**：变形后恢复的速度
 - **弯曲刚度 Bend Stiffness**：变形的幅度，数值越大幅度越小

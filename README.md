@@ -5,7 +5,9 @@
 ## 文章目录
 
 - [Groom物理参数解释](./Groom物理参数解释/) - Unreal Engine 中 Groom 毛发系统的物理参数详解
-- [Unreal SVN仓库搭建指北](./Unreal%20SVN仓库搭建指北/) - Unreal 项目使用 SVN 进行版本控制的搭建指南
+- [Unreal SVN仓库搭建指北](./Unreal%20SVN仓库搭建指北/) - Unreal 项目使用 SVN 进行版本控制的搭建指南、
+- [ShaderLab结构详解](./ShaderLab结构详解/)
+- [Tools](./Tools/) - Houdini项目中使用的部分Python脚本
 
 ## 关于我
 

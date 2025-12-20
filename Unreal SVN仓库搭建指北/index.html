@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unreal SVN 仓库搭建指北 - 技术美术笔记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+        }
+
+        .nav-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .back-link::before {
+            content: "←";
+            margin-right: 8px;
+        }
+
+        .content {
+            font-size: 1.1em;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2d3748;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: block;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            background: #f7fafc;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        code {
+            background: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+            color: #c53030;
+        }
+
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav-header">
+            <a href="../index.html" class="back-link">返回首页</a>
+        </div>
+
+        <article class="content">
+            <h1>Unreal SVN 仓库搭建指北</h1>
+
+            <p>本教程介绍如何为 Unreal Engine 项目搭建 SVN 版本控制仓库。</p>
+
+            <h2>1. 下载安装 TortoiseSVN</h2>
+
+            <p>点击链接进入 SVN 下载页面，选择对应操作系统下载。系统位数可通过 <strong>系统 → 系统信息</strong> 查看。</p>
+
+            <p>🔗 <a href="https://tortoisesvn.net/downloads.html">TortoiseSVN 下载页面</a></p>
+
+            <p><img src="images/Untitled.png" alt="下载页面"></p>
+
+            <p><img src="images/Untitled_1.png" alt="系统位数"></p>
+
+            <h2>2. 安装并创建仓库目录</h2>
+
+            <p>一路下一步安装之后根据提示，<strong>重启电脑</strong>。</p>
+            <p>选择一个硬盘，新建一个"装管理项目仓库的仓库"。</p>
+
+            <blockquote>
+                <p>⚠️ <strong>注意</strong>：不可以在根目录创建仓库。</p>
+            </blockquote>
+
+            <p><img src="images/Untitled_2.png" alt="创建仓库目录"></p>
+
+            <p>进入该文件夹，在导航栏输入 <code>CMD</code> 并回车进入该路径的命令行窗口。</p>
+
+            <blockquote>
+                <p>📹 操作演示视频：<a href="images/bandicam.mp4">bandicam.mp4</a></p>
+            </blockquote>
+
+            <p><img src="images/Untitled_3.png" alt="CMD操作"></p>
+
+            <h2>3. 使用 UE 内置 SVN 创建仓库</h2>
+
+            <p>在命令行中输入以下命令：</p>
+
+            <pre><code>"C:\Program Files\Epic Games\UE_5.2\Engine\Binaries\ThirdParty\svn\Win64\svnadmin.exe" create --compatible-version 1.9 E:\BaiduSyncdisk\SVN_Repos
+</code></pre>
+
+            <p><strong>参数说明：</strong></p>
+
+            <ul>
+                <li><strong>第一个路径</strong>：UE 引擎内部自带的 SVN 内核路径，可通过 Everything 搜索 <code>svnadmin.exe</code> 找到</li>
+                <img src="images/Untitled_4.png" alt="搜索svnadmin">
+                <li><strong>第二个路径</strong>：<code>E:\SVN_Repos\Survival_Repo</code> 代表想创建的仓库所在的路径和文件名</li>
+            </ul>
+
+            <blockquote>
+                <p>💡 <strong>为什么使用 UE 自带的 SVN？</strong><br>
+                    UE 自带的 SVN 内核版本较老，而我们下载的 TortoiseSVN 版本较新。使用新版本创建的仓库可能无法与 UE 项目内部正确链接。</p>
+            </blockquote>
+
+            <p>复制命令至命令行后回车即可创建仓库。</p>
+
+            <h2>4. Checkout 到 UE 项目</h2>
+
+            <p>打开 UE 项目路径：</p>
+
+            <p><img src="images/Untitled_5.png" alt="UE项目路径"></p>
+
+            <p>右键选择 <strong>SVN → Checkout</strong>：</p>
+
+            <ul>
+                <li><strong>第一行</strong>：填写刚才通过命令行创建的仓库路径，在前面加上 <code>file:///</code></li>
+                <li><strong>第二行</strong>：填写想要进行版本控制的 UE 项目路径，删除自动生成的后缀</li>
+            </ul>
+
+            <p>点击 <strong>OK → Checkout</strong> 即可完成。</p>
+
+            <p><img src="images/Untitled_6.png" alt="Checkout设置"></p>
+
+            <h2>5. 在 UE 中配置 Source Control</h2>
+
+            <ol>
+                <li>进入 UE 项目</li>
+                <li>点击右下角 <strong>Source Control Off</strong></li>
+                <li>选择 <strong>Subversion</strong></li>
+                <li>将仓库路径复制到对应位置</li>
+                <li>点击 <strong>Accept Settings</strong></li>
+            </ol>
+
+            <p><img src="images/Untitled_7.png" alt="UE Source Control设置"></p>
+
+            <h2>6. 完成</h2>
+
+            <p>配置完成后，你的 UE 项目已成功连接 SVN 版本控制。</p>
+
+            <p><img src="images/Untitled_8.png" alt="完成"></p>
+
+            <hr>
+
+            <h2>参考资源</h2>
+            <ul>
+                <li><a href="https://tortoisesvn.net/">TortoiseSVN 官网</a></li>
+                <li><a href="https://docs.unrealengine.com/">Unreal Engine 官方文档</a></li>
+            </ul>
+        </article>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Houdini Tools - 技术美术笔记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+        }
+
+        .nav-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .back-link::before {
+            content: "←";
+            margin-right: 8px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2d3748;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .articles {
+            list-style: none;
+        }
+
+        .articles li {
+            margin-bottom: 15px;
+        }
+
+        .articles a {
+            display: block;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #2d3748;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .articles a:hover {
+            background: #667eea;
+            color: #fff;
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .articles .title {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .articles .desc {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav-header">
+            <a href="../../index.html" class="back-link">返回首页</a>
+        </div>
+
+        <h1>Houdini Tools</h1>
+
+        <p style="margin-bottom: 30px; color: #4a5568;">Houdini 项目中使用的部分 Python 脚本和技巧。</p>
+
+        <ul class="articles">
+            <li>
+                <a href="从switch创建输出组.html">
+                    <div class="title">从 Switch 创建输出组</div>
+                    <div class="desc">Quickly create output groups from switch nodes</div>
+                </a>
+            </li>
+            <li>
+                <a href="如何为HDA添加Handle.html">
+                    <div class="title">如何为 HDA 添加 Handle</div>
+                    <div class="desc">Adding custom handles to Houdini Digital Assets</div>
+                </a>
+            </li>
+            <li>
+                <a href="快速添加自定义Parameter.html">
+                    <div class="title">快速添加自定义 Parameter</div>
+                    <div class="desc">Quickly add custom parameters</div>
+                </a>
+            </li>
+            <li>
+                <a href="批量创建选中的ObjectMerge.html">
+                    <div class="title">批量创建选中的 ObjectMerge</div>
+                    <div class="desc">Batch create Object Merge nodes for selection</div>
+                </a>
+            </li>
+            <li>
+                <a href="按照组拆分模型.html">
+                    <div class="title">按照组拆分模型</div>
+                    <div class="desc">Split geometry by groups</div>
+                </a>
+            </li>
+            <li>
+                <a href="节点输入数量.html">
+                    <div class="title">节点输入数量</div>
+                    <div class="desc">Managing node input connections</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>按照组拆分模型 - Houdini Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+        }
+
+        .nav-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .back-link::before {
+            content: "←";
+            margin-right: 8px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            color: #2d3748;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav-header">
+            <a href="index.html" class="back-link">返回工具列表</a>
+        </div>
+
+        <h1>按照组拆分模型</h1>
+
+        <pre><code>nodeList = list(hou.selectedNodes())
+
+# 遍历选中的每个节点
+for node in nodeList:
+    # 创建一个包含不同类型（点、面、边）分组的字典
+    group = {
+        'point': node.geometry().pointGroups(),
+        'prim': node.geometry().primGroups(),
+        'edge': node.geometry().edgeGroups()
+    }
+    
+    # 遍历每个分组类型
+    for child, allgroup in group.items():
+        # 获取当前分组类型下的所有分组
+        for a in allgroup:
+            # 获取分组名称
+            name = a.name()
+            
+            # 创建一个 blast 节点
+            blast = node.createOutputNode('blast')
+            # 设置 blast 节点的组参数为当前分组名称
+            blast.parm('group').set(name)
+            # 将 blast 节点设置为负选择（删除分组内的几何）
+            blast.parm('negate').set(1)
+            # 设置 blast 节点以删除指定分组
+            blast.parm('removegrp').set(1)
+            
+            # 创建一个 null 节点作为 blast 节点的输出
+            null = blast.createOutputNode('null', "OUT_" + name)
+            # 设置 null 节点的颜色为绿色
+            null.setColor(hou.Color(0, 1, 0))
+</code></pre>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>头发 Groom 物理参数解释 - 技术美术笔记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+        }
+
+        .nav-header {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .back-link::before {
+            content: "←";
+            margin-right: 8px;
+        }
+
+        .content {
+            font-size: 1.1em;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2d3748;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #2d3748;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: #4a5568;
+            margin: 30px 0 15px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        strong {
+            color: #2b6cb0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            display: block;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #e2e8f0;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav-header">
+            <a href="../index.html" class="back-link">返回首页</a>
+        </div>
+
+        <article class="content">
+            <h1>头发 Groom 物理参数解释</h1>
+
+            <h2>解算器设置 Solver Settings</h2>
+
+            <p><img src="images/Untitled.png" alt="Solver Settings"></p>
+
+            <p>启用模拟我们发现整个头发的模拟都是基于 Niagara 粒子来驱动的；但不需要担心，大多数情况下应用预设即可。</p>
+
+            <ul>
+                <li><strong>Groom Rods</strong>：对于 <strong>弯曲约束 Bend Constraint</strong> 的表现更强，<strong>拉伸约束</strong>
+                    表现较弱</li>
+                <li><strong>Groom Springs</strong>：对于 <strong>拉伸约束 Stretch Constraint</strong>
+                    表现更强，<strong>弯曲约束</strong> 较弱</li>
+                <li><strong>Custom Solver</strong>：通过自定义 Niagara 系统来驱动，可以兼顾弹力和弯曲，但自定义过程复杂</li>
+            </ul>
+
+            <hr>
+
+            <ul>
+                <li><strong>Sub Steps</strong>：每帧计算次数；如果该数值过低在运行时会丢失大量细节</li>
+                <li><strong>Iteration</strong>：迭代次数</li>
+            </ul>
+
+            <p>这两个参数共同控制 <strong>材质约束 Material Constraints</strong> 中的细节程度。</p>
+
+            <h2>外力 External Forces</h2>
+
+            <p>如属性标签所示，无需赘述。</p>
+
+            <h2>材质约束 Material Constraints</h2>
+
+            <h3>弯曲约束 Bend Constraint</h3>
+
+            <p><strong>解算弯曲 Solve Bend</strong>：根据 guide 信息产生的约束来单独解算</p>
+
+            <p><img src="images/1.gif" alt="Solve Bend Demo"></p>
+
+            <p><strong>投射弯曲 Project Bend</strong>：顶点之间相关信息的约束解算</p>
+
+            <p><img src="images/2.gif" alt="Project Bend Demo"></p>
+
+            <ul>
+                <li><strong>弯曲阻尼 Bend Damping</strong>：变形后恢复的速度</li>
+                <li><strong>弯曲刚度 Bend Stiffness</strong>：变形的幅度，数值越大幅度越小</li>
+                <li><strong>刚度曲线 Stiffness Scale</strong>：基于 <strong>弯曲刚度</strong> 变形幅度曲线（X轴 0 是发根，1 是发尖）</li>
+            </ul>
+
+            <h3>拉伸约束 Stretch Constraint</h3>
+
+            <p>同上 <strong>弯曲约束 Bend Constraint</strong>，只是变为了拉伸效果。</p>
+
+            <h3>碰撞约束 Collision Constraint</h3>
+
+            <ul>
+                <li><strong>解算碰撞 Solve Collision</strong>：根据 guide 信息产生的约束来单独解算</li>
+                <li><strong>投射碰撞 Project Collision</strong>：顶点之间相关信息的约束解算，建议勾选，防止出现 Groom 穿插</li>
+                <li><strong>静态摩擦力 Static Friction</strong>：静止时和碰撞体 <strong>Physics Asset</strong> 交互时的摩擦力，主要是身体和肩部</li>
+                <li><strong>动态摩擦力 Kinetic Friction</strong>：动态时和碰撞体 <strong>Physics Asset</strong> 交互时的摩擦力，主要是身体和肩部</li>
+                <li><strong>发束黏度 Strands Viscosity</strong>：(0~1 之间) 头发之间的自碰撞粘黏的系数，数值越大越会感觉头发是一个整体，而不是一根一根的</li>
+                <li><strong>网格尺寸 Grid Dimension</strong>：暂未知具体用处</li>
+                <li><strong>碰撞半径 Collision Radius</strong>：头发自身之间以及和身体的碰撞半径</li>
+            </ul>
+
+            <p><img src="images/Untitled_1.png" alt="Collision Radius Example 1"></p>
+
+            <p><img src="images/Untitled_2.png" alt="Collision Radius Example 2"></p>
+
+            <ul>
+                <li><strong>半径缩放 Radius Scale</strong>：基于 <strong>碰撞半径</strong> 变形幅度曲线（X轴 0 是发根，1 是发尖）</li>
+            </ul>
+
+            <h2>发束参数 Strands Parameters</h2>
+
+            <ul>
+                <li><strong>发束尺寸 Strands Size</strong>：每个 guide 上用于模拟的粒子数</li>
+                <li><strong>发束密度 Strands Density</strong>：用于质量和惯性计算</li>
+                <li><strong>发束平滑 Strands Smoothing</strong>：基于 <strong>发束尺寸 Strands Size</strong> 的粒子数进行插值平滑</li>
+                <li><strong>发束粗度 Strands Thickness</strong>：用于质量和惯性计算</li>
+                <li><strong>粗度尺寸曲线 Thickness Scale</strong>：基于 <strong>弯曲刚度</strong> 变形幅度曲线（X轴 0 是发根，1 是发尖）</li>
+            </ul>
+        </article>
+    </div>
+</body>
+
+</html>

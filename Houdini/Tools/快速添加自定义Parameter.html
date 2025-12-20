@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快速添加自定义Parameter - Houdini Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+        }
+
+        .nav-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .back-link::before {
+            content: "←";
+            margin-right: 8px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            color: #2d3748;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav-header">
+            <a href="index.html" class="back-link">返回工具列表</a>
+        </div>
+
+        <h1>快速添加自定义Parameter</h1>
+
+        <pre><code>nodeList = list(hou.selectedNodes())
+
+parm_templates = {
+    "float": hou.FloatParmTemplate,
+    "int": hou.IntParmTemplate,
+    "string": hou.StringParmTemplate
+}
+
+def input_Name():
+    # 使用 Houdini 的 UI 接口读取输入
+    inputName = hou.ui.readMultiInput("创建属性信息", ["属性类型", "属性名称", "属性标签Label"], buttons=["OK", "Cancel"])[1]
+    return inputName
+
+def add_Parameter(node):
+    # 将输入的属性信息拆分
+    parm_type, parm_name, parm_label = input_Name()
+
+    # 根据属性类型创建相应的参数模板
+    parm_template = parm_templates[parm_type](parm_name, parm_label, 1)
+    
+    # 获取节点的参数模板组
+    parm_template_group = node.parmTemplateGroup()
+
+    # 根据参数类型插入参数模板
+    if b == 'group':
+        parm_template_group.insertBefore('group', parm_template)
+    else:
+        parm_template_group.insertBefore(c, parm_template)
+
+    # 更新节点的参数模板组
+    node.setParmTemplateGroup(parm_template_group)
+
+# 遍历选中的每个节点
+for selNode in nodeList:
+    # 获取节点的所有参数
+    parameters = selNode.parms()
+    
+    # 获取节点的第一个和第二个参数名
+    b = parameters[0].name()
+    c = parameters[1].name()
+
+    # 调用函数添加参数
+    add_Parameter(selNode)
+</code></pre>
+    </div>
+</body>
+
+</html>

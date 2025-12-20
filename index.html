@@ -4,8 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>技术美术笔记</title>
+    <title>TechArt_Dex | 技术美术图鉴</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #1a1c23;
+            --card-bg: rgba(30, 34, 45, 0.6);
+            --accent-blue: #00f3ff;
+            --accent-red: #ff3e3e;
+            --text-primary: #e0e6ed;
+            --text-secondary: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+
+            /* Type Colors */
+            --type-fire: #f08030;
+            --type-psychic: #f85888;
+            --type-electric: #f8d030;
+            --type-steel: #b8b8d0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,211 +32,494 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.8;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-color);
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 62, 62, 0.1) 0%, transparent 20%);
+            color: var(--text-primary);
             min-height: 100vh;
-            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        /* Pokeball Background Element */
+        .bg-pokeball {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vh;
+            height: 80vh;
+            border: 2px solid rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .bg-pokeball::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .bg-pokeball::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15%;
+            height: 15%;
+            border: 2px solid rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            background: var(--bg-color);
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 60px;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pokeball-icon {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--text-primary);
+            border-radius: 50%;
+            position: relative;
+            background: linear-gradient(to bottom, var(--accent-red) 48%, var(--text-primary) 48%, var(--text-primary) 52%, white 52%);
+            box-shadow: 0 0 15px var(--accent-red);
+            animation: bounce 2s infinite;
+        }
+
+        .pokeball-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 2px solid var(--bg-color);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
         h1 {
-            font-size: 2.5em;
-            color: #2d3748;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .intro {
-            font-size: 1.1em;
-            color: #4a5568;
-            margin-bottom: 40px;
-            padding: 20px;
-            background: #f7fafc;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
         }
 
-        h2 {
+        .typing-effect {
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.5em;
-            color: #2d3748;
-            margin: 30px 0 20px;
+            color: var(--accent-blue);
+            border-right: 2px solid var(--accent-blue);
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: var(--accent-blue)
+            }
+        }
+
+        .hero p {
+            margin-top: 15px;
+            color: var(--text-secondary);
+            font-size: 1.1em;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Scanline Overlay */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.3;
+        }
+
+        /* Grid Layout */
+        .dex-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* Dex Card */
+        .dex-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .dex-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--text-secondary);
+            transition: 0.3s;
+        }
+
+        .dex-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.15);
+            border-color: var(--accent-blue);
+        }
+
+        .dex-card:hover::before {
+            background: var(--accent-blue);
+            box-shadow: 0 0 10px var(--accent-blue);
+        }
+
+        /* Type Badges */
+        .type-badge {
+            align-self: flex-start;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .type-fire {
+            background: var(--type-fire);
+        }
+
+        .type-psychic {
+            background: var(--type-psychic);
+        }
+
+        .type-electric {
+            background: var(--type-electric);
+        }
+
+        .type-steel {
+            background: var(--type-steel);
+            color: #333;
+        }
+
+        .card-id {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .dex-card h3 {
+            color: var(--text-primary);
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .dex-card p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .stat-bar {
+            margin-top: 20px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .stat-fill {
+            height: 100%;
+            background: var(--accent-blue);
+            width: 0;
+            transition: width 1s ease-out;
+        }
+
+        .dex-card:hover .stat-fill {
+            width: 100%;
+            /* Ideally dynamic, simplified for now */
+        }
+
+        /* Profile Section */
+        .trainer-card {
+            margin-top: 80px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
             display: flex;
             align-items: center;
+            gap: 40px;
+            position: relative;
         }
 
-        h2::before {
-            content: "📚";
-            margin-right: 10px;
+        .trainer-avatar {
+            width: 100px;
+            height: 100px;
+            background: #2d3748;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            border: 2px solid var(--accent-blue);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
         }
 
-        .articles {
-            list-style: none;
-        }
-
-        .articles li {
+        .trainer-info h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--text-primary);
             margin-bottom: 15px;
         }
 
-        .articles a {
-            display: block;
-            padding: 20px;
-            background: #f7fafc;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #2d3748;
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .articles a:hover {
-            background: #667eea;
-            color: #fff;
-            transform: translateX(10px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .articles .title {
-            font-weight: 600;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-        }
-
-        .articles .desc {
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-
-        .about {
-            margin-top: 40px;
-            padding: 25px;
-            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-            border-radius: 12px;
-        }
-
-        .about h2::before {
-            content: "👤";
-        }
-
-        .skills {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        .skill-tags {
+            display: flex;
             gap: 10px;
+            flex-wrap: wrap;
             margin-top: 15px;
         }
 
-        .skills li {
-            padding: 10px 15px;
-            background: #fff;
-            border-radius: 6px;
-            font-size: 0.95em;
-            color: #4a5568;
-            border: 1px solid #e2e8f0;
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            border: 1px solid transparent;
+            transition: 0.2s;
         }
 
-        .skills li::before {
-            content: "✨ ";
+        .skill-tag:hover {
+            border-color: var(--accent-blue);
+            background: rgba(0, 243, 255, 0.1);
         }
 
         footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
+            margin-top: 60px;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 30px;
             text-align: center;
-            color: #718096;
-            font-size: 0.9em;
+            color: var(--text-secondary);
         }
 
         footer a {
-            color: #667eea;
+            color: var(--accent-blue);
             text-decoration: none;
+            position: relative;
+            padding-bottom: 2px;
         }
 
-        footer a:hover {
-            text-decoration: underline;
+        footer a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--accent-blue);
+            transition: 0.3s;
         }
 
-        @media (max-width: 600px) {
-            .container {
-                padding: 30px 20px;
+        footer a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .trainer-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .skill-tags {
+                justify-content: center;
             }
 
             h1 {
-                font-size: 1.8em;
-            }
-
-            .articles a {
-                padding: 15px;
+                font-size: 1.5em;
             }
         }
     </style>
 </head>
 
 <body>
+
+    <div class="scanlines"></div>
+    <div class="bg-pokeball"></div>
+
     <div class="container">
-        <h1>技术美术笔记</h1>
+        <header>
+            <div class="brand">
+                <div class="pokeball-icon"></div>
+                <h1>TechArt_Dex</h1>
+            </div>
+            <div style="font-family: 'Orbitron'; color: var(--accent-blue);">VER 2.0</div>
+        </header>
 
-        <p class="intro">
-            你好！我是一名技术美术（Technical Artist），这里记录了我在工作和学习中的技术笔记与经验分享。
-        </p>
+        <section class="hero">
+            <div class="typing-effect">Gotta Learn 'Em All!</div>
+            <p>探索 Unreal Engine、Shader、Houdini 的程序化世界</p>
+        </section>
 
-        <h2>文章目录</h2>
-        <ul class="articles">
-            <li>
-                <a href="./GroomParameters/">
-                    <div class="title">Groom 物理参数解释</div>
-                    <div class="desc">Unreal Engine 中 Groom 毛发系统的物理参数详解</div>
-                </a>
-            </li>
-            <li>
-                <a href="./UnrealSVN/">
-                    <div class="title">Unreal SVN 仓库搭建指北</div>
-                    <div class="desc">Unreal 项目使用 SVN 进行版本控制的搭建指南</div>
-                </a>
-            </li>
-            <li>
-                <a href="./ShaderLabStructure/">
-                    <div class="title">ShaderLab 结构详解</div>
-                    <div class="desc">Unity ShaderLab 语法与结构深入解析</div>
-                </a>
-            </li>
-            <li>
-                <a href="./Houdini/Tools/">
-                    <div class="title">Tools</div>
-                    <div class="desc">Houdini 项目中使用的部分 Python 脚本</div>
-                </a>
-            </li>
-        </ul>
+        <div class="dex-grid">
+            <!-- Article 1: Groom -->
+            <a href="./GroomParameters/" class="dex-card">
+                <span class="type-badge type-fire">Unreal</span>
+                <span class="card-id">#001</span>
+                <h3>Groom 物理参数解释</h3>
+                <p>深度解析 UE Groom 毛发系统的物理参数，掌握次世代毛发渲染核心。</p>
+                <div class="stat-bar">
+                    <div class="stat-fill" style="width: 85%"></div>
+                </div>
+            </a>
 
-        <div class="about">
-            <h2>关于我</h2>
-            <p>专注于游戏开发中的技术美术领域，涉及：</p>
-            <ul class="skills">
-                <li>渲染管线与 Shader 开发</li>
-                <li>程序化内容生成</li>
-                <li>工具开发与工作流优化</li>
-                <li>引擎技术研究</li>
-            </ul>
+            <!-- Article 2: SVN -->
+            <a href="./UnrealSVN/" class="dex-card">
+                <span class="type-badge type-steel">DevOps</span>
+                <span class="card-id">#002</span>
+                <h3>Unreal SVN 搭建指北</h3>
+                <p>为大型项目保驾护航，从零开始搭建稳健的版本控制流程。</p>
+                <div class="stat-bar">
+                    <div class="stat-fill" style="width: 60%"></div>
+                </div>
+            </a>
+
+            <!-- Article 3: ShaderLab -->
+            <a href="./ShaderLabStructure/" class="dex-card">
+                <span class="type-badge type-electric">Unity</span>
+                <span class="card-id">#003</span>
+                <h3>ShaderLab 结构详解</h3>
+                <p>解构 Shader 语法，从 Properties 到 SubShader 的完整图解。</p>
+                <div class="stat-bar">
+                    <div class="stat-fill" style="width: 90%"></div>
+                </div>
+            </a>
+
+            <!-- Article 4: Houdini Tools -->
+            <a href="./Houdini/Tools/" class="dex-card">
+                <span class="type-badge type-psychic">Houdini</span>
+                <span class="card-id">#004</span>
+                <h3>Procedural Tools</h3>
+                <p>Python 脚本库：从 HDA Handle 到批量操作的程序化效率提升。</p>
+                <div class="stat-bar">
+                    <div class="stat-fill" style="width: 95%"></div>
+                </div>
+            </a>
+        </div>
+
+        <div class="trainer-card">
+            <div class="trainer-avatar">👾</div>
+            <div class="trainer-info">
+                <h2>Trainer Info</h2>
+                <p>你好！我是一名 Technical Artist (TA)。在这个数字世界里，我致力于连接艺术与技术的边界，像训练宝可梦一样打磨每一个 Shader 和 Tool。</p>
+                <div class="skill-tags">
+                    <span class="skill-tag">Render Pipeline</span>
+                    <span class="skill-tag">Procedural Generation</span>
+                    <span class="skill-tag">Tool Development</span>
+                    <span class="skill-tag">Engine R&D</span>
+                </div>
+            </div>
         </div>
 
         <footer>
-            <p>如有问题或建议，欢迎交流！</p>
-            <p style="margin-top: 10px;">
-                <a href="https://github.com/ykmon/Blog" target="_blank">GitHub</a>
-            </p>
+            <p>© 2025 TechArt_Dex // Powered by <a href="https://github.com/ykmon/Blog" target="_blank">GitHub</a> &
+                Vercel</p>
         </footer>
     </div>
+
 </body>
 
 </html>

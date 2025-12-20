@@ -4,25 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechArt_Dex | 技术美术图鉴</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
-        rel="stylesheet">
+    <title>TechArt Notes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #1a1c23;
-            --card-bg: rgba(30, 34, 45, 0.6);
-            --accent-blue: #00f3ff;
-            --accent-red: #ff3e3e;
-            --text-primary: #e0e6ed;
-            --text-secondary: #94a3b8;
-            --glass-border: rgba(255, 255, 255, 0.1);
-
-            /* Type Colors */
-            --type-fire: #f08030;
-            --type-psychic: #f85888;
-            --type-electric: #f8d030;
-            --type-steel: #b8b8d0;
+            --bg-color: #111;
+            --text-primary: #eee;
+            --text-secondary: #888;
+            --accent: #fff;
+            --border: #333;
         }
 
         * {
@@ -32,404 +24,222 @@
         }
 
         body {
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            background-image:
-                radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255, 62, 62, 0.1) 0%, transparent 20%);
             color: var(--text-primary);
+            line-height: 1.6;
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Pokeball Background Element */
-        .bg-pokeball {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80vh;
-            height: 80vh;
-            border: 2px solid rgba(255, 255, 255, 0.03);
-            border-radius: 50%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .bg-pokeball::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .bg-pokeball::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 15%;
-            height: 15%;
-            border: 2px solid rgba(255, 255, 255, 0.03);
-            border-radius: 50%;
-            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 720px;
             margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 60px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .pokeball-icon {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--text-primary);
-            border-radius: 50%;
-            position: relative;
-            background: linear-gradient(to bottom, var(--accent-red) 48%, var(--text-primary) 48%, var(--text-primary) 52%, white 52%);
-            box-shadow: 0 0 15px var(--accent-red);
-            animation: bounce 2s infinite;
-        }
-
-        .pokeball-icon::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 12px;
-            height: 12px;
-            background: white;
-            border: 2px solid var(--bg-color);
-            border-radius: 50%;
-            z-index: 2;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            20%,
-            50%,
-            80%,
-            100% {
-                transform: translateY(0);
-            }
-
-            40% {
-                transform: translateY(-10px);
-            }
-
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2em;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #fff, var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-
-        .typing-effect {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5em;
-            color: var(--accent-blue);
-            border-right: 2px solid var(--accent-blue);
-            white-space: nowrap;
-            overflow: hidden;
-            display: inline-block;
-            animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from {
-                width: 0
-            }
-
-            to {
-                width: 100%
-            }
-        }
-
-        @keyframes blink-caret {
-
-            from,
-            to {
-                border-color: transparent
-            }
-
-            50% {
-                border-color: var(--accent-blue)
-            }
-        }
-
-        .hero p {
-            margin-top: 15px;
-            color: var(--text-secondary);
-            font-size: 1.1em;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Scanline Overlay */
-        .scanlines {
-            position: fixed;
-            top: 0;
-            left: 0;
+            padding: 80px 20px;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1));
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 100;
-            opacity: 0.3;
-        }
-
-        /* Grid Layout */
-        .dex-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        /* Dex Card */
-        .dex-card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 25px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .dex-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--text-secondary);
-            transition: 0.3s;
-        }
-
-        .dex-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.15);
-            border-color: var(--accent-blue);
-        }
-
-        .dex-card:hover::before {
-            background: var(--accent-blue);
-            box-shadow: 0 0 10px var(--accent-blue);
-        }
-
-        /* Type Badges */
-        .type-badge {
-            align-self: flex-start;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .type-fire {
-            background: var(--type-fire);
-        }
-
-        .type-psychic {
-            background: var(--type-psychic);
-        }
-
-        .type-electric {
-            background: var(--type-electric);
-        }
-
-        .type-steel {
-            background: var(--type-steel);
-            color: #333;
-        }
-
-        .card-id {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.2);
-        }
-
-        .dex-card h3 {
-            color: var(--text-primary);
-            font-size: 1.4em;
-            margin-bottom: 10px;
-        }
-
-        .dex-card p {
-            color: var(--text-secondary);
-            font-size: 0.95em;
-            line-height: 1.6;
             flex-grow: 1;
         }
 
-        .stat-bar {
+        header {
+            margin-bottom: 80px;
+        }
+
+        h1 {
+            font-weight: 300;
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .intro {
+            font-size: 2rem;
+            font-weight: 600;
             margin-top: 20px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            overflow: hidden;
+            line-height: 1.3;
         }
 
-        .stat-fill {
-            height: 100%;
-            background: var(--accent-blue);
-            width: 0;
-            transition: width 1s ease-out;
+        .article-list {
+            list-style: none;
+            border-top: 1px solid var(--border);
         }
 
-        .dex-card:hover .stat-fill {
-            width: 100%;
-            /* Ideally dynamic, simplified for now */
+        .article-item {
+            border-bottom: 1px solid var(--border);
+            transition: background-color 0.2s;
         }
 
-        /* Profile Section */
-        .trainer-card {
-            margin-top: 80px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px;
+        .article-link {
             display: flex;
-            align-items: center;
-            gap: 40px;
-            position: relative;
-        }
-
-        .trainer-avatar {
-            width: 100px;
-            height: 100px;
-            background: #2d3748;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3em;
-            border: 2px solid var(--accent-blue);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
-        }
-
-        .trainer-info h2 {
-            font-family: 'Orbitron', sans-serif;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 24px 0;
+            text-decoration: none;
             color: var(--text-primary);
-            margin-bottom: 15px;
+            transition: color 0.2s;
         }
 
-        .skill-tags {
+        .article-left {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
+            flex-direction: column;
+            gap: 6px;
         }
 
-        .skill-tag {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.9em;
-            border: 1px solid transparent;
-            transition: 0.2s;
+        .article-title {
+            font-size: 1.1rem;
+            font-weight: 400;
         }
 
-        .skill-tag:hover {
-            border-color: var(--accent-blue);
-            background: rgba(0, 243, 255, 0.1);
-        }
-
-        footer {
-            margin-top: 60px;
-            border-top: 1px solid var(--glass-border);
-            padding-top: 30px;
-            text-align: center;
+        .article-desc {
+            font-size: 0.9rem;
             color: var(--text-secondary);
         }
 
+        .article-tag {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-family: monospace;
+            opacity: 0.6;
+        }
+
+        .article-link:hover .article-title {
+            color: var(--text-secondary);
+        }
+
+        .about-section {
+            margin-top: 80px;
+            padding-top: 40px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            color: #444;
+        }
+
         footer a {
-            color: var(--accent-blue);
+            color: inherit;
             text-decoration: none;
-            position: relative;
-            padding-bottom: 2px;
         }
 
-        footer a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0%;
-            height: 1px;
-            background: var(--accent-blue);
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: 0.3s;
+            z-index: 1000;
         }
 
-        footer a:hover::after {
-            width: 100%;
+        .music-player:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
-        @media (max-width: 768px) {
-            .trainer-card {
-                flex-direction: column;
-                text-align: center;
+        .play-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-btn svg {
+            fill: currentColor;
+            width: 14px;
+            height: 14px;
+        }
+
+        .track-info {
+            font-size: 0.85rem;
+            font-weight: 400;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 150px;
+        }
+
+        .track-name {
+            display: inline-block;
+        }
+
+        .equalizer {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 12px;
+            width: 15px;
+        }
+
+        .bar {
+            width: 3px;
+            background: var(--text-secondary);
+            animation: equalize 1s infinite alternate;
+        }
+
+        .playing .bar {
+            animation-play-state: running;
+        }
+
+        .paused .bar {
+            animation-play-state: paused;
+            height: 2px !important;
+        }
+
+        .bar:nth-child(1) {
+            animation-delay: -0.5s;
+            height: 6px;
+        }
+
+        .bar:nth-child(2) {
+            animation-delay: -0.2s;
+            height: 10px;
+        }
+
+        .bar:nth-child(3) {
+            animation-delay: -0.8s;
+            height: 4px;
+        }
+
+        @keyframes equalize {
+            0% {
+                height: 3px;
             }
 
-            .skill-tags {
+            100% {
+                height: 12px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            .intro {
+                font-size: 1.5rem;
+            }
+
+            .music-player {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
                 justify-content: center;
-            }
-
-            h1 {
-                font-size: 1.5em;
             }
         }
     </style>
@@ -437,89 +247,130 @@
 
 <body>
 
-    <div class="scanlines"></div>
-    <div class="bg-pokeball"></div>
-
     <div class="container">
         <header>
-            <div class="brand">
-                <div class="pokeball-icon"></div>
-                <h1>TechArt_Dex</h1>
-            </div>
-            <div style="font-family: 'Orbitron'; color: var(--accent-blue);">VER 2.0</div>
+            <h1>TechArt Notes</h1>
+            <p class="intro">Exploring the intersection of art and code.</p>
         </header>
 
-        <section class="hero">
-            <div class="typing-effect">Gotta Learn 'Em All!</div>
-            <p>探索 Unreal Engine、Shader、Houdini 的程序化世界</p>
-        </section>
+        <ul class="article-list">
+            <li class="article-item">
+                <a href="./GroomParameters/" class="article-link">
+                    <div class="article-left">
+                        <span class="article-title">Groom 物理参数解释</span>
+                        <span class="article-desc">Unreal Engine Hair Simulation Deep Dive</span>
+                    </div>
+                    <span class="article-tag">UNREAL</span>
+                </a>
+            </li>
+            <li class="article-item">
+                <a href="./UnrealSVN/" class="article-link">
+                    <div class="article-left">
+                        <span class="article-title">Unreal SVN 仓库搭建指北</span>
+                        <span class="article-desc">Version Control Workflow Guide</span>
+                    </div>
+                    <span class="article-tag">DEVOPS</span>
+                </a>
+            </li>
+            <li class="article-item">
+                <a href="./ShaderLabStructure/" class="article-link">
+                    <div class="article-left">
+                        <span class="article-title">ShaderLab 结构详解</span>
+                        <span class="article-desc">Understanding Unity Shader Structure</span>
+                    </div>
+                    <span class="article-tag">UNITY</span>
+                </a>
+            </li>
+            <li class="article-item">
+                <a href="./Houdini/Tools/" class="article-link">
+                    <div class="article-left">
+                        <span class="article-title">Houdini Procedural Tools</span>
+                        <span class="article-desc">Python & HDA Development Collection</span>
+                    </div>
+                    <span class="article-tag">HOUDINI</span>
+                </a>
+            </li>
+        </ul>
 
-        <div class="dex-grid">
-            <!-- Article 1: Groom -->
-            <a href="./GroomParameters/" class="dex-card">
-                <span class="type-badge type-fire">Unreal</span>
-                <span class="card-id">#001</span>
-                <h3>Groom 物理参数解释</h3>
-                <p>深度解析 UE Groom 毛发系统的物理参数，掌握次世代毛发渲染核心。</p>
-                <div class="stat-bar">
-                    <div class="stat-fill" style="width: 85%"></div>
-                </div>
-            </a>
-
-            <!-- Article 2: SVN -->
-            <a href="./UnrealSVN/" class="dex-card">
-                <span class="type-badge type-steel">DevOps</span>
-                <span class="card-id">#002</span>
-                <h3>Unreal SVN 搭建指北</h3>
-                <p>为大型项目保驾护航，从零开始搭建稳健的版本控制流程。</p>
-                <div class="stat-bar">
-                    <div class="stat-fill" style="width: 60%"></div>
-                </div>
-            </a>
-
-            <!-- Article 3: ShaderLab -->
-            <a href="./ShaderLabStructure/" class="dex-card">
-                <span class="type-badge type-electric">Unity</span>
-                <span class="card-id">#003</span>
-                <h3>ShaderLab 结构详解</h3>
-                <p>解构 Shader 语法，从 Properties 到 SubShader 的完整图解。</p>
-                <div class="stat-bar">
-                    <div class="stat-fill" style="width: 90%"></div>
-                </div>
-            </a>
-
-            <!-- Article 4: Houdini Tools -->
-            <a href="./Houdini/Tools/" class="dex-card">
-                <span class="type-badge type-psychic">Houdini</span>
-                <span class="card-id">#004</span>
-                <h3>Procedural Tools</h3>
-                <p>Python 脚本库：从 HDA Handle 到批量操作的程序化效率提升。</p>
-                <div class="stat-bar">
-                    <div class="stat-fill" style="width: 95%"></div>
-                </div>
-            </a>
+        <div class="about-section">
+            <p><strong>Technical Artist.</strong> Focused on rendering pipelines, procedural generation, and tool
+                development.</p>
         </div>
-
-        <div class="trainer-card">
-            <div class="trainer-avatar">👾</div>
-            <div class="trainer-info">
-                <h2>Trainer Info</h2>
-                <p>你好！我是一名 Technical Artist (TA)。在这个数字世界里，我致力于连接艺术与技术的边界，像训练宝可梦一样打磨每一个 Shader 和 Tool。</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">Render Pipeline</span>
-                    <span class="skill-tag">Procedural Generation</span>
-                    <span class="skill-tag">Tool Development</span>
-                    <span class="skill-tag">Engine R&D</span>
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            <p>© 2025 TechArt_Dex // Powered by <a href="https://github.com/ykmon/Blog" target="_blank">GitHub</a> &
-                Vercel</p>
-        </footer>
     </div>
 
+    <footer>
+        <a href="https://github.com/ykmon/Blog" target="_blank">© 2025 TechArt Notes</a>
+    </footer>
+
+    <!-- Audio Player -->
+    <div class="music-player parsed" id="player">
+        <button class="play-btn" id="playBtn">
+            <!-- Play Icon -->
+            <svg id="playIcon" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+            </svg>
+            <!-- Pause Icon (Hidden by default) -->
+            <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+            </svg>
+        </button>
+        <div class="equalizer paused" id="equalizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="track-info">
+            <span class="track-name">不再犹豫 - BEYOND</span>
+        </div>
+    </div>
+
+    <!-- 
+      Note for deployment: 
+      File name '不再犹豫_BEYOND.mp3' contains Chinese characters.
+      Browsers handles this via URL encoding automatically in src, but explicit encoding is safer.
+      URL Encoded: Resource/%E4%B8%8D%E5%86%8D%E7%8A%B9%E8%B1%AB_BEYOND.mp3
+    -->
+    <audio id="audio" src="Resource/不再犹豫_BEYOND.mp3" autoplay loop></audio>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const equalizer = document.getElementById('equalizer');
+
+        function toggleIcons(isPlaying) {
+            if (isPlaying) {
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                equalizer.classList.remove('paused');
+                equalizer.classList.add('playing');
+            } else {
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+                equalizer.classList.remove('playing');
+                equalizer.classList.add('paused');
+            }
+        }
+
+        // Try Autoplay
+        audio.play().then(() => {
+            toggleIcons(true);
+        }).catch(error => {
+            console.log("Autoplay blocked, waiting for interaction.");
+            toggleIcons(false);
+        });
+
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                toggleIcons(true);
+            } else {
+                audio.pause();
+                toggleIcons(false);
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技术美术笔记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2d3748;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .intro {
+            font-size: 1.1em;
+            color: #4a5568;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: #2d3748;
+            margin: 30px 0 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::before {
+            content: "📚";
+            margin-right: 10px;
+        }
+
+        .articles {
+            list-style: none;
+        }
+
+        .articles li {
+            margin-bottom: 15px;
+        }
+
+        .articles a {
+            display: block;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #2d3748;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .articles a:hover {
+            background: #667eea;
+            color: #fff;
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .articles .title {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .articles .desc {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .about {
+            margin-top: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 12px;
+        }
+
+        .about h2::before {
+            content: "👤";
+        }
+
+        .skills {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .skills li {
+            padding: 10px 15px;
+            background: #fff;
+            border-radius: 6px;
+            font-size: 0.95em;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        .skills li::before {
+            content: "✨ ";
+        }
+
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .articles a {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>技术美术笔记</h1>
+
+        <p class="intro">
+            你好！我是一名技术美术（Technical Artist），这里记录了我在工作和学习中的技术笔记与经验分享。
+        </p>
+
+        <h2>文章目录</h2>
+        <ul class="articles">
+            <li>
+                <a href="./Groom物理参数解释/">
+                    <div class="title">Groom 物理参数解释</div>
+                    <div class="desc">Unreal Engine 中 Groom 毛发系统的物理参数详解</div>
+                </a>
+            </li>
+            <li>
+                <a href="./Unreal SVN仓库搭建指北/">
+                    <div class="title">Unreal SVN 仓库搭建指北</div>
+                    <div class="desc">Unreal 项目使用 SVN 进行版本控制的搭建指南</div>
+                </a>
+            </li>
+            <li>
+                <a href="./ShaderLab结构详解/">
+                    <div class="title">ShaderLab 结构详解</div>
+                    <div class="desc">Unity ShaderLab 语法与结构深入解析</div>
+                </a>
+            </li>
+            <li>
+                <a href="./Tools/">
+                    <div class="title">Tools</div>
+                    <div class="desc">Houdini 项目中使用的部分 Python 脚本</div>
+                </a>
+            </li>
+        </ul>
+
+        <div class="about">
+            <h2>关于我</h2>
+            <p>专注于游戏开发中的技术美术领域，涉及：</p>
+            <ul class="skills">
+                <li>渲染管线与 Shader 开发</li>
+                <li>程序化内容生成</li>
+                <li>工具开发与工作流优化</li>
+                <li>引擎技术研究</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>如有问题或建议，欢迎交流！</p>
+            <p style="margin-top: 10px;">
+                <a href="https://github.com/ykmon/Blog" target="_blank">GitHub</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

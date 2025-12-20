@@ -339,6 +339,9 @@
         const pauseIcon = document.getElementById('pauseIcon');
         const equalizer = document.getElementById('equalizer');
 
+        // Set volume to 30%
+        audio.volume = 0.3;
+
         function toggleIcons(isPlaying) {
             if (isPlaying) {
                 playIcon.style.display = 'none';

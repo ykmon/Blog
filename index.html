@@ -4,242 +4,461 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechArt Notes</title>
+    <title>TechArt Notes | Digital Gallery</title>
+    <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Syncopate:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --bg-color: #111;
-            --text-primary: #eee;
-            --text-secondary: #888;
-            --accent: #fff;
-            --border: #333;
+            --bg-color: #0a0a0a;
+            --text-primary: #ededed;
+            --text-muted: #666;
+            --accent: #d4ff00;
+            /* Electric Lime */
+            --accent-soft: rgba(212, 255, 0, 0.1);
+            --line-color: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.05);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: none;
+            /* Custom Cursor */
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-primary);
-            line-height: 1.6;
+            overflow-x: hidden;
             min-height: 100vh;
+        }
+
+        /* Noise Texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 900;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-circle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+        }
+
+        .cursor-circle {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: width 0.3s, height 0.3s, border-color 0.3s;
+        }
+
+        body:hover .cursor-circle {
+            border-color: var(--accent);
+        }
+
+        /* Layout Grid */
+        .grid-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            padding: 0 4vw;
+        }
+
+        .line {
+            width: 1px;
+            height: 100%;
+            background: var(--line-color);
         }
 
         .container {
-            max-width: 720px;
+            width: 92vw;
             margin: 0 auto;
-            padding: 80px 20px;
-            width: 100%;
-            flex-grow: 1;
+            position: relative;
+            z-index: 10;
         }
 
+        /* Hero Section */
         header {
-            margin-bottom: 80px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
         }
 
-        h1 {
-            font-weight: 300;
-            font-size: 1.2rem;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
+        .brand {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
+            mix-blend-mode: difference;
         }
 
-        .intro {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-top: 20px;
-            line-height: 1.3;
+        .hero-title {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(3rem, 10vw, 12rem);
+            font-weight: 700;
+            line-height: 0.9;
+            text-transform: uppercase;
+            margin-left: -0.5vw;
+        }
+
+        .hero-title span {
+            display: block;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-title span:nth-child(2) {
+            animation-delay: 0.1s;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-primary);
+        }
+
+        .hero-title span:nth-child(2):hover {
+            color: var(--accent);
+            -webkit-text-stroke: 1px var(--accent);
+        }
+
+        .hero-sub {
+            margin-top: 40px;
+            max-width: 400px;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            opacity: 0;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            position: absolute;
+            right: 0;
+            bottom: 20vh;
+            text-align: right;
+        }
+
+        /* Articles List */
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+            margin-bottom: 60px;
+            padding-top: 100px;
+            border-top: 1px solid var(--line-color);
+        }
+
+        .section-label {
+            font-family: 'Syncopate', sans-serif;
+            color: var(--text-muted);
+            font-size: 0.8rem;
         }
 
         .article-list {
             list-style: none;
-            border-top: 1px solid var(--border);
         }
 
-        .article-item {
-            border-bottom: 1px solid var(--border);
-            transition: background-color 0.2s;
+        .article-row {
+            border-bottom: 1px solid var(--line-color);
+            position: relative;
+            transition: 0.3s;
         }
 
         .article-link {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            padding: 24px 0;
+            display: grid;
+            grid-template-columns: 1fr 3fr 1fr;
+            align-items: center;
+            padding: 40px 0;
             text-decoration: none;
             color: var(--text-primary);
-            transition: color 0.2s;
+            position: relative;
+            z-index: 2;
         }
 
-        .article-left {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+        .article-idx {
+            font-family: 'Syncopate', sans-serif;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: 0.3s;
         }
 
-        .article-title {
-            font-size: 1.1rem;
+        .article-main h2 {
+            font-size: 2.5rem;
+            /* Increased size significantly */
             font-weight: 400;
+            margin-bottom: 10px;
+            transition: 0.3s;
         }
 
         .article-desc {
+            color: var(--text-muted);
             font-size: 0.9rem;
-            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: 0.3s;
         }
 
-        .article-tag {
+        .article-cat {
+            text-align: right;
+            border: 1px solid var(--line-color);
+            padding: 5px 15px;
+            border-radius: 50px;
             font-size: 0.8rem;
-            color: var(--text-secondary);
-            font-family: monospace;
-            opacity: 0.6;
+            text-transform: uppercase;
+            width: fit-content;
+            justify-self: end;
+            transition: 0.3s;
         }
 
-        .article-link:hover .article-title {
-            color: var(--text-secondary);
+        /* Hover Effects */
+        .article-row::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-soft);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1;
         }
 
-        .about-section {
-            margin-top: 80px;
-            padding-top: 40px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
+        .article-row:hover::before {
+            transform: scaleX(1);
         }
 
+        .article-row:hover .article-idx {
+            color: var(--accent);
+            transform: translateX(10px);
+        }
+
+        .article-row:hover .article-main h2 {
+            transform: translateX(10px);
+        }
+
+        .article-row:hover .article-desc {
+            opacity: 1;
+            transform: translateX(10px);
+        }
+
+        .article-row:hover .article-cat {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Profile/About */
+        .profile {
+            padding: 150px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .profile-text h3 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .profile-text p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .tag {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
         footer {
-            text-align: center;
-            padding: 40px;
-            font-size: 0.8rem;
-            color: #444;
-        }
-
-        footer a {
-            color: inherit;
-            text-decoration: none;
+            border-top: 1px solid var(--line-color);
+            padding: 40px 0;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            color: var(--text-muted);
         }
 
         /* Music Player */
-        .music-player {
+        .player-wrapper {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.3s;
+            bottom: 40px;
+            right: 40px;
             z-index: 1000;
         }
 
-        .music-player:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
+        .player {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            /* To indicate clickable */
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .play-btn {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            cursor: pointer;
-            width: 24px;
-            height: 24px;
+        .player:hover {
+            width: 280px;
+            border-color: var(--accent);
+        }
+
+        .vinyl {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #222, #111);
+            border: 1px solid #333;
+            position: absolute;
+            left: 9px;
+            animation: spin 4s linear infinite;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .play-btn svg {
-            fill: currentColor;
-            width: 14px;
-            height: 14px;
-        }
-
-        .track-info {
-            font-size: 0.85rem;
-            font-weight: 400;
-            white-space: nowrap;
-            overflow: hidden;
-            max-width: 150px;
-        }
-
-        .track-name {
-            display: inline-block;
-        }
-
-        .equalizer {
-            display: flex;
-            gap: 2px;
-            align-items: flex-end;
+        .vinyl::after {
+            content: '';
+            width: 12px;
             height: 12px;
-            width: 15px;
+            background: var(--accent);
+            border-radius: 50%;
         }
 
-        .bar {
-            width: 3px;
-            background: var(--text-secondary);
-            animation: equalize 1s infinite alternate;
-        }
-
-        .playing .bar {
-            animation-play-state: running;
-        }
-
-        .paused .bar {
+        .player.paused .vinyl {
             animation-play-state: paused;
-            height: 2px !important;
+            opacity: 0.5;
         }
 
-        .bar:nth-child(1) {
-            animation-delay: -0.5s;
-            height: 6px;
+        .player-info {
+            margin-left: 60px;
+            opacity: 0;
+            transition: 0.3s;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .bar:nth-child(2) {
-            animation-delay: -0.2s;
-            height: 10px;
+        .player:hover .player-info {
+            opacity: 1;
         }
 
-        .bar:nth-child(3) {
-            animation-delay: -0.8s;
-            height: 4px;
+        .song-title {
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
-        @keyframes equalize {
-            0% {
-                height: 3px;
-            }
+        .song-artist {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
 
+        @keyframes spin {
             100% {
-                height: 12px;
+                transform: rotate(360deg);
             }
         }
 
-        @media (max-width: 600px) {
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-lines {
+                display: none;
+            }
+
             .container {
-                padding: 40px 20px;
+                width: 90vw;
             }
 
-            .intro {
-                font-size: 1.5rem;
+            .hero-title {
+                font-size: 15vw;
             }
 
-            .music-player {
+            .article-link {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 30px 0;
+            }
+
+            .article-idx,
+            .article-cat {
+                display: none;
+            }
+
+            .profile {
+                grid-template-columns: 1fr;
+            }
+
+            .player-wrapper {
                 bottom: 20px;
                 right: 20px;
-                left: 20px;
-                justify-content: center;
+            }
+
+            * {
+                cursor: auto;
+            }
+
+            /* Restore default cursor on mobile */
+            .cursor-dot,
+            .cursor-circle {
+                display: none;
             }
         }
     </style>
@@ -247,130 +466,147 @@
 
 <body>
 
+    <div class="noise-overlay"></div>
+    <div class="grid-lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-circle"></div>
+
     <div class="container">
         <header>
-            <h1>TechArt Notes</h1>
-            <p class="intro">Exploring the intersection of art and code.</p>
+            <div class="brand">TechArt.Notes</div>
+            <h1 class="hero-title">
+                <span>Digital</span>
+                <span>Artistry</span>
+            </h1>
+            <div class="hero-sub">
+                探索渲染管线 / 程序化生成<br>
+                工具链开发与引擎技术
+            </div>
         </header>
 
+        <section class="section-header">
+            <span class="section-label">01 // SELECTED WORKS</span>
+        </section>
+
         <ul class="article-list">
-            <li class="article-item">
+            <li class="article-row">
                 <a href="./GroomParameters/" class="article-link">
-                    <div class="article-left">
-                        <span class="article-title">Groom 物理参数解释</span>
+                    <span class="article-idx">01</span>
+                    <div class="article-main">
+                        <h2>Groom Parameters</h2>
                         <span class="article-desc">Unreal Engine Hair Simulation Deep Dive</span>
                     </div>
-                    <span class="article-tag">UNREAL</span>
+                    <span class="article-cat">Unreal</span>
                 </a>
             </li>
-            <li class="article-item">
+            <li class="article-row">
                 <a href="./UnrealSVN/" class="article-link">
-                    <div class="article-left">
-                        <span class="article-title">Unreal SVN 仓库搭建指北</span>
-                        <span class="article-desc">Version Control Workflow Guide</span>
+                    <span class="article-idx">02</span>
+                    <div class="article-main">
+                        <h2>SVN Workflow</h2>
+                        <span class="article-desc">Version Control Systems for Large Scale Projects</span>
                     </div>
-                    <span class="article-tag">DEVOPS</span>
+                    <span class="article-cat">DevOps</span>
                 </a>
             </li>
-            <li class="article-item">
+            <li class="article-row">
                 <a href="./ShaderLabStructure/" class="article-link">
-                    <div class="article-left">
-                        <span class="article-title">ShaderLab 结构详解</span>
-                        <span class="article-desc">Understanding Unity Shader Structure</span>
+                    <span class="article-idx">03</span>
+                    <div class="article-main">
+                        <h2>ShaderLab Core</h2>
+                        <span class="article-desc">Deconstructing Unity Shader Architecture</span>
                     </div>
-                    <span class="article-tag">UNITY</span>
+                    <span class="article-cat">Unity</span>
                 </a>
             </li>
-            <li class="article-item">
+            <li class="article-row">
                 <a href="./Houdini/Tools/" class="article-link">
-                    <div class="article-left">
-                        <span class="article-title">Houdini Procedural Tools</span>
+                    <span class="article-idx">04</span>
+                    <div class="article-main">
+                        <h2>Procedural Tools</h2>
                         <span class="article-desc">Python & HDA Development Collection</span>
                     </div>
-                    <span class="article-tag">HOUDINI</span>
+                    <span class="article-cat">Houdini</span>
                 </a>
             </li>
         </ul>
 
-        <div class="about-section">
-            <p><strong>Technical Artist.</strong> Focused on rendering pipelines, procedural generation, and tool
-                development.</p>
+        <div class="profile">
+            <div class="profile-text">
+                <h3>About</h3>
+                <p>我是一名 Technical Artist，致力于连接艺术与技术的边界。通过代码赋予像素生命，利用工具释放创意潜能。</p>
+            </div>
+            <div class="tags">
+                <span class="tag">Render Pipeline</span>
+                <span class="tag">Procedural Generation</span>
+                <span class="tag">Tool Development</span>
+                <span class="tag">Shader Programming</span>
+            </div>
+        </div>
+
+        <footer>
+            <span>© 2025 TechArt Notes</span>
+            <span>CN / EN</span>
+        </footer>
+    </div>
+
+    <!-- Music Player -->
+    <div class="player-wrapper">
+        <div class="player paused" id="playerBtn">
+            <div class="vinyl"></div>
+            <div class="player-info">
+                <div class="song-title">不再犹豫</div>
+                <div class="song-artist">BEYOND</div>
+            </div>
         </div>
     </div>
 
-    <footer>
-        <a href="https://github.com/ykmon/Blog" target="_blank">© 2025 TechArt Notes</a>
-    </footer>
-
-    <!-- Audio Player -->
-    <div class="music-player parsed" id="player">
-        <button class="play-btn" id="playBtn">
-            <!-- Play Icon -->
-            <svg id="playIcon" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-            </svg>
-            <!-- Pause Icon (Hidden by default) -->
-            <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;">
-                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-            </svg>
-        </button>
-        <div class="equalizer paused" id="equalizer">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
-        <div class="track-info">
-            <span class="track-name">不再犹豫 - BEYOND</span>
-        </div>
-    </div>
-
-    <!-- 
-      Note for deployment: 
-      File name '不再犹豫_BEYOND.mp3' contains Chinese characters.
-      Browsers handles this via URL encoding automatically in src, but explicit encoding is safer.
-      URL Encoded: Resource/%E4%B8%8D%E5%86%8D%E7%8A%B9%E8%B1%AB_BEYOND.mp3
-    -->
-    <audio id="audio" src="Resource/不再犹豫_BEYOND.mp3" autoplay loop></audio>
+    <audio id="audio" src="Resource/不再犹豫_BEYOND.mp3" loop></audio>
 
     <script>
-        const audio = document.getElementById('audio');
-        const playBtn = document.getElementById('playBtn');
-        const playIcon = document.getElementById('playIcon');
-        const pauseIcon = document.getElementById('pauseIcon');
-        const equalizer = document.getElementById('equalizer');
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorCircle = document.querySelector('.cursor-circle');
 
-        // Set volume to 30%
-        audio.volume = 0.3;
+        document.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
 
-        function toggleIcons(isPlaying) {
-            if (isPlaying) {
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'block';
-                equalizer.classList.remove('paused');
-                equalizer.classList.add('playing');
-            } else {
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
-                equalizer.classList.remove('playing');
-                equalizer.classList.add('paused');
-            }
-        }
-
-        // Try Autoplay
-        audio.play().then(() => {
-            toggleIcons(true);
-        }).catch(error => {
-            console.log("Autoplay blocked, waiting for interaction.");
-            toggleIcons(false);
+            // Add a little lag to circle for organic feel
+            setTimeout(() => {
+                cursorCircle.style.left = e.clientX + 'px';
+                cursorCircle.style.top = e.clientY + 'px';
+            }, 50);
         });
 
-        playBtn.addEventListener('click', () => {
+        // Audio Logic
+        const audio = document.getElementById('audio');
+        const playerBtn = document.getElementById('playerBtn');
+
+        // 30% Volume
+        audio.volume = 0.3;
+
+        // Auto Play Attempt
+        audio.play().then(() => {
+            playerBtn.classList.remove('paused');
+        }).catch(() => {
+            console.log("Autoplay blocked");
+        });
+
+        playerBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
-                toggleIcons(true);
+                playerBtn.classList.remove('paused');
             } else {
                 audio.pause();
-                toggleIcons(false);
+                playerBtn.classList.add('paused');
             }
         });
     </script>

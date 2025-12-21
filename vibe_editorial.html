@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechArt Chronicle | 技术美术志</title>
+    <title>Vibe Coding | 编辑风格 (Editorial)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Fonts -->
@@ -133,7 +133,6 @@
                     <div class="text-center p-6 border border-gray-200 bg-white/50 backdrop-blur-sm rounded-sm">
                         <div
                             class="w-24 h-24 mx-auto bg-gray-300 rounded-full mb-4 overflow-hidden grayscale contrast-125">
-                            <!-- Using a tech-art related avatar placeholder or maintain previous -->
                             <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
                                 alt="Avatar" class="object-cover w-full h-full">
                         </div>
@@ -155,9 +154,7 @@
                             <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">02</span> 视频教程 /
                             Videos
                         </a>
-                        <!-- Link to Houdini Tools -->
-                        <a href="./Articles/Houdini/Tools/"
-                            class="block text-ink hover:text-ochre transition-colors group">
+                        <a href="#" class="block text-ink hover:text-ochre transition-colors group">
                             <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">03</span> 工具库 /
                             Tools
                         </a>
@@ -179,6 +176,8 @@
                                 class="px-3 py-1 bg-gray-200 text-xs text-gray-600 rounded-full hover:bg-forest hover:text-white transition-colors cursor-pointer">Shader</span>
                             <span
                                 class="px-3 py-1 bg-gray-200 text-xs text-gray-600 rounded-full hover:bg-forest hover:text-white transition-colors cursor-pointer">Python</span>
+                            <span
+                                class="px-3 py-1 bg-gray-200 text-xs text-gray-600 rounded-full hover:bg-forest hover:text-white transition-colors cursor-pointer">Rendering</span>
                         </div>
                     </div>
 
@@ -199,7 +198,7 @@
             <main class="lg:col-span-9 relative pl-0 lg:pl-12">
                 <div class="timeline-line hidden lg:block"></div>
 
-                <!-- Entry 1: Groom Article -->
+                <!-- Entry 1: Article -->
                 <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-start blur-load group">
                     <!-- Date Badge -->
                     <div
@@ -211,13 +210,11 @@
                         <div class="flex flex-col mb-4">
                             <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2">No. 001 — Unreal
                                 Engine</span>
-                            <a href="./Articles/GroomParameters/" class="block">
-                                <h2
-                                    class="font-serif text-3xl md:text-5xl font-bold leading-tight text-ink group-hover:text-forest transition-colors cursor-pointer">
-                                    Groom 物理参数详解：<br>
-                                    <span class="italic font-normal text-gray-600">从解算器到材质约束</span>
-                                </h2>
-                            </a>
+                            <h2
+                                class="font-serif text-3xl md:text-5xl font-bold leading-tight text-ink group-hover:text-forest transition-colors cursor-pointer">
+                                Groom 物理参数详解：<br>
+                                <span class="italic font-normal text-gray-600">从解算器到材质约束</span>
+                            </h2>
                         </div>
 
                         <div class="grid md:grid-cols-2 gap-8">
@@ -229,17 +226,15 @@
                                 </p>
                             </div>
                             <div class="relative pt-2">
-                                <a href="./Articles/GroomParameters/"
-                                    class="block aspect-[4/3] bg-gray-200 overflow-hidden rounded-sm shadow-md">
+                                <div class="aspect-[4/3] bg-gray-200 overflow-hidden rounded-sm shadow-md">
                                     <img src="https://images.unsplash.com/photo-1620641788421-7f1c325fca61?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
                                         class="object-cover w-full h-full hover:scale-105 transition-transform duration-700 grayscale-[0.2]"
                                         alt="Hair Sim">
-                                </a>
+                                </div>
                                 <div class="mt-4 flex justify-between items-center border-t border-gray-300 pt-3">
                                     <span class="text-xs text-gray-500 uppercase tracking-widest">3 Min Read</span>
-                                    <a href="./Articles/GroomParameters/"
-                                        class="text-sm text-ochre italic font-serif hover:underline">Read Full Article
-                                        ⟶</a>
+                                    <a href="#" class="text-sm text-ochre italic font-serif hover:underline">Read Full
+                                        Article ⟶</a>
                                 </div>
                             </div>
                         </div>
@@ -248,7 +243,7 @@
 
                 <hr class="border-gray-200 mb-20 w-1/2 mx-auto">
 
-                <!-- Entry 2: Bilibili Video -->
+                <!-- Entry 2: Video -->
                 <article class="relative mb-20 blur-load">
                     <!-- Date Badge -->
                     <div
@@ -270,7 +265,8 @@
                                 <div>
                                     <h3 class="font-serif text-2xl font-bold italic mb-1">自动化布料解算 Automate Cloth Solver
                                         Pipeline</h3>
-                                    <p class="text-xs text-gray-500 uppercase tracking-widest">Procedural / CFX</p>
+                                    <p class="text-xs text-gray-500 uppercase tracking-widest">Procedural / CFX
+                                    </p>
                                 </div>
                                 <div class="text-ochre">◎ Bilibili</div>
                             </div>
@@ -297,7 +293,7 @@
                     </div>
                 </article>
 
-                <!-- Entry 4: Unreal SVN -->
+                <!-- Entry 4: Article Simple -->
                 <article class="relative mb-24 md:grid md:grid-cols-12 gap-8 items-center blur-load group">
                     <div
                         class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
@@ -311,119 +307,26 @@
                         </div>
                         <div class="md:grid md:grid-cols-3 gap-8">
                             <div class="col-span-2">
-                                <a href="./Articles/UnrealSVN/">
-                                    <h2
-                                        class="font-serif text-3xl font-bold leading-tight mb-4 text-ink group-hover:text-forest transition-colors">
-                                        Unreal SVN <span class="italic font-light">仓库搭建指北</span>
-                                    </h2>
-                                </a>
+                                <h2
+                                    class="font-serif text-3xl font-bold leading-tight mb-4 text-ink group-hover:text-forest transition-colors">
+                                    Unreal SVN <span class="italic font-light">仓库搭建指北</span>
+                                </h2>
                                 <p class="font-body text-gray-600 mb-4">
                                     版本控制是团队协作的基石。本文将从 TortoiseSVN 的安装开始，一步步演示如何为 UE 项目搭建稳固的 SVN 仓库环境，以及如何处理二进制大文件的存储问题。
                                 </p>
-                                <a href="./Articles/UnrealSVN/"
-                                    class="text-sm text-ochre italic font-serif hover:underline">Read Full Article ⟶</a>
+                                <a href="#" class="text-sm text-ochre italic font-serif hover:underline">Read Full
+                                    Article ⟶</a>
                             </div>
                             <div class="col-span-1 hidden md:block">
-                                <a href="./Articles/UnrealSVN/"
-                                    class="block bg-gray-100 p-4 border border-gray-200 h-full flex flex-col justify-center items-center text-center hover:bg-gray-200 transition-colors">
+                                <div
+                                    class="bg-gray-100 p-4 border border-gray-200 h-full flex flex-col justify-center items-center text-center">
                                     <div class="text-4xl text-gray-300 mb-2">⌘</div>
                                     <span class="text-xs text-gray-400 uppercase">Version Control<br>System</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <hr class="border-gray-200 mb-20 w-1/2 mx-auto">
-
-                <!-- Entry 5: ShaderLab (NEW) -->
-                <article class="relative mb-24 md:grid md:grid-cols-12 gap-8 items-center blur-load group">
-                    <div
-                        class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
-                        12月 10
-                    </div>
-
-                    <div class="col-span-12">
-                        <div class="flex justify-between items-baseline border-b border-gray-300 pb-4 mb-6">
-                            <span class="text-ochre font-bold text-xs tracking-wider uppercase">No. 004 — Unity
-                                Shader</span>
-                            <span class="text-gray-400 text-xs text-right">Reading Time: 8 Min</span>
-                        </div>
-                        <div class="md:grid md:grid-cols-3 gap-8">
-                            <div class="col-span-1 hidden md:block">
-                                <a href="./Articles/ShaderLabStructure/"
-                                    class="block bg-gray-900 p-4 border border-gray-800 h-full flex flex-col justify-center items-center text-center hover:bg-black transition-colors">
-                                    <div class="text-4xl text-gray-500 mb-2">⚡</div>
-                                    <span class="text-xs text-gray-500 uppercase">Shader<br>Programming</span>
-                                </a>
-                            </div>
-                            <div class="col-span-2">
-                                <a href="./Articles/ShaderLabStructure/">
-                                    <h2
-                                        class="font-serif text-3xl font-bold leading-tight mb-4 text-ink group-hover:text-forest transition-colors">
-                                        ShaderLab <span class="italic font-light">Structure Core</span>
-                                    </h2>
-                                </a>
-                                <p class="font-body text-gray-600 mb-4">
-                                    深入剖析 Unity ShaderLab 的代码结构。从 Properties 属性定义到 SubShader 的渲染通道配置，完全解构着色器的骨架与血肉，为编写自定义
-                                    Shader 打下坚实基础。
-                                </p>
-                                <a href="./Articles/ShaderLabStructure/"
-                                    class="text-sm text-ochre italic font-serif hover:underline">Read Full Article ⟶</a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <hr class="border-gray-200 mb-20 w-1/2 mx-auto">
-
-                <!-- Entry 6: Houdini Tools (NEW) -->
-                <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-start blur-load group">
-                    <!-- Date Badge -->
-                    <div
-                        class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
-                        12月 05
-                    </div>
-
-                    <div class="md:col-span-12 lg:col-span-12">
-                        <div class="flex flex-col mb-4">
-                            <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2">No. 005 — Houdini
-                                Tools</span>
-                            <a href="./Articles/Houdini/Tools/" class="block">
-                                <h2
-                                    class="font-serif text-3xl md:text-5xl font-bold leading-tight text-ink group-hover:text-forest transition-colors cursor-pointer">
-                                    Procedural Toolset<br>
-                                    <span class="italic font-normal text-gray-600">Python & HDA Library</span>
-                                </h2>
-                            </a>
-                        </div>
-
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="font-body text-gray-700 leading-relaxed text-lg text-justify">
-                                <p class="drop-cap">
-                                    程
-                                    序化不仅仅是节点的连接，更是工具的构建。本合集收录了多个实用的 Houdini Python 脚本与 HDA 开发技巧：从批量 ObjectMerge
-                                    到自动创建输出组，旨在解放技术美术的双手，提升管线效率。
-                                </p>
-                            </div>
-                            <div class="relative pt-2">
-                                <a href="./Articles/Houdini/Tools/"
-                                    class="block aspect-[4/3] bg-gray-200 overflow-hidden rounded-sm shadow-md">
-                                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                                        class="object-cover w-full h-full hover:scale-105 transition-transform duration-700 grayscale-[0.5]"
-                                        alt="Houdini Nodes">
-                                </a>
-                                <div class="mt-4 flex justify-between items-center border-t border-gray-300 pt-3">
-                                    <span class="text-xs text-gray-500 uppercase tracking-widest">Library
-                                        Collection</span>
-                                    <a href="./Articles/Houdini/Tools/"
-                                        class="text-sm text-ochre italic font-serif hover:underline">Browse Tools ⟶</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </article>
-
 
             </main>
         </div>

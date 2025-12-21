@@ -4,217 +4,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>头发 Groom 物理参数解释 - 技术美术笔记</title>
+    <title>Groom 物理参数详解 - TechArt Chronicle</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#F5F5F7',
+                        ink: '#1a1a1a',
+                        forest: '#2d4a3e',
+                        ochre: '#8a6240',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        body: ['Noto Serif SC', 'serif'],
+                    },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                '--tw-prose-headings': theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: {
+                                    fontFamily: theme('fontFamily.serif'),
+                                    color: theme('colors.forest'),
+                                    fontStyle: 'italic',
+                                },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: {
+                                    borderLeftColor: theme('colors.forest'),
+                                    fontStyle: 'italic',
+                                },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.8;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 60px;
-        }
-
-        .nav-header {
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
-            color: #667eea;
-            font-weight: 500;
-            transition: transform 0.2s;
-        }
-
-        .back-link:hover {
-            transform: translateX(-5px);
-        }
-
-        .back-link::before {
-            content: "←";
-            margin-right: 8px;
-        }
-
-        .content {
-            font-size: 1.1em;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            color: #2d3748;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 15px;
-        }
-
-        h2 {
-            font-size: 1.8em;
-            color: #2d3748;
-            margin: 40px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #edf2f7;
-        }
-
-        h3 {
-            font-size: 1.4em;
-            color: #4a5568;
-            margin: 30px 0 15px;
-        }
-
-        p {
-            margin-bottom: 20px;
-        }
-
-        ul {
-            margin-bottom: 20px;
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 10px;
-            position: relative;
-        }
-
-        strong {
-            color: #2b6cb0;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 20px 0;
-            display: block;
-        }
-
-        hr {
-            border: 0;
-            height: 1px;
-            background: #e2e8f0;
-            margin: 40px 0;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 30px 20px;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <div class="nav-header">
-            <a href="../../index.html" class="back-link">返回首页</a>
+<body class="antialiased min-h-screen font-body">
+
+    <!-- Header -->
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Groom Physics</h1>
+            </a>
         </div>
+    </header>
 
-        <article class="content">
-            <h1>头发 Groom 物理参数解释</h1>
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-            <h2>解算器设置 Solver Settings</h2>
+            <!-- SIDEBAR -->
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <!-- Navigation -->
+                    <nav class="space-y-4">
+                        <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+                        <a href="../../index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                        <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors">Videos</a>
+                        <a href="../Houdini/Tools/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Tools</a>
+                    </nav>
+                </div>
+            </aside>
 
-            <p><img src="images/Untitled.png" alt="Solver Settings"></p>
+            <!-- MAIN CONTENT -->
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Unreal Engine /
+                        Physics</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">头发 Groom 物理参数解释：<br><span
+                            class="text-gray-500 italic text-3xl">从解算器到材质约束</span></h1>
 
-            <p>启用模拟我们发现整个头发的模拟都是基于 Niagara 粒子来驱动的；但不需要担心，大多数情况下应用预设即可。</p>
+                    <p class="lead">启用模拟我们发现整个头发的模拟都是基于 Niagara 粒子来驱动的；但不需要担心，大多数情况下应用预设即可。</p>
 
-            <ul>
-                <li><strong>Groom Rods</strong>：对于 <strong>弯曲约束 Bend Constraint</strong> 的表现更强，<strong>拉伸约束</strong>
-                    表现较弱</li>
-                <li><strong>Groom Springs</strong>：对于 <strong>拉伸约束 Stretch Constraint</strong>
-                    表现更强，<strong>弯曲约束</strong> 较弱</li>
-                <li><strong>Custom Solver</strong>：通过自定义 Niagara 系统来驱动，可以兼顾弹力和弯曲，但自定义过程复杂</li>
-            </ul>
+                    <img src="images/Untitled.png" alt="Solver Settings"
+                        class="w-full rounded-sm shadow-md my-8 grayscale-[0.1]">
 
-            <hr>
+                    <h2>解算器设置 Solver Settings</h2>
+                    <ul>
+                        <li><strong>Groom Rods</strong>：对于 <strong>弯曲约束 Bend Constraint</strong>
+                            的表现更强，<strong>拉伸约束</strong> 表现较弱</li>
+                        <li><strong>Groom Springs</strong>：对于 <strong>拉伸约束 Stretch Constraint</strong>
+                            表现更强，<strong>弯曲约束</strong> 较弱</li>
+                        <li><strong>Custom Solver</strong>：通过自定义 Niagara 系统来驱动，可以兼顾弹力和弯曲，但自定义过程复杂</li>
+                    </ul>
 
-            <ul>
-                <li><strong>Sub Steps</strong>：每帧计算次数；如果该数值过低在运行时会丢失大量细节</li>
-                <li><strong>Iteration</strong>：迭代次数</li>
-            </ul>
+                    <hr>
 
-            <p>这两个参数共同控制 <strong>材质约束 Material Constraints</strong> 中的细节程度。</p>
+                    <ul>
+                        <li><strong>Sub Steps</strong>：每帧计算次数；如果该数值过低在运行时会丢失大量细节</li>
+                        <li><strong>Iteration</strong>：迭代次数</li>
+                    </ul>
 
-            <h2>外力 External Forces</h2>
+                    <p>这两个参数共同控制 <strong>材质约束 Material Constraints</strong> 中的细节程度。</p>
 
-            <p>如属性标签所示，无需赘述。</p>
+                    <h2>外力 External Forces</h2>
+                    <p>如属性标签所示，无需赘述。</p>
 
-            <h2>材质约束 Material Constraints</h2>
+                    <h2>材质约束 Material Constraints</h2>
 
-            <h3>弯曲约束 Bend Constraint</h3>
+                    <h3>弯曲约束 Bend Constraint</h3>
+                    <p><strong>解算弯曲 Solve Bend</strong>：根据 guide 信息产生的约束来单独解算</p>
+                    <img src="images/1.gif" alt="Solve Bend Demo" class="rounded-sm shadow-md">
 
-            <p><strong>解算弯曲 Solve Bend</strong>：根据 guide 信息产生的约束来单独解算</p>
+                    <p><strong>投射弯曲 Project Bend</strong>：顶点之间相关信息的约束解算</p>
+                    <img src="images/2.gif" alt="Project Bend Demo" class="rounded-sm shadow-md">
 
-            <p><img src="images/1.gif" alt="Solve Bend Demo"></p>
+                    <ul>
+                        <li><strong>弯曲阻尼 Bend Damping</strong>：变形后恢复的速度</li>
+                        <li><strong>弯曲刚度 Bend Stiffness</strong>：变形的幅度，数值越大幅度越小</li>
+                        <li><strong>刚度曲线 Stiffness Scale</strong>：基于 <strong>弯曲刚度</strong> 变形幅度曲线（X轴 0 是发根，1 是发尖）</li>
+                    </ul>
 
-            <p><strong>投射弯曲 Project Bend</strong>：顶点之间相关信息的约束解算</p>
+                    <h3>拉伸约束 Stretch Constraint</h3>
+                    <p>同上 <strong>弯曲约束 Bend Constraint</strong>，只是变为了拉伸效果。</p>
 
-            <p><img src="images/2.gif" alt="Project Bend Demo"></p>
+                    <h3>碰撞约束 Collision Constraint</h3>
+                    <ul>
+                        <li><strong>解算碰撞 Solve Collision</strong>：根据 guide 信息产生的约束来单独解算</li>
+                        <li><strong>投射碰撞 Project Collision</strong>：顶点之间相关信息的约束解算，建议勾选，防止出现 Groom 穿插</li>
+                        <li><strong>静态摩擦力 Static Friction</strong>：静止时和碰撞体 <strong>Physics Asset</strong>
+                            交互时的摩擦力，主要是身体和肩部</li>
+                        <li><strong>动态摩擦力 Kinetic Friction</strong>：动态时和碰撞体 <strong>Physics Asset</strong>
+                            交互时的摩擦力，主要是身体和肩部</li>
+                        <li><strong>发束黏度 Strands Viscosity</strong>：(0~1 之间) 头发之间的自碰撞粘黏的系数，数值越大越会感觉头发是一个整体，而不是一根一根的</li>
+                        <li><strong>网格尺寸 Grid Dimension</strong>：暂未知具体用处</li>
+                        <li><strong>碰撞半径 Collision Radius</strong>：头发自身之间以及和身体的碰撞半径</li>
+                    </ul>
 
-            <ul>
-                <li><strong>弯曲阻尼 Bend Damping</strong>：变形后恢复的速度</li>
-                <li><strong>弯曲刚度 Bend Stiffness</strong>：变形的幅度，数值越大幅度越小</li>
-                <li><strong>刚度曲线 Stiffness Scale</strong>：基于 <strong>弯曲刚度</strong> 变形幅度曲线（X轴 0 是发根，1 是发尖）</li>
-            </ul>
+                    <img src="images/Untitled_1.png" alt="Collision Radius Example 1" class="rounded-sm shadow-md">
+                    <img src="images/Untitled_2.png" alt="Collision Radius Example 2" class="rounded-sm shadow-md">
 
-            <h3>拉伸约束 Stretch Constraint</h3>
+                    <ul>
+                        <li><strong>半径缩放 Radius Scale</strong>：基于 <strong>碰撞半径</strong> 变形幅度曲线（X轴 0 是发根，1 是发尖）</li>
+                    </ul>
 
-            <p>同上 <strong>弯曲约束 Bend Constraint</strong>，只是变为了拉伸效果。</p>
+                    <h2>发束参数 Strands Parameters</h2>
+                    <ul>
+                        <li><strong>发束尺寸 Strands Size</strong>：每个 guide 上用于模拟的粒子数</li>
+                        <li><strong>发束密度 Strands Density</strong>：用于质量和惯性计算</li>
+                        <li><strong>发束平滑 Strands Smoothing</strong>：基于 <strong>发束尺寸 Strands Size</strong> 的粒子数进行插值平滑
+                        </li>
+                        <li><strong>发束粗度 Strands Thickness</strong>：用于质量和惯性计算</li>
+                        <li><strong>粗度尺寸曲线 Thickness Scale</strong>：基于 <strong>弯曲刚度</strong> 变形幅度曲线（X轴 0 是发根，1 是发尖）</li>
+                    </ul>
+                </article>
 
-            <h3>碰撞约束 Collision Constraint</h3>
-
-            <ul>
-                <li><strong>解算碰撞 Solve Collision</strong>：根据 guide 信息产生的约束来单独解算</li>
-                <li><strong>投射碰撞 Project Collision</strong>：顶点之间相关信息的约束解算，建议勾选，防止出现 Groom 穿插</li>
-                <li><strong>静态摩擦力 Static Friction</strong>：静止时和碰撞体 <strong>Physics Asset</strong> 交互时的摩擦力，主要是身体和肩部</li>
-                <li><strong>动态摩擦力 Kinetic Friction</strong>：动态时和碰撞体 <strong>Physics Asset</strong> 交互时的摩擦力，主要是身体和肩部</li>
-                <li><strong>发束黏度 Strands Viscosity</strong>：(0~1 之间) 头发之间的自碰撞粘黏的系数，数值越大越会感觉头发是一个整体，而不是一根一根的</li>
-                <li><strong>网格尺寸 Grid Dimension</strong>：暂未知具体用处</li>
-                <li><strong>碰撞半径 Collision Radius</strong>：头发自身之间以及和身体的碰撞半径</li>
-            </ul>
-
-            <p><img src="images/Untitled_1.png" alt="Collision Radius Example 1"></p>
-
-            <p><img src="images/Untitled_2.png" alt="Collision Radius Example 2"></p>
-
-            <ul>
-                <li><strong>半径缩放 Radius Scale</strong>：基于 <strong>碰撞半径</strong> 变形幅度曲线（X轴 0 是发根，1 是发尖）</li>
-            </ul>
-
-            <h2>发束参数 Strands Parameters</h2>
-
-            <ul>
-                <li><strong>发束尺寸 Strands Size</strong>：每个 guide 上用于模拟的粒子数</li>
-                <li><strong>发束密度 Strands Density</strong>：用于质量和惯性计算</li>
-                <li><strong>发束平滑 Strands Smoothing</strong>：基于 <strong>发束尺寸 Strands Size</strong> 的粒子数进行插值平滑</li>
-                <li><strong>发束粗度 Strands Thickness</strong>：用于质量和惯性计算</li>
-                <li><strong>粗度尺寸曲线 Thickness Scale</strong>：基于 <strong>弯曲刚度</strong> 变形幅度曲线（X轴 0 是发根，1 是发尖）</li>
-            </ul>
-        </article>
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <span>Next Article</span>
+                    <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+                </div>
+            </main>
+        </div>
     </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">
+                &copy; 2025 Designed with Digital & Organic.
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

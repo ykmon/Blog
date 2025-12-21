@@ -4,151 +4,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Houdini Tools - 技术美术笔记</title>
+    <title>Houdini Tools - TechArt Chronicle</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#F5F5F7',
+                        ink: '#1a1a1a',
+                        forest: '#2d4a3e',
+                        ochre: '#8a6240',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        body: ['Noto Serif SC', 'serif'],
+                    },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                '--tw-prose-headings': theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                strong: { color: theme('colors.ochre') },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.8;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 60px;
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
         }
 
-        .nav-header {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
-            color: #667eea;
-            font-weight: 500;
-        }
-
-        .back-link:hover {
-            transform: translateX(-5px);
-        }
-
-        .back-link::before {
-            content: "←";
-            margin-right: 8px;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            color: #2d3748;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 15px;
-        }
-
-        .articles {
-            list-style: none;
-        }
-
-        .articles li {
-            margin-bottom: 15px;
-        }
-
-        .articles a {
-            display: block;
-            padding: 20px;
-            background: #f7fafc;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #2d3748;
+        .retro-card {
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: white;
             transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
         }
 
-        .articles a:hover {
-            background: #667eea;
-            color: #fff;
-            transform: translateX(10px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .articles .title {
-            font-weight: 600;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-        }
-
-        .articles .desc {
-            font-size: 0.9em;
-            opacity: 0.8;
+        .retro-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 4px 4px 0px 0px rgba(138, 98, 64, 0.2);
+            border-color: #8a6240;
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <div class="nav-header">
-            <a href="../../../index.html" class="back-link">返回首页</a>
+<body class="antialiased min-h-screen font-body">
+
+    <!-- Header -->
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Library</h1>
+            </a>
         </div>
+    </header>
 
-        <h1>Houdini Tools</h1>
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-        <p style="margin-bottom: 30px; color: #4a5568;">Houdini 项目中使用的部分 Python 脚本和技巧。</p>
+            <!-- SIDEBAR -->
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <!-- Navigation -->
+                    <nav class="space-y-4">
+                        <a href="../../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+                        <a href="../../../index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                        <a href="../../../index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Videos</a>
+                        <a href="#" class="block text-ochre font-bold transition-colors">Tools</a>
+                    </nav>
+                </div>
+            </aside>
 
-        <ul class="articles">
-            <li>
-                <a href="SwitchToOutputGroup.html">
-                    <div class="title">从 Switch 创建输出组</div>
-                    <div class="desc">Quickly create output groups from switch nodes</div>
-                </a>
-            </li>
-            <li>
-                <a href="AddHandleToHDA.html">
-                    <div class="title">如何为 HDA 添加 Handle</div>
-                    <div class="desc">Adding custom handles to Houdini Digital Assets</div>
-                </a>
-            </li>
-            <li>
-                <a href="QuickAddParameter.html">
-                    <div class="title">快速添加自定义 Parameter</div>
-                    <div class="desc">Quickly add custom parameters</div>
-                </a>
-            </li>
-            <li>
-                <a href="BatchCreateObjectMerge.html">
-                    <div class="title">批量创建选中的 ObjectMerge</div>
-                    <div class="desc">Batch create Object Merge nodes for selection</div>
-                </a>
-            </li>
-            <li>
-                <a href="SplitGeometryByGroup.html">
-                    <div class="title">按照组拆分模型</div>
-                    <div class="desc">Split geometry by groups</div>
-                </a>
-            </li>
-            <li>
-                <a href="NodeInputCount.html">
-                    <div class="title">节点输入数量</div>
-                    <div class="desc">Managing node input connections</div>
-                </a>
-            </li>
-        </ul>
+            <!-- MAIN CONTENT -->
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none mb-12">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Houdini /
+                        Python</span>
+                    <h1 class="font-serif text-4xl mb-4 leading-tight">Procedural Toolset</h1>
+                    <p class="text-gray-600 italic">Houdini 项目中使用的部分 Python 脚本和 HDA 开发技巧收录。</p>
+                </article>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Item 1 -->
+                    <a href="SwitchToOutputGroup.html" class="retro-card p-6 block group">
+                        <div class="text-ochre text-2xl mb-2 group-hover:scale-110 transition-transform origin-left">☊
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 font-serif text-ink">从 Switch 创建输出组</h3>
+                        <p class="text-sm text-gray-500">Quickly create output groups from switch nodes</p>
+                    </a>
+
+                    <!-- Item 2 -->
+                    <a href="AddHandleToHDA.html" class="retro-card p-6 block group">
+                        <div class="text-ochre text-2xl mb-2 group-hover:scale-110 transition-transform origin-left">🔧
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 font-serif text-ink">如何为 HDA 添加 Handle</h3>
+                        <p class="text-sm text-gray-500">Adding custom handles to Houdini Digital Assets</p>
+                    </a>
+
+                    <!-- Item 3 -->
+                    <a href="QuickAddParameter.html" class="retro-card p-6 block group">
+                        <div class="text-ochre text-2xl mb-2 group-hover:scale-110 transition-transform origin-left">⚡
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 font-serif text-ink">快速添加自定义 Parameter</h3>
+                        <p class="text-sm text-gray-500">Quickly add custom parameters scripts</p>
+                    </a>
+
+                    <!-- Item 4 -->
+                    <a href="BatchCreateObjectMerge.html" class="retro-card p-6 block group">
+                        <div class="text-ochre text-2xl mb-2 group-hover:scale-110 transition-transform origin-left">⛓️
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 font-serif text-ink">批量创建选中的 ObjectMerge</h3>
+                        <p class="text-sm text-gray-500">Batch create Object Merge nodes for selection</p>
+                    </a>
+
+                    <!-- Item 5 -->
+                    <a href="SplitGeometryByGroup.html" class="retro-card p-6 block group">
+                        <div class="text-ochre text-2xl mb-2 group-hover:scale-110 transition-transform origin-left">✂️
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 font-serif text-ink">按照组拆分模型</h3>
+                        <p class="text-sm text-gray-500">Split geometry by groups automatically</p>
+                    </a>
+
+                    <!-- Item 6 -->
+                    <a href="NodeInputCount.html" class="retro-card p-6 block group">
+                        <div class="text-ochre text-2xl mb-2 group-hover:scale-110 transition-transform origin-left">🔢
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 font-serif text-ink">节点输入数量</h3>
+                        <p class="text-sm text-gray-500">Managing node input connections util</p>
+                    </a>
+
+                </div>
+
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <span>Index</span>
+                    <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+                </div>
+            </main>
+        </div>
     </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">
+                &copy; 2025 Designed with Digital & Organic.
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

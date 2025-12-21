@@ -4,134 +4,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShaderLab 结构详解 - 技术美术笔记</title>
+    <title>ShaderLab 结构详解 - TechArt Chronicle</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#F5F5F7',
+                        ink: '#1a1a1a',
+                        forest: '#2d4a3e',
+                        ochre: '#8a6240',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        body: ['Noto Serif SC', 'serif'],
+                    },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                '--tw-prose-headings': theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: {
+                                    fontFamily: theme('fontFamily.serif'),
+                                    color: theme('colors.forest'),
+                                    fontStyle: 'italic',
+                                },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: {
+                                    borderLeftColor: theme('colors.forest'),
+                                    fontStyle: 'italic',
+                                    backgroundColor: 'rgba(45, 74, 62, 0.05)',
+                                    color: theme('colors.gray.600'),
+                                },
+                                code: {
+                                    backgroundColor: '#f1f5f9',
+                                    color: '#b91c1c',
+                                    borderRadius: '0.25rem',
+                                    fontWeight: 'normal',
+                                },
+                                pre: {
+                                    backgroundColor: '#1e293b',
+                                },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.8;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 60px;
-        }
-
-        .nav-header {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
-            color: #667eea;
-            font-weight: 500;
-        }
-
-        .back-link:hover {
-            transform: translateX(-5px);
-        }
-
-        .back-link::before {
-            content: "←";
-            margin-right: 8px;
-        }
-
-        .content {
-            font-size: 1.1em;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            color: #2d3748;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 15px;
-        }
-
-        h2 {
-            font-size: 1.8em;
-            margin: 40px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #edf2f7;
-        }
-
-        p {
-            margin-bottom: 20px;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin: 20px 0;
-            display: block;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        code {
-            background: #edf2f7;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Consolas', monospace;
-            font-size: 0.9em;
-            color: #c53030;
-        }
-
-        pre {
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 20px 0;
-            font-family: 'Consolas', monospace;
-            font-size: 0.9em;
-            line-height: 1.5;
-        }
-
-        pre code {
-            background: transparent;
-            color: inherit;
-            padding: 0;
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <div class="nav-header">
-            <a href="../../index.html" class="back-link">返回首页</a>
+<body class="antialiased min-h-screen font-body">
+
+    <!-- Header -->
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Unity ShaderLab</h1>
+            </a>
         </div>
+    </header>
 
-        <article class="content">
-            <h1>ShaderLab结构详解</h1>
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-            <p><a href="https://zhuanlan.zhihu.com/p/142665509">Shader学习（11）实现一个可调整颜色的无光材质，以及Shader的结构图解</a></p>
+            <!-- SIDEBAR -->
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <!-- Navigation -->
+                    <nav class="space-y-4">
+                        <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+                        <a href="../../index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                        <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors">Videos</a>
+                        <a href="../Houdini/Tools/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Tools</a>
+                    </nav>
+                </div>
+            </aside>
 
-            <p><em>文中内容主要参考书籍《unity shader入门精要》，作者为冯乐乐。</em></p>
+            <!-- MAIN CONTENT -->
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Unity / Shader
+                        Programming</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">ShaderLab 结构详解</h1>
 
-            <p>代码太长看得人眼花，公式太难看得人犯傻，抓掉了头发一把又一把，谁让我从小就是学渣。翻开书本时英姿勃发，收起卷牍后泫然泣下，学习就是这么味如嚼蜡，其实，最好的学习方法是把知识图表化。</p>
+                    <p class="lead italic text-gray-500">原文参考：<a href="https://zhuanlan.zhihu.com/p/142665509"
+                            class="text-ochre">Shader学习（11）</a>，作者为冯乐乐。</p>
 
-            <p>本文中，上半段先把一个最简单的顶点片元着色器实现出来，实现的这个无光材质可以控制颜色。下半段则是对每一个关键字进行解释，最终要用流程图来展示Shader每个结构之间的关系。</p>
+                    <blockquote>
+                        代码太长看得人眼花，公式太难看得人犯傻...其实，最好的学习方法是把知识图表化。
+                    </blockquote>
 
-            <pre><code>Shader "Unity Shaders Book/Chapter 5/Simple Shader For Article 11"
+                    <p>本文中，上半段先把一个最简单的顶点片元着色器实现出来，实现的这个无光材质可以控制颜色。下半段则是对每一个关键字进行解释，最终要用流程图来展示Shader每个结构之间的关系。</p>
+
+                    <pre><code class="language-c">Shader "Unity Shaders Book/Chapter 5/Simple Shader For Article 11"
 {
 	Properties
 	{
@@ -178,196 +178,87 @@
 			ENDCG
 		}
 	}
-}
-</code></pre>
+}</code></pre>
 
-            <p>以上是无光材质的代码，简单而且朴实无华，复制进你的文件里就可以看到材质的变化，接下来，再逐字逐句解一解每个片段包含了什么想法。</p>
+                    <p>以上是无光材质的代码，简单而且朴实无华。</p>
 
-            <p>现在可以在Unity中新建一个名为”SimpleMaterial”的材质，把刚刚的Shader拖到材质上，再在场景里新建一个球体把材质拖上去，就可以看到下面这样的效果。</p>
+                    <p>在Unity中新建材质并应用Shader的效果：</p>
+                    <img src="https://pic1.zhimg.com/80/v2-76d5c640e538d3f6a6c7c78675d0670c_1440w.webp"
+                        alt="Shader Effect" class="rounded-sm shadow-md">
 
-            <p><img src="https://pic1.zhimg.com/80/v2-76d5c640e538d3f6a6c7c78675d0670c_1440w.webp" alt="Shader Effect">
-            </p>
+                    <p>在材质的控制面板调整颜色：</p>
+                    <img src="https://pic3.zhimg.com/80/v2-37ca5ec75718fc0f8f9211e57d478256_1440w.webp" alt="Inspector"
+                        class="rounded-sm shadow-md">
 
-            <p>出现这种彩色效果的原因是我们取了法线的数值转成颜色输出出来了。在材质的控制面板有一个颜色值可以和球体的基础颜色进行混合：</p>
+                    <p>构建粗略的图表：</p>
+                    <img src="https://pic2.zhimg.com/80/v2-e6b4447942d38ce3f97fd32409bfa081_1440w.webp"
+                        alt="Structure 1" class="rounded-sm shadow-md">
 
-            <p><img src="https://pic3.zhimg.com/80/v2-37ca5ec75718fc0f8f9211e57d478256_1440w.webp" alt="Inspector"></p>
-
-            <p>可以随意调整一下看看变化。</p>
-
-            <p>现在我们有了一个Shader和一个材质，我们知道Shader和材质之间是有联系的，Shader提供了属性接口，材质可以通过接口控制显示效果。那么我们可以构建起一个粗略的图表。</p>
-
-            <p><img src="https://pic2.zhimg.com/80/v2-e6b4447942d38ce3f97fd32409bfa081_1440w.webp" alt="Structure 1">
-            </p>
-
-            <p>再回到代码部分。</p>
-
-            <pre><code>Shader "Unity Shaders Book/Chapter 5/Simple Shader For Article 11"
-</code></pre>
-
-            <p>第一句，”Shader”代表这是一个着色器文件，后面引号里的路径代表你可以在Shader下拉列表的哪个位置找到它，在最后一个”/”号后面的是这个Shader的名字。</p>
-
-            <pre><code>Properties
+                    <h2>1. 属性解析 (Properties)</h2>
+                    <pre><code>Properties
 {
     _Color ("Color Control", Color) = (1.0, 1.0, 1.0, 1.0)
-}
-</code></pre>
+}</code></pre>
+                    <p><strong>_Color</strong>是内部名称，<strong>Color Control</strong>是面板显示名称，<strong>Color</strong>是类型。</p>
+                    <img src="https://pic1.zhimg.com/80/v2-666f91f794d12a296d3ccba6579d102c_1440w.webp"
+                        alt="Structure 2" class="rounded-sm shadow-md">
 
-            <p>紧接着，就是属性声明部分，”Properties”部分定义一个用来声明属性的代码块。”_Color”代表了这个属性在UnityShader内部的名称，一般会在前面加一个下划线，不过这不是必须的，只是一些代码规范。”Color
-                Control”是这个属性在材质中的显示名称。第三个词”Color”则是代表了一种数据类型。等于号后面的（1.0， 1.0， 1.0， 1.0）则是给这个属性赋予初始值。</p>
-
-            <p>Properties语义块中的定义方法一般都是这样的：</p>
-
-            <p><code>Name (“display name”, PropertyType) = DefaultValue</code></p>
-
-            <p>根据这句代码再结合上面的解释，相信很快就会理解。</p>
-
-            <p>根据这些内容再完善一下我们的图表。</p>
-
-            <p><img src="https://pic1.zhimg.com/80/v2-666f91f794d12a296d3ccba6579d102c_1440w.webp" alt="Structure 2">
-            </p>
-
-            <p>可以看到材质的控制面板里的ColorControl向Properties中的_Color传入Color类型的数据。</p>
-
-            <p>再回到代码，接下来就是Shader的主要部分SubShader
-                ，所有有关着色器运算的部分都在这里。而Pass字段代表的是一个完整的渲染流程，它的内部会有一个顶点着色器和一个片元着色器以及各种标签和设置，其中一些东西可以放在SubShader下面，也可以放在Pass内部。
-            </p>
-
-            <pre><code>SubShader
-{
-     Pass
-     {
-          ......
-     }
-}
-</code></pre>
-
-            <p>CGPROGRAM和ENDCG中间是我们最主要的代码段。</p>
-
-            <pre><code>#pragma vertex vert
+                    <h2>2. 着色器代码 (SubShader)</h2>
+                    <pre><code>#pragma vertex vert
 #pragma fragment frag
-</code></pre>
+fixed4 _Color;</code></pre>
+                    <p>注意：在CG代码块中还需要再次声明属性的类型才能正常使用属性。</p>
+                    <img src="https://pic4.zhimg.com/80/v2-c23c91fd57d8a78d38a2054df06399ef_1440w.webp"
+                        alt="Structure 3" class="rounded-sm shadow-md">
 
-            <p>#pragma的意思是编译指令，它会指定后面的函数将要编译成什么着色器。Vertex和fragment分别表示要把该函数编译为顶点着色器和片元着色器。vert和frag代表函数的名称。</p>
+                    <h2>3. 数据流 (Structs)</h2>
+                    <ul>
+                        <li><strong>struct a2v</strong>: Application to Vertex (应用到顶点)。我们需要定义输入什么数据，如 POSITION, NORMAL,
+                            TEXCOORD0。</li>
+                        <li><strong>struct v2f</strong>: Vertex to Fragment (顶点到片元)。这是两者的桥梁，必须包含 SV_POSITION。</li>
+                    </ul>
+                    <img src="Untitled.png" alt="Structure 4" class="rounded-sm shadow-md">
 
-            <pre><code>fixed4 _Color;
-</code></pre>
-
-            <p>在CG代码块中还需要再次声明属性的类型才能正常使用属性。</p>
-
-            <p>根据上面的内容我们就得到了接下来的图表。</p>
-
-            <p><img src="https://pic4.zhimg.com/80/v2-c23c91fd57d8a78d38a2054df06399ef_1440w.webp" alt="Structure 3">
-            </p>
-
-            <p>Shader下面包含一个SubShader区块，SubShader区块中又包含有一个Pass块，Pass块中包含了一个名为”vert”的顶点着色器和一个名为”frag”的片元着色器。还可以看到_Color属性在进入到Pass块中的时候经过了一次声明。要注意的是UnityShader中不只是可以包含一个SubShader块，SubShader中也不只是可以包含一个Pass块。
-            </p>
-
-            <p>继续我们的代码解读。</p>
-
-            <pre><code>struct a2v 
-{
-	float4 vertex : POSITION;
-	float3 normal : NORMAL;
-	float4 texcoord : TEXCOORD0;
-};
-</code></pre>
-
-            <p>这是使用了一个结构体用来定义顶点着色器的输入。”struct”的意思就是结构体，”a2v”是这个结构体的名字。这里把结构体的名字命名为其他名称也可以，但是我们的这个名字并不是无意义的，”a”代表的是应用（application），”v”代表的是顶点着色器，”a2v”就是代表把数据从应用阶段输入到顶点着色器（此处可以回忆之前的文章中关于渲染流水线的部分）。
-            </p>
-
-            <p>顶点着色器其实就是我们渲染流程的最开始阶段了，那么要输入顶点着色器的数据从哪里来的？就是从一些已经保存在模型上的数据，或者是由应用程序提供的数据上读取的。</p>
-
-            <p>顶点着色器是输入结构体中，一般都是如下的形式：</p>
-
-            <p><code>Type Name : Semantic;</code></p>
-
-            <p>冒号前面的两个词声明了一个数据，冒号后面的词代表从应用阶段获取的数据，用来给已经定义的这个数据赋值。</p>
-
-            <p><code>float 4 vertex ：POSITION；</code></p>
-
-            <p>这里声明了一个float4类型的变量vertex。然后用模型空间的顶点坐标给该变量赋值。</p>
-            <p>第二句代表使用模型空间的法线方向给normal变量赋值。</p>
-            <p>第三句代表用模型的第一套纹理坐标给texcoord变量赋值。</p>
-
-            <p>需要注意的是，上面的”POSITION”、”NORMAL”
-                、”TEXCOORD0”本身并不是一个数据，它其实相当于一个包装出厂时贴的标签，比如说数据代表了一个饮料，你拿到手之后并不知道它是什么味道的，此时就需要查看饮料瓶上的标签说明，这些标签就是“Semantic”，它告诉我们这个数据从哪来到哪去。
-            </p>
-
-            <pre><code>struct v2f
-{
-	float4 pos : SV_POSITION;
-	fixed3 color : COLOR;
-};
-</code></pre>
-
-            <p>顶点着色器的输入部分有了，接下来是顶点着色器的输出部分。这个结构体的名称”v2f”代表的就是把数据从顶点着色器（vertex）输入到片元着色器（fragment）。</p>
-
-            <p>第一行的意思是从顶点着色器中输出的这个变量”pos”中的信息是顶点在裁剪空间中的的位置。需要注意的是，在定义了顶点着色器的输出结构体的时候，结构体中是必须有这个数据的，如果没有的话，片元着色器就无法正确的读取顶点在裁剪空间中的位置信息。
-            </p>
-
-            <p>第二行的意思是告诉Unity变量”color”中的信息是颜色信息。</p>
-
-            <p>然后我们可以根据以上的代码继续完善图表。</p>
-
-            <p><img src="Untitled.png" alt="Structure 4"></p>
-
-            <p>从数据的流向来看，结构体就是处于顶点着色器和片元着色器中间的一个承接点，就像是数据传输中的桥梁。</p>
-
-            <pre><code>v2f vert(a2v v)
+                    <h2>4. 顶点着色器 (Vertex Shader)</h2>
+                    <pre><code>v2f vert(a2v v)
 {
 	v2f o;
 	o.pos = UnityObjectToClipPos(v.vertex);
 	o.color = v.normal * 0.5 + fixed3(0.5,0.5,0.5);
 	return o;
-}
-</code></pre>
+}</code></pre>
+                    <p>这里将法线方向映射为颜色输出。<code>UnityObjectToClipPos</code> 将顶点从模型空间转换到裁剪空间。</p>
 
-            <p>接下来就是顶点着色器。</p>
-
-            <p>第一个字段”v2f”代表的就是我们上面声明的输出结构体，它表示顶点着色器中的计算结果要由它来储存。</p>
-            <p>其实不仅仅可以使用结构体来放在上面的位置，也可以用一个变量来放在上面的位置，比如写成：</p>
-            <p><code>float4 vert （a2v v）：SV_POSITION{......}</code></p>
-            <p>但是这样的话就只能承载一个变量，如果顶点着色器想要向片元着色器传输多个变量，就不能再使用类似float4这样的数据类型了。所以说结构体其实就是一个变量组。还有一个不一样的地方在于后面多了一个”SV_POSITION”，为什么要加这个字段呢？顶点着色器最为基本的作用就是把顶点坐标从模型空间转换到裁剪空间，如果顶点着色器的输出只剩下一个变量了，那这个变量一定是就是顶点在裁剪空间的位置信息。在有结构体的时候，这个字段被写在结构体中相应的变量后面了，但是现在没有定义结构体，就只能把这个字段写在现在的位置，来告诉Unity顶点着色器输出的这个变量的是什么。
-            </p>
-
-            <p>第二个词”vert”就是我们定义的顶点着色器的名称，无需多言。</p>
-            <p>括号中的”（a2v
-                v）”代表我们的顶点着色器的输入。就像是要用float的时候必须要给这个变量一个名字一样，要用结构体这个变量组的时候也要给结构体一个名字，”v”就是这个结构体的名字，当然也可以不叫”v”而起一个其他的名字。
-            </p>
-            <p>再看大括号中的第一句”v2f o；” 这个的含义和上一句话是一个意思，不必多言。</p>
-            <p>o.pos则是取出结构体中的单个变量来操作。”UnityObjectToClipPos(v.vertex);”代表的是调用Unity内置的一个变换矩阵，把输入结构体v中的变量”vertex”从模型空间转换到裁剪空间。
-            </p>
-            <p>“o.color”
-                是取出输出结构体中的单个变量”color”来进行操作。”v.normal”是输入结构体中的normal变量，从上文中我们可以知道这个变量中承载的信息是模型空间的顶点法线方向信息。这句代码是把模型的法线方向信息作为颜色信息输出了，在编写shader时首先需要打开的思路就是：不管是颜色还是矢量还是其他什么数据，都只是计算机中的一串数据罢了，它们可以互相转换，你可以把矢量连接到颜色上输出，也可以把颜色连接到矢量中计算，除了数学规律，没有什么规矩是不可改变的。
-            </p>
-
-            <p>再接着看这句的计算”v.normal * 0.5 * fixed3(0.5, 0.5, 0.5)”
-                。法线信息是一个三维变量，它的取值范围是-1到1，颜色信息也是一个三维变量，它的取值范围是0到1，因此，需要把法线的每个值都转到0到1的范围内才能显示为有意义的颜色信息。</p>
-
-            <p>接下来最后一句”return o;”代表返回结构体v2f 。</p>
-
-            <pre><code>fixed4 frag(v2f i) :SV_Target
+                    <h2>5. 片元着色器 (Fragment Shader)</h2>
+                    <pre><code>fixed4 frag(v2f i) :SV_Target
 {
 	fixed3 c = i.color;
 	c *= _Color.rgb;
 	return fixed4(c, 1.0);
-}
-</code></pre>
+}</code></pre>
+                    <p>SV_Target 告诉 Unity 将输出颜色存储到帧缓存。</p>
 
-            <p>再看片元着色器 中的计算。</p>
-            <p>片元着色器中的计算结果只是一个四维的变量，所以说我们并不需要再定义一个结构体来储存多个数据。”fixed4”就表示片元着色器的计算结果是一个四维变量。”frag”代表我们定义的片元着色器的名称。”(v2f
-                i)”这里又声明了一个名为”i”的结构体v2f，我们不是在顶点着色器输出的时候就已经声明过一个”o”了吗，为什么要在这里再声明一次。当我们从顶点着色器中输出时，这个结构体中是逐顶点的数据，而到了片元着色器中调用这个结构体时，我们需要的是逐片元的数据，因此，数据在被片元着色器调用时进行了插值。
-            </p>
-            <p>“SV_Target”则是告诉Unity：片元着色器中输出的这个数据要储存到一个帧缓存中。</p>
-            <p>大括号中首先声明了一个变量”fixed3 c”，然后用结构体”i”中的”color”变量给它赋值。</p>
-            <p>在大括号中的第二句中终于用到了我们从一开始声明的属性”_Color”，用来和变量”c”进行乘法计算。</p>
-            <p>最终返回了”c”的颜色值，并且用”1.0”填充了A分量。</p>
-            <p>在看过上面的解析之后，再来完善示意图。</p>
+                    <img src="https://pic4.zhimg.com/80/v2-6b2e32f548778e000a3700c162258e1b_1440w.webp"
+                        alt="Structure 5" class="rounded-sm shadow-md">
+                </article>
 
-            <p><img src="https://pic4.zhimg.com/80/v2-6b2e32f548778e000a3700c162258e1b_1440w.webp" alt="Structure 5">
-            </p>
-        </article>
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <span>Next Article</span>
+                    <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+                </div>
+            </main>
+        </div>
     </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">
+                &copy; 2025 Designed with Digital & Organic.
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

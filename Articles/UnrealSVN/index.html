@@ -4,223 +4,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unreal SVN 仓库搭建指北 - 技术美术笔记</title>
+    <title>Unreal SVN 仓库搭建指北 - TechArt Chronicle</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#F5F5F7',
+                        ink: '#1a1a1a',
+                        forest: '#2d4a3e',
+                        ochre: '#8a6240',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        body: ['Noto Serif SC', 'serif'],
+                    },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                '--tw-prose-headings': theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: {
+                                    fontFamily: theme('fontFamily.serif'),
+                                    color: theme('colors.forest'),
+                                    fontStyle: 'italic',
+                                },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: {
+                                    borderLeftColor: theme('colors.forest'),
+                                    fontStyle: 'italic',
+                                    backgroundColor: 'rgba(45, 74, 62, 0.05)',
+                                    color: theme('colors.gray.600'),
+                                },
+                                code: {
+                                    backgroundColor: '#f1f5f9',
+                                    color: '#b91c1c',
+                                    borderRadius: '0.25rem',
+                                    fontWeight: 'normal',
+                                },
+                                pre: {
+                                    backgroundColor: '#1e293b',
+                                },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.8;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 60px;
-        }
-
-        .nav-header {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
-            color: #667eea;
-            font-weight: 500;
-        }
-
-        .back-link:hover {
-            transform: translateX(-5px);
-        }
-
-        .back-link::before {
-            content: "←";
-            margin-right: 8px;
-        }
-
-        .content {
-            font-size: 1.1em;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            color: #2d3748;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 15px;
-        }
-
-        h2 {
-            font-size: 1.8em;
-            margin: 40px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #edf2f7;
-        }
-
-        p {
-            margin-bottom: 20px;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin: 20px 0;
-            display: block;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        blockquote {
-            border-left: 4px solid #667eea;
-            background: #f7fafc;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
-
-        code {
-            background: #edf2f7;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Consolas', monospace;
-            font-size: 0.9em;
-            color: #c53030;
-        }
-
-        pre {
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 20px 0;
-            font-family: 'Consolas', monospace;
-            font-size: 0.9em;
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <div class="nav-header">
-            <a href="../../index.html" class="back-link">返回首页</a>
+<body class="antialiased min-h-screen font-body">
+
+    <!-- Header -->
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Version Control</h1>
+            </a>
         </div>
+    </header>
 
-        <article class="content">
-            <h1>Unreal SVN 仓库搭建指北</h1>
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-            <p>本教程介绍如何为 Unreal Engine 项目搭建 SVN 版本控制仓库。</p>
+            <!-- SIDEBAR -->
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <!-- Navigation -->
+                    <nav class="space-y-4">
+                        <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+                        <a href="../../index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                        <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors">Videos</a>
+                        <a href="../Houdini/Tools/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Tools</a>
+                    </nav>
+                </div>
+            </aside>
 
-            <h2>1. 下载安装 TortoiseSVN</h2>
+            <!-- MAIN CONTENT -->
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Unreal Engine /
+                        DevOps</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">Unreal SVN 仓库搭建指北</h1>
 
-            <p>点击链接进入 SVN 下载页面，选择对应操作系统下载。系统位数可通过 <strong>系统 → 系统信息</strong> 查看。</p>
+                    <p class="lead">本教程介绍如何为 Unreal Engine 项目搭建 SVN 版本控制仓库，从 TortoiseSVN 安装到 UE 内部 Source Control 配置。
+                    </p>
 
-            <p>🔗 <a href="https://tortoisesvn.net/downloads.html">TortoiseSVN 下载页面</a></p>
+                    <h2>1. 下载安装 TortoiseSVN</h2>
+                    <p>点击链接进入 SVN 下载页面，选择对应操作系统下载。系统位数可通过 <strong>系统 → 系统信息</strong> 查看。</p>
+                    <p>🔗 <a href="https://tortoisesvn.net/downloads.html">TortoiseSVN 下载页面</a></p>
 
-            <p><img src="images/Untitled.png" alt="下载页面"></p>
+                    <div class="grid grid-cols-2 gap-4 my-8">
+                        <img src="images/Untitled.png" alt="下载页面" class="rounded-sm shadow-md mt-0">
+                        <img src="images/Untitled_1.png" alt="系统位数" class="rounded-sm shadow-md mt-0">
+                    </div>
 
-            <p><img src="images/Untitled_1.png" alt="系统位数"></p>
+                    <h2>2. 安装并创建仓库目录</h2>
+                    <p>一路下一步安装之后根据提示，<strong>重启电脑</strong>。</p>
+                    <p>选择一个硬盘，新建一个"装管理项目仓库的仓库"。</p>
 
-            <h2>2. 安装并创建仓库目录</h2>
+                    <blockquote>
+                        <p>⚠️ <strong>注意</strong>：不可以在根目录创建仓库。</p>
+                    </blockquote>
 
-            <p>一路下一步安装之后根据提示，<strong>重启电脑</strong>。</p>
-            <p>选择一个硬盘，新建一个"装管理项目仓库的仓库"。</p>
+                    <img src="images/Untitled_2.png" alt="创建仓库目录" class="rounded-sm shadow-md">
 
-            <blockquote>
-                <p>⚠️ <strong>注意</strong>：不可以在根目录创建仓库。</p>
-            </blockquote>
+                    <p>进入该文件夹，在导航栏输入 <code>CMD</code> 并回车进入该路径的命令行窗口。</p>
 
-            <p><img src="images/Untitled_2.png" alt="创建仓库目录"></p>
+                    <div
+                        class="bg-gray-100 p-4 border border-gray-200 rounded-sm flex items-center justify-center space-x-2 my-6">
+                        <span class="text-xl">📹</span>
+                        <span>操作演示视频：<a href="images/bandicam.mp4"
+                                class="underline decoration-ochre">bandicam.mp4</a></span>
+                    </div>
 
-            <p>进入该文件夹，在导航栏输入 <code>CMD</code> 并回车进入该路径的命令行窗口。</p>
+                    <img src="images/Untitled_3.png" alt="CMD操作" class="rounded-sm shadow-md">
 
-            <blockquote>
-                <p>📹 操作演示视频：<a href="images/bandicam.mp4">bandicam.mp4</a></p>
-            </blockquote>
+                    <h2>3. 使用 UE 内置 SVN 创建仓库</h2>
+                    <p>在命令行中输入以下命令：</p>
 
-            <p><img src="images/Untitled_3.png" alt="CMD操作"></p>
+                    <pre><code>"C:\Program Files\Epic Games\UE_5.2\Engine\Binaries\ThirdParty\svn\Win64\svnadmin.exe" create --compatible-version 1.9 E:\BaiduSyncdisk\SVN_Repos</code></pre>
 
-            <h2>3. 使用 UE 内置 SVN 创建仓库</h2>
+                    <p><strong>参数说明：</strong></p>
+                    <ul>
+                        <li><strong>第一个路径</strong>：UE 引擎内部自带的 SVN 内核路径，可通过 Everything 搜索 <code>svnadmin.exe</code> 找到
+                        </li>
+                        <img src="images/Untitled_4.png" alt="搜索svnadmin" class="rounded-sm shadow-md w-2/3">
+                        <li><strong>第二个路径</strong>：<code>E:\SVN_Repos\Survival_Repo</code> 代表想创建的仓库所在的路径和文件名</li>
+                    </ul>
 
-            <p>在命令行中输入以下命令：</p>
+                    <blockquote>
+                        <p>💡 <strong>为什么使用 UE 自带的 SVN？</strong><br>
+                            UE 自带的 SVN 内核版本较老，而我们下载的 TortoiseSVN 版本较新。使用新版本创建的仓库可能无法与 UE 项目内部正确链接。</p>
+                    </blockquote>
 
-            <pre><code>"C:\Program Files\Epic Games\UE_5.2\Engine\Binaries\ThirdParty\svn\Win64\svnadmin.exe" create --compatible-version 1.9 E:\BaiduSyncdisk\SVN_Repos
-</code></pre>
+                    <p>复制命令至命令行后回车即可创建仓库。</p>
 
-            <p><strong>参数说明：</strong></p>
+                    <h2>4. Checkout 到 UE 项目</h2>
+                    <p>打开 UE 项目路径：</p>
+                    <img src="images/Untitled_5.png" alt="UE项目路径" class="rounded-sm shadow-md">
 
-            <ul>
-                <li><strong>第一个路径</strong>：UE 引擎内部自带的 SVN 内核路径，可通过 Everything 搜索 <code>svnadmin.exe</code> 找到</li>
-                <img src="images/Untitled_4.png" alt="搜索svnadmin">
-                <li><strong>第二个路径</strong>：<code>E:\SVN_Repos\Survival_Repo</code> 代表想创建的仓库所在的路径和文件名</li>
-            </ul>
+                    <p>右键选择 <strong>SVN → Checkout</strong>：</p>
+                    <ul>
+                        <li><strong>第一行</strong>：填写刚才通过命令行创建的仓库路径，在前面加上 <code>file:///</code></li>
+                        <li><strong>第二行</strong>：填写想要进行版本控制的 UE 项目路径，删除自动生成的后缀</li>
+                    </ul>
 
-            <blockquote>
-                <p>💡 <strong>为什么使用 UE 自带的 SVN？</strong><br>
-                    UE 自带的 SVN 内核版本较老，而我们下载的 TortoiseSVN 版本较新。使用新版本创建的仓库可能无法与 UE 项目内部正确链接。</p>
-            </blockquote>
+                    <p>点击 <strong>OK → Checkout</strong> 即可完成。</p>
+                    <img src="images/Untitled_6.png" alt="Checkout设置" class="rounded-sm shadow-md">
 
-            <p>复制命令至命令行后回车即可创建仓库。</p>
+                    <h2>5. 在 UE 中配置 Source Control</h2>
+                    <ol>
+                        <li>进入 UE 项目</li>
+                        <li>点击右下角 <strong>Source Control Off</strong></li>
+                        <li>选择 <strong>Subversion</strong></li>
+                        <li>将仓库路径复制到对应位置</li>
+                        <li>点击 <strong>Accept Settings</strong></li>
+                    </ol>
 
-            <h2>4. Checkout 到 UE 项目</h2>
+                    <img src="images/Untitled_7.png" alt="UE Source Control设置" class="rounded-sm shadow-md">
 
-            <p>打开 UE 项目路径：</p>
+                    <h2>6. 完成</h2>
+                    <p>配置完成后，你的 UE 项目已成功连接 SVN 版本控制。</p>
+                    <img src="images/Untitled_8.png" alt="完成" class="rounded-sm shadow-md">
 
-            <p><img src="images/Untitled_5.png" alt="UE项目路径"></p>
+                    <hr>
 
-            <p>右键选择 <strong>SVN → Checkout</strong>：</p>
+                    <div class="bg-gray-200 p-6 rounded-sm">
+                        <h3 class="text-lg font-bold mb-2 mt-0">参考资源</h3>
+                        <ul class="mb-0">
+                            <li><a href="https://tortoisesvn.net/">TortoiseSVN 官网</a></li>
+                            <li><a href="https://docs.unrealengine.com/">Unreal Engine 官方文档</a></li>
+                        </ul>
+                    </div>
 
-            <ul>
-                <li><strong>第一行</strong>：填写刚才通过命令行创建的仓库路径，在前面加上 <code>file:///</code></li>
-                <li><strong>第二行</strong>：填写想要进行版本控制的 UE 项目路径，删除自动生成的后缀</li>
-            </ul>
+                </article>
 
-            <p>点击 <strong>OK → Checkout</strong> 即可完成。</p>
-
-            <p><img src="images/Untitled_6.png" alt="Checkout设置"></p>
-
-            <h2>5. 在 UE 中配置 Source Control</h2>
-
-            <ol>
-                <li>进入 UE 项目</li>
-                <li>点击右下角 <strong>Source Control Off</strong></li>
-                <li>选择 <strong>Subversion</strong></li>
-                <li>将仓库路径复制到对应位置</li>
-                <li>点击 <strong>Accept Settings</strong></li>
-            </ol>
-
-            <p><img src="images/Untitled_7.png" alt="UE Source Control设置"></p>
-
-            <h2>6. 完成</h2>
-
-            <p>配置完成后，你的 UE 项目已成功连接 SVN 版本控制。</p>
-
-            <p><img src="images/Untitled_8.png" alt="完成"></p>
-
-            <hr>
-
-            <h2>参考资源</h2>
-            <ul>
-                <li><a href="https://tortoisesvn.net/">TortoiseSVN 官网</a></li>
-                <li><a href="https://docs.unrealengine.com/">Unreal Engine 官方文档</a></li>
-            </ul>
-        </article>
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <span>Next Article</span>
+                    <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+                </div>
+            </main>
+        </div>
     </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">
+                &copy; 2025 Designed with Digital & Organic.
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

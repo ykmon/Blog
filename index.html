@@ -147,11 +147,11 @@
                     <!-- Navigation -->
                     <nav class="space-y-4">
                         <h4 class="font-serif text-lg border-b border-gray-300 pb-2 mb-4 italic">Sections</h4>
-                        <a href="#" class="block text-ink hover:text-ochre transition-colors group">
+                        <a href="#articles" class="block text-ink hover:text-ochre transition-colors group">
                             <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">01</span> 文章列表 /
                             Articles
                         </a>
-                        <a href="#" class="block text-ink hover:text-ochre transition-colors group">
+                        <a href="#videos" class="block text-ink hover:text-ochre transition-colors group">
                             <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">02</span> 视频教程 /
                             Videos
                         </a>
@@ -161,7 +161,7 @@
                             <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">03</span> 工具库 /
                             Tools
                         </a>
-                        <a href="#" class="block text-ink hover:text-ochre transition-colors group">
+                        <a href="#about" class="block text-ink hover:text-ochre transition-colors group">
                             <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">04</span> 关于 /
                             About
                         </a>
@@ -200,7 +200,8 @@
                 <div class="timeline-line hidden lg:block"></div>
 
                 <!-- Entry 1: Groom Article -->
-                <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-start blur-load group">
+                <article id="articles"
+                    class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-start blur-load group scroll-mt-24">
                     <!-- Date Badge -->
                     <div
                         class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
@@ -252,7 +253,7 @@
                 <hr class="border-gray-200 mb-20 w-1/2 mx-auto">
 
                 <!-- Entry 2: Bilibili Video -->
-                <article class="relative mb-20 blur-load">
+                <article id="videos" class="relative mb-20 blur-load scroll-mt-24">
                     <!-- Date Badge -->
                     <div
                         class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
@@ -284,7 +285,7 @@
                 <hr class="border-gray-200 mb-20 w-1/2 mx-auto">
 
                 <!-- Entry 3: Quote -->
-                <article class="relative mb-20 blur-load">
+                <article id="about" class="relative mb-20 blur-load scroll-mt-24">
                     <div
                         class="bg-ink text-paper p-12 md:p-16 text-center rounded-sm shadow-retro max-w-3xl mx-auto relative overflow-hidden">
                         <!-- Decorative Elements -->

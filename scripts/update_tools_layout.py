@@ -261,31 +261,49 @@ def extract_content(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
+    # Marker that appears in the new template
+    marker = 'Houdini / Tool</span>'
+    
+    if marker in content:
+        # File is likely already using the new layout.
+        # Strategy: Find all markers. Use the last one to get to the innermost content.
+        start_indices = [m.start() for m in re.finditer(re.escape(marker), content)]
+        last_marker_index = start_indices[-1]
+        
+        sub = content[last_marker_index:]
+        
+        # Search for Title H1 (First H1 after the marker)
+        title_match = re.search(r'<h1>(.*?)</h1>', sub, re.DOTALL)
+        if title_match:
+            title = title_match.group(1).strip()
+            content_start = title_match.end()
+            
+            # Find the </article> closing tag
+            article_end_match = re.search(r'</article>', sub[content_start:], re.DOTALL)
+            if article_end_match:
+                content_end = content_start + article_end_match.start()
+                body_content = sub[content_start:content_end].strip()
+                return title, f"<h1>{title}</h1>\n{body_content}"
+    
+    # --- Fallback to Original Logic (for raw files) ---
     # Extract Title (simplistic regex)
     title_match = re.search(r'<h1>(.*?)</h1>', content, re.DOTALL)
     title = title_match.group(1).strip() if title_match else "Untitled Tool"
     
     if '<h1>' in content:
         parts = content.split('</h1>', 1)
-        header_part = parts[0] # contains <h1>Title
-        body_part = parts[1] # contains contents... </div> </body>
+        body_part = parts[1]
         
-        # reconstruct H1
-        extracted_html = f"<h1>{title}</h1>\n"
-        
-        # clean body_part
-        # remove closing </body> and </html>
+        # Remove closing tags - be conservative
         body_part = body_part.replace('</body>', '').replace('</html>', '')
         
-        # remove the last </div> which closes .container
-        # finding the last occurrence of </div>
+        # Remove last div (container close)
         last_div_index = body_part.rfind('</div>')
         if last_div_index != -1:
             body_part = body_part[:last_div_index]
             
-        extracted_html += body_part.strip()
+        extracted_html = f"<h1>{title}</h1>\n{body_part.strip()}"
     else:
-        # Fallback
         extracted_html = f"<h1>{title}</h1><p>Content parsing failed.</p>"
 
     return title, extracted_html

@@ -17,6 +17,14 @@ COPY_SCRIPT = """
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const codeBlocks = document.querySelectorAll('pre');
+
+        // Highlight.js Init
+        document.querySelectorAll('pre code').forEach((block) => {
+            if (!block.className.includes('language-')) {
+                block.classList.add('language-python');
+            }
+            hljs.highlightElement(block);
+        });
         
         codeBlocks.forEach(pre => {
             // 1. Setup Wrapper
@@ -123,6 +131,11 @@ TEMPLATE_TOP = """<!DOCTYPE html>
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
         rel="stylesheet">
+    
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
 
     <script>
         tailwind.config = {

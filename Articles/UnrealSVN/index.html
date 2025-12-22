@@ -77,6 +77,12 @@
             top: 2rem;
         }
     </style>
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/glsl.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
 </head>
 
 <body class="antialiased min-h-screen font-body">
@@ -232,6 +238,19 @@
             </div>
         </div>
     </footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const codeBlocks = document.querySelectorAll('pre');
+
+        // Highlight.js Init
+        document.querySelectorAll('pre code').forEach((block) => {
+            if (!block.className.includes('language-')) {
+                block.classList.add('language-python');
+            }
+            hljs.highlightElement(block);
+        });
+    });
+</script>
 </body>
 
 </html>

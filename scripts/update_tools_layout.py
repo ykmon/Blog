@@ -11,58 +11,102 @@ FILES_TO_UPDATE = [
     "SwitchToOutputGroup.html"
 ]
 
-# The Copy Button JS
+# The JS Script containing Copy + Folding logic
+# Note: Using template string literals in JS (backticks), so we need to be careful with Python strings.
 COPY_SCRIPT = """
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const codeBlocks = document.querySelectorAll('pre');
         
         codeBlocks.forEach(pre => {
+            // 1. Setup Wrapper
             // Create container for relative positioning
             const wrapper = document.createElement('div');
-            wrapper.className = 'relative group';
-            
+            wrapper.className = 'relative group mb-6'; 
             // Insert wrapper before pre and move pre inside
             pre.parentNode.insertBefore(wrapper, pre);
             wrapper.appendChild(pre);
             
-            // Create copy button
-            const button = document.createElement('button');
-            button.className = 'absolute top-2 right-2 p-2 bg-paper/10 hover:bg-ochre text-ochre hover:text-white rounded transition-colors opacity-0 group-hover:opacity-100 border border-ochre/20';
-            button.innerHTML = `
+            // 2. Copy Button Setup
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'absolute top-2 right-2 p-2 bg-paper/10 hover:bg-ochre text-ochre hover:text-white rounded transition-colors opacity-0 group-hover:opacity-100 border border-ochre/20 z-20';
+            copyBtn.title = 'Copy Code';
+            copyBtn.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
             `;
             
-            // Add click event
-            button.addEventListener('click', async () => {
+            copyBtn.addEventListener('click', async () => {
                 const code = pre.querySelector('code')?.innerText || pre.innerText;
                 try {
                     await navigator.clipboard.writeText(code);
-                    const originalHTML = button.innerHTML;
-                    button.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    const originalHTML = copyBtn.innerHTML;
+                    copyBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2d4a3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
                     `;
                     setTimeout(() => {
-                        button.innerHTML = originalHTML;
+                        copyBtn.innerHTML = originalHTML;
                     }, 2000);
                 } catch (err) {
                     console.error('Failed to copy!', err);
                 }
             });
-            
-            wrapper.appendChild(button);
+            wrapper.appendChild(copyBtn);
+
+            // 3. Folding Logic
+            // We use a small timeout to ensure layout is calculated, though DOMContentLoaded is usually enough.
+            setTimeout(() => {
+                const MAX_HEIGHT = 400; // px
+                if (pre.scrollHeight > MAX_HEIGHT) {
+                    
+                    // Apply initial collapsed state
+                    pre.style.maxHeight = MAX_HEIGHT + 'px';
+                    pre.style.overflow = 'hidden';
+                    pre.style.transition = 'max-height 0.4s ease-out';
+                    
+                    // Gradient Overlay
+                    const overlay = document.createElement('div');
+                    overlay.className = 'absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#282c34] to-transparent pointer-events-none transition-opacity duration-300 z-10 rounded-b-md';
+                    wrapper.appendChild(overlay);
+
+                    // Toggle Button Container
+                    const btnContainer = document.createElement('div');
+                    btnContainer.className = 'absolute bottom-4 left-1/2 -translate-x-1/2 z-20';
+                    
+                    const toggleBtn = document.createElement('button');
+                    toggleBtn.className = 'bg-ochre text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg hover:bg-white hover:text-forest transition-colors flex items-center gap-1 border border-ochre';
+                    toggleBtn.innerHTML = '<span>Show More</span><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>';
+                    
+                    btnContainer.appendChild(toggleBtn);
+                    wrapper.appendChild(btnContainer);
+
+                    let isExpanded = false;
+                    toggleBtn.addEventListener('click', () => {
+                        isExpanded = !isExpanded;
+                        if (isExpanded) {
+                            pre.style.maxHeight = pre.scrollHeight + 'px'; // Animate to full height
+                            overlay.classList.add('opacity-0');
+                            toggleBtn.innerHTML = '<span>Show Less</span><svg class="w-3 h-3 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>';
+                        } else {
+                            pre.style.maxHeight = MAX_HEIGHT + 'px';
+                            overlay.classList.remove('opacity-0');
+                            toggleBtn.innerHTML = '<span>Show More</span><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>';
+                            // Optional: Scroll back up slightly if the user is way down
+                            wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    });
+                }
+            }, 0);
         });
     });
 </script>
 """
 
 # The HTML Template (Top part)
-# We will use simple string concatenation or replacement, so no need to escape {{ }}
 TEMPLATE_TOP = """<!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -106,7 +150,8 @@ TEMPLATE_TOP = """<!DOCTYPE html>
                                     backgroundColor: '#282c34',
                                     color: '#abb2bf',
                                     borderRadius: '0.375rem',
-                                    marginTop: '0 !important', 
+                                    marginTop: '0 !important',
+                                    marginBottom: '0 !important',
                                 },
                             },
                         },

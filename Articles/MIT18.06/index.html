@@ -148,17 +148,9 @@
                     <h2>1. 行图像 (Row Picture)</h2>
                     <p>我们来看行图像，即直角坐标系中的图像：</p>
 
-                    <pre><code class="language-python">%matplotlib inline
-import matplotlib.pyplot as plt
-import numpy as np
-
-x = [-2, 2, -2, 2]
-y = [-4, 4, 0.5, 2.5]
-fig = plt.figure()
-plt.axhline(y=0, c='black')
-plt.axvline(x=0, c='black')
-plt.plot(x[:2], y[:2], x[2:], y[2:])
-plt.draw()</code></pre>
+                    <div class="my-6">
+                        <img src="./images/row_picture.png" alt="Row Picture" class="rounded-sm shadow-md mx-auto">
+                    </div>
 
                     <p>上图是我们都很熟悉的直角坐标系中两直线相交的情况。</p>
 
@@ -171,19 +163,10 @@ plt.draw()</code></pre>
 
                     <p>现在来看列图像，在二维平面上画出上面的列向量：</p>
 
-                    <pre><code class="language-python">from functools import partial
-fig = plt.figure()
-plt.axhline(y=0, c='black')
-plt.axvline(x=0, c='black')
-ax = plt.gca()
-ax.set_xlim(-2.5, 2.5)
-ax.set_ylim(-3, 4)
-arrow_vector = partial(plt.arrow, width=0.01, head_width=0.1, head_length=0.2, length_includes_head=True)
-arrow_vector(0, 0, 2, -1, color='g')
-arrow_vector(0, 0, -1, 2, color='c')
-arrow_vector(2, -1, -2, 4, color='b')
-arrow_vector(0, 0, 0, 3, width=0.05, color='r')
-plt.draw()</code></pre>
+                    <div class="my-6">
+                        <img src="./images/column_picture.png" alt="Column Picture"
+                            class="rounded-sm shadow-md mx-auto">
+                    </div>
 
                     <p>如图，绿向量 \(col_1\) 与蓝向量（两倍的蓝绿向量 \(col_2\)）合成红向量 \(b\)。</p>
                     <p>接着，我们继续观察
@@ -223,15 +206,7 @@ plt.draw()</code></pre>
                     </ul>
                     <p>教授建议使用第一种方法，将 \(Ax\) 看做 \(A\) 列向量的线性组合。</p>
 
-                    <hr>
 
-                    <div class="bg-gray-200 p-6 rounded-sm">
-                        <h3 class="text-lg font-bold mb-2 mt-0">Source</h3>
-                        <p class="mb-0">
-                            本笔记来源于网络开源项目：
-                            <a href="https://linalg.apachecn.org/chapter01/">MIT 18.06 线性代数笔记 - ApacheCN</a>
-                        </p>
-                    </div>
 
                 </article>
 

@@ -53,7 +53,8 @@
         }
     </style>
     <!-- Highlight.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/glsl.min.js"></script>
@@ -104,6 +105,24 @@
                 </div>
 
                 <div class="grid gap-8">
+                    <!-- Article: MIT 18.06 -->
+                    <a href="./MIT18.06/" data-date="2025-12-23" data-type="Article"
+                        class="retro-card p-8 md:grid md:grid-cols-3 gap-6 items-center text-ink group block">
+                        <div
+                            class="md:col-span-1 aspect-[4/3] bg-gray-100 border border-gray-200 flex items-center justify-center">
+                            <div class="text-4xl text-gray-300 font-serif">∑</div>
+                        </div>
+                        <div class="md:col-span-2 mt-4 md:mt-0">
+                            <div class="text-xs text-ochre font-bold uppercase tracking-wider mb-2">Linear Algebra</div>
+                            <h2 class="font-serif text-2xl font-bold mb-2 group-hover:text-ochre transition-colors">
+                                MIT 18.06 线性代数笔记 - 第一讲</h2>
+                            <p class="text-sm text-gray-600 line-clamp-2 mb-4">
+                                方程组的几何解释：从 Row Picture 到 Column Picture。了解矩阵乘法的本质。
+                            </p>
+                            <span class="text-xs text-gray-400 italic font-serif">Dec 23, 2025 • 10 Min Read</span>
+                        </div>
+                    </a>
+
                     <!-- Article: Unity Shader Data Types -->
                     <a href="./UnityShaderStructures/" data-date="2022-12-22" data-type="Article"
                         class="retro-card p-8 md:grid md:grid-cols-3 gap-6 items-center text-ink group block">
@@ -193,19 +212,19 @@
             </div>
         </div>
     </footer>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const codeBlocks = document.querySelectorAll('pre');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const codeBlocks = document.querySelectorAll('pre');
 
-        // Highlight.js Init
-        document.querySelectorAll('pre code').forEach((block) => {
-            if (!block.className.includes('language-')) {
-                block.classList.add('language-python');
-            }
-            hljs.highlightElement(block);
+            // Highlight.js Init
+            document.querySelectorAll('pre code').forEach((block) => {
+                if (!block.className.includes('language-')) {
+                    block.classList.add('language-python');
+                }
+                hljs.highlightElement(block);
+            });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L13~14 Ray Tracing (1) - GAMES101 - TechArt Chronicle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { paper: '#F5F5F7', ink: '#1a1a1a', forest: '#2d4a3e', ochre: '#8a6240' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], body: ['Noto Serif SC', 'serif'] },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                '--tw-prose-headings': theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest'), fontStyle: 'italic' },
+                                h3: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest') },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: { borderLeftColor: theme('colors.forest'), fontStyle: 'italic', backgroundColor: 'rgba(45, 74, 62, 0.05)', color: theme('colors.gray.600') },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen font-body">
+
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">GAMES101</h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <nav class="space-y-4">
+                        <a href="../../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">GAMES101 系列</h4>
+                        <a href="../L02/index.html" class="block text-ink hover:text-ochre transition-colors">L02
+                            线性代数回顾</a>
+                        <a href="../L03/index.html" class="block text-ink hover:text-ochre transition-colors">L03
+                            Transformation</a>
+                        <a href="../L05-06/index.html" class="block text-ink hover:text-ochre transition-colors">L05~06
+                            Rasterization</a>
+                        <a href="../L07-09/index.html" class="block text-ink hover:text-ochre transition-colors">L07~09
+                            Shading</a>
+                        <a href="../L13-14/index.html" class="block text-ochre font-bold">L13~14 Ray Tracing (1)</a>
+                        <a href="../L14-16/index.html" class="block text-ink hover:text-ochre transition-colors">L14~16
+                            Ray Tracing (2)</a>
+                        <a href="../L17/index.html" class="block text-ink hover:text-ochre transition-colors">L17
+                            Materials</a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <a href="../../index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">GAMES101 / Lecture
+                        13~14</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">L13~14 Ray Tracing (1)</h1>
+                    <div class="text-sm text-gray-500 font-serif italic mb-8">Whitted风格光线追踪</div>
+
+                    <h2>1 引入——Shadow Mapping 阴影贴图</h2>
+                    <p>之前提到光栅化的着色，我们知道这是一种局部的现象。着色的过程中，我们只会考虑着色点自己，光源，以及摄像机。我们不考虑其他物体，甚至不考虑物资自身的其他部分对着色点的影响。而事实上是会有遮挡的关系的，是会有阴影的。
+                    </p>
+
+                    <img src="Untitled.png" alt="Shadow Mapping">
+
+                    <p>Shadow Mapping这个方法是一种图像空间的做法。关键思想在于——<strong>如果有点不在阴影里，那么这个点可以被摄像机和光源都看到</strong>。</p>
+
+                    <img src="Untitled 1.png" alt="阴影思想">
+
+                    <h3>1.1 阴影贴图原理</h3>
+                    <ol>
+                        <li>从光源看向场景，做一遍光栅化，得到光源能看到什么</li>
+                        <li>把这个图的深度记下来</li>
+                        <li>从摄像机出发，再次看向这个场景</li>
+                        <li>把现在看到的点，投影回光源刚才看到的投影平面上进行深度比较</li>
+                    </ol>
+
+                    <img src="Untitled 2.png" alt="从光源看">
+                    <img src="Untitled 3.png" alt="深度图">
+                    <img src="Untitled 4.png" alt="从相机看">
+                    <img src="Untitled 5.png" alt="深度一致">
+                    <img src="Untitled 6.png" alt="深度不一致">
+
+                    <h3>1.2 存在的问题</h3>
+                    <ul>
+                        <li>硬阴影（点光源）</li>
+                        <li>阴影图的分辨率</li>
+                        <li>浮点数的比较</li>
+                    </ul>
+                    <img src="Untitled 11.png" alt="软硬阴影">
+
+                    <h2>2 Why Ray Tracing?</h2>
+                    <p>光栅化不好做全局的效果，比如软阴影，光泽反射，间接光照。</p>
+                    <img src="Untitled 12.png" alt="全局效果">
+                    <img src="Untitled 13.png" alt="光线追踪示例">
+
+                    <h2>3 基本光线跟踪算法</h2>
+
+                    <h3>3.1 光线定义</h3>
+                    <ul>
+                        <li>光沿直线传播</li>
+                        <li>不发生碰撞</li>
+                        <li>是从光源到人眼的（根据光路可逆性，应用时会采取从人眼到光源的方法）</li>
+                    </ul>
+
+                    <h3>3.2 Ray Casting 光线投射</h3>
+                    <img src="Untitled 14.png" alt="光线投射">
+                    <img src="Untitled 15.png" alt="Eye Ray">
+                    <img src="Untitled 16.png" alt="Shadow Ray">
+
+                    <h3>3.3 递归(Whitted风格)光线追踪</h3>
+                    <p>光线可以弹射很多次，在每一个弹射点都会去计算着色的值，然后把它们都加回这个像素的值里面去。</p>
+                    <img src="Untitled 17.png" alt="Whitted开始">
+                    <img src="Untitled 18.png" alt="反射折射">
+                    <img src="Untitled 19.png" alt="多次弹射">
+
+                    <h2>4 光线与物体相交</h2>
+
+                    <h3>4.1 光线与隐式表面相交</h3>
+                    <img src="Untitled 20.png" alt="光线与球">
+                    <img src="Untitled 21.png" alt="求解">
+                    <img src="Untitled 22.png" alt="一般隐式表面">
+
+                    <h3>4.2 光线与显式表面求交</h3>
+                    <p>三角形肯定在一个平面内，所以问题可以被分成两部分：光线是否和平面有交点；这个交点在不在三角形内部。</p>
+                    <img src="Untitled 23.png" alt="三角形求交">
+                    <img src="Untitled 24.png" alt="分两步">
+                    <img src="Untitled 25.png" alt="平面定义">
+                    <img src="Untitled 26.png" alt="平面求交">
+                    <img src="Untitled 27.png" alt="Moller-Trumbore">
+
+                    <h2>5 轴对齐包围盒（AABB）</h2>
+                    <p>包围盒的思想是，将一个复杂的物体，用简单的形状围起来，保证物体一定在这个简单的形状之内。如果光线连包围盒都碰不到，那肯定碰不到包围盒里的物体。</p>
+                    <img src="Untitled 28.png" alt="AABB求交">
+                    <img src="Untitled 29.png" alt="AABB条件">
+
+                    <h2>6 加速结构</h2>
+
+                    <h3>6.1 均匀空间划分</h3>
+                    <img src="Untitled 30.png" alt="均匀划分">
+                    <img src="Untitled 31.png" alt="光线遍历">
+
+                    <h3>6.2 KD树</h3>
+                    <p>KD树每次沿着某一个轴砍开，并且只砍一刀。空间被划分成类似二叉树的结果。</p>
+                    <img src="Untitled 32.png" alt="KD树结构">
+
+                    <h3>6.3 物体划分 & BVH</h3>
+                    <p>BVH不从空间划分，而是从物体开始划分。一个物体只会出现在一个节点里，并且不用算三角形和包围盒求交了。</p>
+                    <img src="Untitled 33.png" alt="BVH划分1">
+                    <img src="Untitled 34.png" alt="BVH划分2">
+
+                    <blockquote>
+                        <p>到这里我们算是讲完了Whitted风格的光线追踪。</p>
+                    </blockquote>
+
+                </article>
+
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <a href="../L07-09/index.html" class="text-ochre hover:underline">← L07~09 Shading</a>
+                    <a href="../L14-16/index.html" class="text-ochre hover:underline">Next: L14~16 Ray Tracing (2) →</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">&copy; 2025 Designed with Digital & Organic.</div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

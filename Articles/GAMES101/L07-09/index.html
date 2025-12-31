@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L07~09 Shading - GAMES101 - TechArt Chronicle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { paper: '#F5F5F7', ink: '#1a1a1a', forest: '#2d4a3e', ochre: '#8a6240' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], body: ['Noto Serif SC', 'serif'] },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                '--tw-prose-headings': theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest'), fontStyle: 'italic' },
+                                h3: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest') },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: { borderLeftColor: theme('colors.forest'), fontStyle: 'italic', backgroundColor: 'rgba(45, 74, 62, 0.05)', color: theme('colors.gray.600') },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .tip-box {
+            background: rgba(45, 74, 62, 0.1);
+            border-left: 4px solid #2d4a3e;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen font-body">
+
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">GAMES101</h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <nav class="space-y-4">
+                        <a href="../../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">GAMES101 系列</h4>
+                        <a href="../L02/index.html" class="block text-ink hover:text-ochre transition-colors">L02
+                            线性代数回顾</a>
+                        <a href="../L03/index.html" class="block text-ink hover:text-ochre transition-colors">L03
+                            Transformation</a>
+                        <a href="../L05-06/index.html" class="block text-ink hover:text-ochre transition-colors">L05~06
+                            Rasterization</a>
+                        <a href="../L07-09/index.html" class="block text-ochre font-bold">L07~09 Shading</a>
+                        <a href="../L13-14/index.html" class="block text-ink hover:text-ochre transition-colors">L13~14
+                            Ray Tracing (1)</a>
+                        <a href="../L14-16/index.html" class="block text-ink hover:text-ochre transition-colors">L14~16
+                            Ray Tracing (2)</a>
+                        <a href="../L17/index.html" class="block text-ink hover:text-ochre transition-colors">L17
+                            Materials</a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <a href="../../index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">GAMES101 / Lecture
+                        07~09</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">L07~09 Shading</h1>
+                    <div class="text-sm text-gray-500 font-serif italic mb-8">着色定义、着色模型、着色频率、图形渲染管线、纹理</div>
+
+                    <h2>1 Shading: Definition 着色定义</h2>
+                    <p>引入明暗与不同颜色的过程称为着色。在本课中定义是<strong>给物体应用材质的过程</strong>。</p>
+                    <img src="Untitled.png" alt="着色定义">
+
+                    <h2>2 Blinn-Phong Reflectance Model</h2>
+                    <p>一种简单的着色模型，包含漫反射、镜面反射和环境光三个部分。</p>
+
+                    <h2>3 Shading Frequencies 着色频率</h2>
+                    <img src="Untitled 1.png" alt="着色频率对比">
+
+                    <h3>3.1 平面着色 (Flat Shading)</h3>
+                    <img src="Untitled 2.png" alt="平面着色">
+
+                    <h3>3.2 顶点着色 (Gouraud Shading)</h3>
+                    <p>每个顶点做一次Shading，对颜色值插值。</p>
+                    <img src="Untitled 3.png" alt="顶点着色">
+
+                    <h3>3.3 像素着色 (Phong Shading)</h3>
+                    <p>这里的Phong Shading指的是一种着色频率，之前说的Blinn-Phong是一种着色模型。三角形三个顶点求出法线，在三角形内部的像素，对法线值做插值，对每个像素做Shading。</p>
+                    <img src="Untitled 4.png" alt="像素着色">
+
+                    <h3>3.4 对比</h3>
+                    <p>几何形体足够复杂的情况下，用简单的Shading方法也可以达到好的效果。</p>
+                    <img src="Untitled 5.png" alt="着色频率对比">
+
+                    <h3>3.5 顶点法线求法</h3>
+                    <p>一个顶点肯定被多个三角形共用，就用相邻的三角形面法线相加再求平均，通过判断面积比例加权平均的话效果会更好。</p>
+                    <img src="Untitled 6.png" alt="顶点法线">
+                    <p>内部平滑过渡的法线做法——<strong>Barycentric interpolation 重心插值</strong>，法线记得归一化。</p>
+                    <img src="Untitled 7.png" alt="重心插值">
+
+                    <h2>4 Graphics Pipeline 实时渲染管线</h2>
+                    <img src="Untitled 8.png" alt="当下的实时渲染">
+                    <img src="Untitled 9.png" alt="渲染管线">
+
+                    <h2>5 Texture Mapping 纹理映射</h2>
+                    <p>纹理本身设计可以无缝衔接：tilable，一种设计无缝衔接纹理的方法：Wang Tiling。</p>
+                    <p>我们知道三角形顶点对应的UV，那么三角形内部的UV怎么确定呢？这就需要插值方法了。</p>
+
+                    <h2>6 Barycentric Coordinates 重心坐标插值</h2>
+                    <img src="Untitled 10.png" alt="重心坐标">
+                    <img src="Untitled 11.png" alt="重心坐标公式">
+
+                    <div class="tip-box">
+                        <p>💡 <strong>三维空间中的变换要在三维空间做插值然后再投影到二维去，不能先投影再插值。</strong></p>
+                    </div>
+
+                    <img src="Untitled 12.png" alt="插值应用">
+
+                    <h2>7 Applying Textures 纹理应用</h2>
+                    <p>点上计算得到插值出来的UV坐标，然后在纹理上查询，之后根据需要应用。</p>
+                    <img src="Untitled 13.png" alt="纹理应用">
+
+                    <h2>8 Texture Magnification 纹理过小</h2>
+                    <p>纹理分辨率太小，多个pixel（像素）映射到了同一个texel（纹理像素）。解决方法→插值。</p>
+                    <img src="Untitled 14.png" alt="纹理过小">
+
+                    <h3>8.1 Bilinear Interpolation 双线性插值</h3>
+                    <p>双线性插值：水平插值+竖直插值。lerp为linear Interpolation的缩写。</p>
+                    <img src="Untitled 15.png" alt="双线性插值1">
+                    <img src="Untitled 16.png" alt="双线性插值2">
+
+                    <h3>8.2 Bicubic Interpolation 双三次插值</h3>
+                    <p>取周围16个点也是做竖直和水平的插值，每次用4个，做三次的插值，不是用线性的差值。双向三次插值运算量大，但是效果好。</p>
+
+                    <h2>9 纹理过大的问题</h2>
+                    <p>纹理过大时，一个pixel对应了多个texel → 采样频率不足导致 摩尔纹+锯齿（走样）。</p>
+                    <img src="Untitled 17.png" alt="纹理过大问题1">
+                    <img src="Untitled 18.png" alt="纹理过大问题2">
+                    <img src="Untitled 19.png" alt="超采样解决">
+
+                    <h3>9.1 Mipmap 多级渐远纹理</h3>
+                    <p>Mipmap可以进行快速的范围查询，但是是近似的，并且只有方形。</p>
+                    <img src="Untitled 20.png" alt="三线性插值">
+
+                    <h3>9.2 Anisotropic Filtering 各向异性过滤</h3>
+                    <p>Mipmap会把远处的细节都模糊掉，因为它只能查询方块的区域内。解决三线性插值的方法就是各向异性过滤。</p>
+                    <img src="Untitled 21.png" alt="各向异性过滤">
+                    <img src="Untitled 22.png" alt="各向异性过滤对比">
+
+                    <h2>10 Application of Texture 各种纹理贴图</h2>
+
+                    <h3>10.1 Environment Map 环境光贴图</h3>
+                    <p>把来自各个方向的光照记录下来，假设环境光来自无限远，只记录方向。</p>
+
+                    <h3>10.2 Bump Mapping 凹凸贴图</h3>
+                    <p>Bump Mapping的Texture记录了高度移动，不改变几何信息。贴图作出人为的假的法线，由此得到假的着色效果，产生凹凸效果。</p>
+
+                    <h3>10.3 Displacement mapping 位移贴图</h3>
+                    <p>与凹凸贴图的输入相同，但是位移贴图真正改变几何信息，对顶点做位移；相比上更逼真，因为凹凸贴图在边界上会露馅。</p>
+                    <img src="Untitled 23.png" alt="位移贴图">
+
+                    <h3>10.4 Procedural textures 程序纹理</h3>
+                    <p>三维的纹理，定义了空间中任意一点的值。对于这种纹理，并没有真正生成这个纹理的图，它们定义了三维空间的噪声函数。</p>
+                    <img src="Untitled 24.png" alt="程序纹理">
+
+                    <h3>10.5 Precomputed Shading 预计算着色</h3>
+                    <p>用空间换时间，先计算好环境光遮蔽贴图，然后再把纹理贴上。</p>
+                    <img src="Untitled 25.png" alt="预计算着色">
+
+                    <h3>10.6 Solid modeling & Volume rendering</h3>
+                    <p>三维纹理广泛应用到体渲染之中，比如核磁共振等扫描后，得到体积的信息，通过这些信息进行渲染，得到结果。</p>
+                    <img src="Untitled 26.png" alt="体渲染">
+
+                </article>
+
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <a href="../L05-06/index.html" class="text-ochre hover:underline">← L05~06 Rasterization</a>
+                    <a href="../L13-14/index.html" class="text-ochre hover:underline">Next: L13~14 Ray Tracing (1) →</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">&copy; 2025 Designed with Digital & Organic.</div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

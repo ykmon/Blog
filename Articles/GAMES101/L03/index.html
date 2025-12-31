@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L03 Transformation - GAMES101 - TechArt Chronicle</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <!-- MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { paper: '#F5F5F7', ink: '#1a1a1a', forest: '#2d4a3e', ochre: '#8a6240' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], body: ['Noto Serif SC', 'serif'] },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                '--tw-prose-headings': theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest'), fontStyle: 'italic' },
+                                h3: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest') },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: { borderLeftColor: theme('colors.forest'), fontStyle: 'italic', backgroundColor: 'rgba(45, 74, 62, 0.05)', color: theme('colors.gray.600') },
+                                code: { backgroundColor: '#f1f5f9', color: '#b91c1c', borderRadius: '0.25rem', fontWeight: 'normal' },
+                                pre: { backgroundColor: '#1e293b' },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .img-caption {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen font-body">
+
+    <!-- Header -->
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">GAMES101</h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+            <!-- SIDEBAR -->
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <nav class="space-y-4">
+                        <a href="../../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">GAMES101 系列</h4>
+                        <a href="../L02/index.html" class="block text-ink hover:text-ochre transition-colors">L02
+                            线性代数回顾</a>
+                        <a href="../L03/index.html" class="block text-ochre font-bold">L03 Transformation</a>
+                        <a href="../L05-06/index.html" class="block text-ink hover:text-ochre transition-colors">L05~06
+                            Rasterization</a>
+                        <a href="../L07-09/index.html" class="block text-ink hover:text-ochre transition-colors">L07~09
+                            Shading</a>
+                        <a href="../L13-14/index.html" class="block text-ink hover:text-ochre transition-colors">L13~14
+                            Ray Tracing (1)</a>
+                        <a href="../L14-16/index.html" class="block text-ink hover:text-ochre transition-colors">L14~16
+                            Ray Tracing (2)</a>
+                        <a href="../L17/index.html" class="block text-ink hover:text-ochre transition-colors">L17
+                            Materials</a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <a href="../../index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- MAIN CONTENT -->
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">GAMES101 / Lecture
+                        03</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">L03 Transformation</h1>
+                    <div class="text-sm text-gray-500 font-serif italic mb-8">变换矩阵与视图变换</div>
+
+                    <h2>1 矩阵与变换</h2>
+
+                    <h3>1.1 2D变换</h3>
+
+                    <p>通过线性代数的知识，我们知道<strong>空间的变换</strong>可以表示成<strong>基的变换</strong>，并且<strong>最小正交基</strong>可以组成单位矩阵。
+                    </p>
+
+                    <p>也就是说<strong>一个矩阵代表着一个变换</strong>，对基的数值变化表现在矩阵的数字上。</p>
+
+                    <p>如下图的可以表示线性代数中的
+                        缩放变换矩阵，旋转变换矩阵。这两种矩阵都可以表示成图右边的这种，矩阵和向量相乘的形式，也就是<strong>线性组合形式</strong>，所以它们也被叫做是<strong>线性变换</strong>。
+                    </p>
+
+                    <img src="Untitled.png" alt="缩放和旋转变换矩阵">
+
+                    <p>但是对于位移变换来说，它的原点改变了。而线性变换是 原点不会改变的变换（保加法和保数乘的性质），所以位移无法用线性变换表示。</p>
+
+                    <p>这也就是我们引入<strong>齐次坐标</strong>的原因，因为这样我们可以解决位移带来的问题。在引入齐次坐标表示向量后，我们可以做到只用一个矩阵来表示2维运动。</p>
+
+                    <p>因为向量因为带有平移不变性，所以齐次坐标中，二维向量的最后一个维度是0，这样可以让在齐次坐标中，向量在经过位移变换的计算后，还是它本身。</p>
+
+                    <img src="Untitled 1.png" alt="齐次坐标">
+
+                    <p>旋转缩放与平移组合到一起，组合成了<strong>仿射变换</strong>。仿射变换可以用齐次坐标表示下的矩阵来书写。</p>
+
+                    <img src="Untitled 2.png" alt="仿射变换矩阵">
+
+                    <p>复杂的变换可以拆解成简单变换的组合，并且组合的顺序是<strong>先缩放，再旋转，后平移</strong>，拆解变换的时候就倒过来分析。</p>
+
+                    <p>矩阵乘法没有交换律，所以我们<strong>有顺序的要求</strong>，<strong>从右到左应用变换</strong>。</p>
+
+                    <img src="Untitled 3.png" alt="变换顺序">
+
+                    <h3>1.2 3D变换（欧拉角/万向节锁/四元数）</h3>
+
+                    <p>三维的情况用齐次坐标表示，缩放，旋转，平移，这里的旋转我们先用欧拉角表示的旋转。</p>
+
+                    <img src="Untitled 4.png" alt="3D变换矩阵">
+                    <img src="Untitled 5.png" alt="旋转矩阵">
+
+                    <p>利用旋转矩阵 我们可以把 任意位置向量，沿一个单位旋转轴 进行旋转。</p>
+
+                    <p>我们也可以将多个矩阵复合，比如先沿着x轴旋转，再沿着y轴旋转。但是这会很快导致一个问题——<strong>万向节死锁（Gimbal Lock）</strong>。</p>
+
+                    <p>避免万向节死锁的真正解决方案是使用<strong>四元数(Quaternion)</strong>，它不仅更安全，而且计算会更有效率。</p>
+
+                    <h2>2 视图变换（Viewing Transformation）</h2>
+
+                    <h3>2.1 摄像机/观察空间概述</h3>
+
+                    <p>我们可以这样来描述视图变换的任务：将虚拟世界中以(x,y,z)为坐标的物体变换到以一个个像素位置(x,y)来表示的屏幕坐标系之中(2维)，这确实是一个较为复杂的过程，但是整个过程可以被细分为如下几个步骤：
+                    </p>
+
+                    <ol>
+                        <li><strong>模型变换(modeling tranformation)</strong>：将虚拟世界中的物体调整至他们应该在的位置</li>
+                        <li><strong>摄像机变换(camera tranformation)</strong>：得到物体与摄像机的相对位置</li>
+                        <li><strong>投影变换(projection
+                                tranformation)</strong>：根据具体情况选择平行投影或是透视投影，将三维空间投影至标准二维平面(\([-1,1]^2\))之上</li>
+                        <li><strong>视口变换(viewport transformation)</strong>：将处于标准平面映射到屏幕分辨率范围之内，即\([-1,1]^2 \rightarrow
+                            [0,width] \times [0,height]\)</li>
+                    </ol>
+
+                    <h3>2.2 View/Camera(视图) Transformation</h3>
+
+                    <p>首先我们需要定义好Camera：</p>
+                    <ol>
+                        <li>设置好相机的位置</li>
+                        <li>设置好相机看向的方向，即look-at / gaze direction</li>
+                        <li>设置一个up-direction</li>
+                    </ol>
+
+                    <p>我们知道，当相机和物体没有进行相对运动时，不论怎么移动二者，我们看到的结果是一样的。因此我们将相机始从原来位置移动到原点位置，使得其gaze
+                        direction看向-z方向，up-direction是y正半轴。</p>
+
+                    <p>其基本思想是：</p>
+                    <ol>
+                        <li>进行平移，将e点移到原点</li>
+                        <li>旋转g到-z方向上</li>
+                        <li>旋转t到+y方向上</li>
+                        <li>旋转 \(g \times t\) 得到的向量到+x方向上</li>
+                    </ol>
+
+                    <p>我们知道<strong>旋转矩阵的逆矩阵 是这个旋转矩阵的转置矩阵</strong>，根据这一性质巧妙的求出了变换矩阵。</p>
+
+                    <h3>2.3 Projection Transformation</h3>
+
+                    <ol>
+                        <li><strong>Orthographic projection (正交投影）</strong>：多用于工程制图</li>
+                        <li><strong>Perspective projection（透视投影）</strong>：符合人眼的成像，会产生近大远小的效果</li>
+                    </ol>
+
+                    <img src="Untitled 6.png" alt="正交投影与透视投影">
+                    <img src="Untitled 7.png" alt="透视投影效果">
+                    <p class="img-caption">道理我都懂，可是为什么鸽子这么大？</p>
+
+                    <p>正交投影和透视投影本质的区别就是：是否有近大远小的效果。</p>
+
+                    <h4>正交投影的思想：</h4>
+                    <ol>
+                        <li>我们设置camera于原点，看向-Z方向，向上是Y轴</li>
+                        <li>然后我们舍弃Z轴也就是让所有物体都Z都等于0</li>
+                        <li>将其挤压到【-1，1】× 【-1，1】这么一个正方形内</li>
+                    </ol>
+
+                    <img src="Untitled 8.png" alt="正交投影矩阵">
+
+                    <h4>透视投影的思想：</h4>
+                    <ol>
+                        <li>将Frustum给挤压成一个长方体，也就是将远平面压的和近平面一个大小</li>
+                        <li>做一次正交投影，将长方体的中心移到原点并将其压缩成-1，1的正方体</li>
+                    </ol>
+
+                    <p>从相似三角形可以得到边与边之间的关系：</p>
+
+                    <img src="Untitled 9.png" alt="相似三角形">
+                    <img src="Untitled 10.png" alt="X'和Y'的推导">
+                    <img src="Untitled 11.png" alt="透视投影矩阵推导">
+
+                    <p>接下来我们求第三行，需要记住两点：</p>
+                    <ol>
+                        <li>近平面上的任意一点都不会因变换而改变</li>
+                        <li>远平面上的任意一点的Z值都不会因变化而改变</li>
+                    </ol>
+
+                    <img src="Untitled 12.png" alt="第三行推导1">
+                    <img src="Untitled 13.png" alt="第三行推导2">
+
+                    <h3>课后思考</h3>
+
+                    <p>在将frustum挤压为Cuboid的过程中，远平面和近平面的Z值均不会发生变化，那么在这之间的点的Z值是否会发生变化？如果会，是往那个平面推进了？</p>
+
+                    <img src="Untitled 14.png" alt="Z值变化">
+
+                    <p><strong>答案：</strong>近平面和远平面之间的点在挤压后会离远平面更近，远离近平面。</p>
+
+                    <blockquote>
+                        <p><strong>TIPS：</strong>注意camera在原点是看向-z方向的</p>
+                    </blockquote>
+
+                </article>
+
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <a href="../L02/index.html" class="text-ochre hover:underline">← L02 线性代数回顾</a>
+                    <a href="../L05-06/index.html" class="text-ochre hover:underline">Next: L05~06 Rasterization →</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">&copy; 2025 Designed with Digital & Organic.</div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Substance Painter 小技巧 - TechArt Chronicle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { paper: '#F5F5F7', ink: '#1a1a1a', forest: '#2d4a3e', ochre: '#8a6240' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], body: ['Noto Serif SC', 'serif'] },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest'), fontStyle: 'italic' },
+                                h3: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest') },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: { borderLeftColor: theme('colors.forest'), fontStyle: 'italic', backgroundColor: 'rgba(45, 74, 62, 0.05)', color: theme('colors.gray.600') },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .img-caption {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen font-body">
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Substance Painter</h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <nav class="space-y-4">
+                        <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+                        <a href="../index.html" class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                        <a href="../../Videos/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Videos</a>
+                        <a href="../../Tools/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Tools</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Substance Painter /
+                        Tips</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">Substance Painter 小技巧</h1>
+                    <div class="text-sm text-gray-500 font-serif italic mb-8">材质制作、UV处理、贴花融合等实用技巧</div>
+
+                    <h3>制作模型时尽可能把单独的模块分开</h3>
+                    <p>把材质按照金属和非金属大致分类并给默认材质。</p>
+                    <img src="Untitled.png" alt="模块分离">
+
+                    <h3>使用同一个材质的模块排除功能</h3>
+                    <p>通过右键文件夹右方的"全部排除"功能，可以实现对应材质只在对应模型上使用的功能，数字1是选中的组件数量。</p>
+                    <img src="Untitled 1.png" alt="排除功能">
+
+                    <h3>UV接缝处理</h3>
+                    <p>UV的接缝处时常会有问题，可以将映射模式更改为<strong>Tri-planar三面映射</strong>并调整硬度缓解。</p>
+                    <img src="Untitled 2.png" alt="UV接缝1">
+                    <img src="Untitled 3.png" alt="UV接缝2">
+
+                    <h3>基本颜色层次变化</h3>
+                    <p>基本颜色层次的变化可以仅仅通过三个不同颜色叠加而成。注意调整粗糙度、金属度、颜色、透明度等。</p>
+                    <img src="Untitled 4.png" alt="颜色层次1">
+                    <img src="Untitled 5.png" alt="颜色层次2">
+
+                    <h3>效果叠加技巧</h3>
+                    <p>两个不同的效果作用于同一位置时，上面的效果可以采用线性叠加和调整透明度的方法。</p>
+                    <img src="Untitled 6.png" alt="效果叠加">
+
+                    <h3>图层控制单一属性</h3>
+                    <p>图层可以通过选择控制单一属性，也可以选择对应通道后调整透明度，将会只调整选中的部分。</p>
+                    <img src="Untitled 7.png" alt="图层控制">
+
+                    <h3>添加其他材质（如透明度）</h3>
+                    <p>在着色器设置中更改。</p>
+                    <img src="Untitled 8.png" alt="着色器设置">
+
+                    <h3>贴花融合技巧</h3>
+                    <p>降低明度、增加阴影、复制叠加、Grung paint streak贴图叠加。</p>
+                    <img src="Untitled 9.png" alt="贴花融合1">
+                    <img src="Untitled 10.png" alt="贴花融合2">
+                    <img src="Untitled 11.png" alt="贴花融合3">
+
+                    <h3>透明区域设置</h3>
+                    <p>对透明区域单独复制一个材质，材质球修改混合模式为透明；开启双面显示；修改光照模式为表面半透明体积；透明通道存在BaseColor的A通道里。</p>
+                    <img src="Untitled 12.png" alt="透明设置1">
+                    <img src="Untitled 13.png" alt="透明设置2">
+                    <img src="Untitled 14.png" alt="透明设置3">
+
+                    <h3>导入UE材质金属感过强？</h3>
+                    <p>ORM贴图关闭SRGB，改为<strong>线性颜色</strong>。</p>
+                    <img src="Untitled 15.png" alt="ORM设置1">
+                    <img src="Untitled 16.png" alt="ORM设置2">
+
+                    <h3>颜色配置文件/色调映射/TAA</h3>
+                    <img src="Untitled 17.png" alt="颜色配置1">
+                    <img src="Untitled 18.png" alt="颜色配置2">
+                    <img src="Untitled 19.png" alt="颜色配置3">
+
+                </article>
+
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <a href="../index.html" class="text-ochre hover:underline">← Back to Articles</a>
+                    <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">&copy; 2025 Designed with Digital & Organic.</div>
+        </div>
+    </footer>
+</body>
+
+</html>

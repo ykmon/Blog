@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UE 学习笔记：从 C++ 到 Python 的函数暴露机制 - TechArt Chronicle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { paper: '#F5F5F7', ink: '#1a1a1a', forest: '#2d4a3e', ochre: '#8a6240' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], body: ['Noto Serif SC', 'serif'] },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest'), fontStyle: 'italic' },
+                                h3: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest') },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: { borderLeftColor: theme('colors.forest'), fontStyle: 'italic', backgroundColor: 'rgba(45, 74, 62, 0.05)', color: theme('colors.gray.600') },
+                                code: { backgroundColor: '#f1f5f9', color: '#b91c1c', borderRadius: '0.25rem', fontWeight: 'normal' },
+                                pre: { backgroundColor: '#1e293b' },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F5F5F7; color: #1a1a1a; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"); }
+        .sidebar-sticky { position: sticky; top: 2rem; }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen font-body">
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle</div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Unreal Engine</h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <nav class="space-y-4">
+                        <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+                        <a href="../index.html" class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                        <a href="../../Videos/index.html" class="block text-ink hover:text-ochre transition-colors">Videos</a>
+                        <a href="../../Tools/index.html" class="block text-ink hover:text-ochre transition-colors">Tools</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Unreal Engine / Python</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">UE 学习笔记：从 C++ 到 Python 的函数暴露机制</h1>
+                    <div class="text-sm text-gray-500 font-serif italic mb-8">深入理解UE反射系统如何自动生成Python绑定</div>
+
+                    <h2>0. 工程版本</h2>
+                    <p>Unreal 5.7.1</p>
+
+                    <h2>1. 核心概念</h2>
+                    <p>在 Unreal Engine 中，Python API 并非通过手动编写绑定代码一一实现的，而是利用了 UE 强大的 <strong>反射系统 (Reflection System)</strong>。</p>
+                    <p>只要一个 C++ 函数满足以下条件，引擎就会自动为它生成 Python 绑定：</p>
+                    <ol>
+                        <li>类继承自 <code>UBlueprintFunctionLibrary</code>（通常用于静态工具函数）。</li>
+                        <li>函数被 <code>UFUNCTION(BlueprintCallable)</code> 宏标记。</li>
+                        <li>函数是 <code>static</code> 的（对于工具库而言）。</li>
+                    </ol>
+
+                    <h2>2. 实例分析：ImportSkeletalMeshDNA</h2>
+                    <p>我们以 <code>RigLogic</code> 插件中的导入功能为例，展示这一机制是如何工作的。</p>
+
+                    <h3>2.1 C++ 定义 (Header)</h3>
+                    <p>在 <code>RigLogicEditor\Public\DNAImporterLibrary.h</code> 中：</p>
+                    <pre><code class="language-cpp">#include "Kismet/BlueprintFunctionLibrary.h"
+#include "DNAImporterLibrary.generated.h"
+
+UCLASS(MinimalAPI)
+class UDNAImporterLibrary : public UBlueprintFunctionLibrary
+{
+    GENERATED_BODY()
+    
+    // 关键宏：BlueprintCallable 使其对脚本可见
+    UFUNCTION(CallInEditor, BlueprintCallable, meta = (DisplayName = "Import Skeletal Mesh DNA File"), Category = "DNA")
+    static UE_API void ImportSkeletalMeshDNA(const FString FileName, UObject* Mesh);
+};</code></pre>
+
+                    <p><strong>关键点解析：</strong></p>
+                    <ul>
+                        <li><code>UBlueprintFunctionLibrary</code>：这是所有静态工具库函数的基类。</li>
+                        <li><code>BlueprintCallable</code>：这个说明符告诉 Unreal Header Tool (UHT)，该函数需要在蓝图（以及 Python）中可被调用。</li>
+                        <li><code>static</code>：静态函数在 Python 中会作为类方法调用，或者有时候作为模块级函数暴露。</li>
+                    </ul>
+
+                    <h3>2.2 Python 调用</h3>
+                    <p>引擎启动时，反射系统会扫描所有 <code>UCLASS</code> 和 <code>UFUNCTION</code>，并按照<strong>蛇形命名法 (Snake Case)</strong> 自动生成 Python 接口。</p>
+                    <p>C++ 中的 <code>ImportSkeletalMeshDNA</code> 会自动变为 Python 中的 <code>import_skeletal_mesh_dna</code>。</p>
+
+                    <pre><code class="language-python">import unreal
+
+# 1. 准备参数
+dna_file = "D:/Assets/MetaHuman.dna"     # 对应 C++: const FString FileName
+skel_mesh = unreal.load_asset(...)       # 对应 C++: UObject* Mesh
+
+# 2. 调用函数
+# 类名保持不变：UDNAImporterLibrary -> unreal.DNAImporterLibrary
+# 函数名变蛇形：ImportSkeletalMeshDNA -> import_skeletal_mesh_dna
+unreal.DNAImporterLibrary.import_skeletal_mesh_dna(dna_file, skel_mesh)</code></pre>
+
+                    <h2>3. 类型映射规则</h2>
+                    <p>UE 会自动处理常见类型的转换，让你在 Python 中感觉像是在写原生代码：</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>C++ 类型</th>
+                                <th>Python 类型</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>FString</code>, <code>FName</code>, <code>FText</code></td>
+                                <td><code>str</code></td>
+                                <td>字符串自动转换</td>
+                            </tr>
+                            <tr>
+                                <td><code>int32</code>, <code>float</code>, <code>bool</code></td>
+                                <td><code>int</code>, <code>float</code>, <code>bool</code></td>
+                                <td>基础类型直接映射</td>
+                            </tr>
+                            <tr>
+                                <td><code>UObject*</code> (及子类)</td>
+                                <td><code>unreal.Object</code></td>
+                                <td>传递对象引用</td>
+                            </tr>
+                            <tr>
+                                <td><code>TArray&lt;T&gt;</code></td>
+                                <td><code>unreal.Array</code> (或 list)</td>
+                                <td>数组映射</td>
+                            </tr>
+                            <tr>
+                                <td><code>const T&</code> (输入参数)</td>
+                                <td>值类型</td>
+                                <td>输入参数通常按值传递</td>
+                            </tr>
+                            <tr>
+                                <td><code>T&</code> (非 const, 输出参数)</td>
+                                <td>返回值 (tuple)</td>
+                                <td>C++ 的引用输出参数在 Python 中通常变为函数的返回值</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2>4. 总结</h2>
+                    <p>当看到一个 Python 里的 <code>unreal.SomeClass.some_function</code> 时，想知道它是哪里来的：</p>
+                    <ol>
+                        <li><strong>去 C++ 工程里搜</strong>：去掉下划线，搜 <code>SomeFunction</code>。</li>
+                        <li><strong>找宏</strong>：确认它是否有 <code>UFUNCTION(BlueprintCallable)</code>。</li>
+                        <li><strong>看参数</strong>：Python 传参通常直接对应 C++ 的函数签名。</li>
+                    </ol>
+                    <p>这种机制极大地简化了自动化工具的开发，只需写一套 C++ 代码，蓝图和 Python 就都能直接复用。</p>
+
+                </article>
+
+                <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <a href="../index.html" class="text-ochre hover:underline">← Back to Articles</a>
+                    <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">&copy; 2025 Designed with Digital & Organic.</div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            hljs.highlightAll();
+        });
+    </script>
+</body>
+</html>

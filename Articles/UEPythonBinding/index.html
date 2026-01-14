@@ -4,14 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UE 学习笔记：从 C++ 到 Python 的函数暴露机制 - TechArt Chronicle</title>
+    <title>UE 插件开发笔记：从 C++ 到 Python 的函数暴露机制 - TechArt Chronicle</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
     <!-- Highlight.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
@@ -43,8 +46,16 @@
         }
     </script>
     <style>
-        body { background-color: #F5F5F7; color: #1a1a1a; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"); }
-        .sidebar-sticky { position: sticky; top: 2rem; }
+        body {
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
+        }
     </style>
 </head>
 
@@ -52,7 +63,8 @@
     <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
         <div class="container mx-auto px-6">
             <a href="../../index.html" class="inline-block">
-                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle</div>
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
                 <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Unreal Engine</h1>
             </a>
         </div>
@@ -64,20 +76,24 @@
                 <div class="sidebar-sticky space-y-12">
                     <nav class="space-y-4">
                         <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors group">
-                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to Home
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
                         </a>
                         <div class="h-px bg-gray-300 my-4"></div>
                         <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
                         <a href="../index.html" class="block text-ink hover:text-ochre transition-colors">Articles</a>
-                        <a href="../../Videos/index.html" class="block text-ink hover:text-ochre transition-colors">Videos</a>
-                        <a href="../../Tools/index.html" class="block text-ink hover:text-ochre transition-colors">Tools</a>
+                        <a href="../../Videos/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Videos</a>
+                        <a href="../../Tools/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Tools</a>
                     </nav>
                 </div>
             </aside>
 
             <main class="lg:col-span-8 lg:col-start-5 relative">
                 <article class="prose prose-lg prose-slate max-w-none">
-                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Unreal Engine / Python</span>
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Unreal Engine /
+                        Python</span>
                     <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">UE 学习笔记：从 C++ 到 Python 的函数暴露机制</h1>
                     <div class="text-sm text-gray-500 font-serif italic mb-8">深入理解UE反射系统如何自动生成Python绑定</div>
 
@@ -85,7 +101,8 @@
                     <p>Unreal 5.7.1</p>
 
                     <h2>1. 核心概念</h2>
-                    <p>在 Unreal Engine 中，Python API 并非通过手动编写绑定代码一一实现的，而是利用了 UE 强大的 <strong>反射系统 (Reflection System)</strong>。</p>
+                    <p>在 Unreal Engine 中，Python API 并非通过手动编写绑定代码一一实现的，而是利用了 UE 强大的 <strong>反射系统 (Reflection
+                            System)</strong>。</p>
                     <p>只要一个 C++ 函数满足以下条件，引擎就会自动为它生成 Python 绑定：</p>
                     <ol>
                         <li>类继承自 <code>UBlueprintFunctionLibrary</code>（通常用于静态工具函数）。</li>
@@ -114,13 +131,16 @@ class UDNAImporterLibrary : public UBlueprintFunctionLibrary
                     <p><strong>关键点解析：</strong></p>
                     <ul>
                         <li><code>UBlueprintFunctionLibrary</code>：这是所有静态工具库函数的基类。</li>
-                        <li><code>BlueprintCallable</code>：这个说明符告诉 Unreal Header Tool (UHT)，该函数需要在蓝图（以及 Python）中可被调用。</li>
+                        <li><code>BlueprintCallable</code>：这个说明符告诉 Unreal Header Tool (UHT)，该函数需要在蓝图（以及 Python）中可被调用。
+                        </li>
                         <li><code>static</code>：静态函数在 Python 中会作为类方法调用，或者有时候作为模块级函数暴露。</li>
                     </ul>
 
                     <h3>2.2 Python 调用</h3>
-                    <p>引擎启动时，反射系统会扫描所有 <code>UCLASS</code> 和 <code>UFUNCTION</code>，并按照<strong>蛇形命名法 (Snake Case)</strong> 自动生成 Python 接口。</p>
-                    <p>C++ 中的 <code>ImportSkeletalMeshDNA</code> 会自动变为 Python 中的 <code>import_skeletal_mesh_dna</code>。</p>
+                    <p>引擎启动时，反射系统会扫描所有 <code>UCLASS</code> 和 <code>UFUNCTION</code>，并按照<strong>蛇形命名法 (Snake
+                            Case)</strong> 自动生成 Python 接口。</p>
+                    <p>C++ 中的 <code>ImportSkeletalMeshDNA</code> 会自动变为 Python 中的 <code>import_skeletal_mesh_dna</code>。
+                    </p>
 
                     <pre><code class="language-python">import unreal
 
@@ -189,7 +209,8 @@ unreal.DNAImporterLibrary.import_skeletal_mesh_dna(dna_file, skel_mesh)</code></
 
                 </article>
 
-                <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
                     <a href="../index.html" class="text-ochre hover:underline">← Back to Articles</a>
                     <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
                 </div>
@@ -209,4 +230,5 @@ unreal.DNAImporterLibrary.import_skeletal_mesh_dna(dna_file, skel_mesh)</code></
         });
     </script>
 </body>
+
 </html>

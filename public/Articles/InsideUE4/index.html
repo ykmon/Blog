@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsideUE4 系列 - TechArt Chronicle</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#F5F5F7',
+                        ink: '#1a1a1a',
+                        forest: '#2d4a3e',
+                        ochre: '#8a6240',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        body: ['Noto Serif SC', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        .retro-card {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .retro-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 14px 14px 0px 0px rgba(138, 98, 64, 0.2);
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen font-body">
+
+    <!-- Header -->
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">InsideUE4</h1>
+            </a>
+            <p class="mt-4 text-gray-600 italic font-serif max-w-2xl mx-auto">深入 Unreal Engine 4 GamePlay 架构的源码分析与学习笔记
+            </p>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+            <!-- SIDEBAR -->
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <!-- Navigation -->
+                    <nav class="space-y-4">
+                        <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+                        <a href="../index.html" class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                        <a href="../../Videos/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Videos</a>
+                        <a href="../../Tools/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Tools</a>
+                    </nav>
+
+                    <!-- Series Info -->
+                    <div class="bg-forest/5 p-6 rounded-sm border border-forest/20">
+                        <h4 class="font-serif text-lg mb-2 italic text-forest">关于本系列</h4>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            InsideUE4 是一系列深入 Unreal Engine 4 源码的学习笔记，涵盖 GamePlay 架构、渲染管线、网络同步等核心模块。
+                        </p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- MAIN CONTENT -->
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <div class="mb-12">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">课程系列</span>
+                    <p class="text-gray-600 italic font-serif">共 4 篇文章 · 持续更新中</p>
+                </div>
+
+                <div class="grid gap-6">
+
+                    <!-- Chapter 01 -->
+                    <a href="./Chapter01-ActorComponent/index.html" class="retro-card p-6 block group"
+                        data-date="2026-01-04" data-type="Article">
+                        <div class="flex items-start gap-6">
+                            <div
+                                class="text-4xl text-ochre font-serif font-bold opacity-30 group-hover:opacity-100 transition-opacity">
+                                01</div>
+                            <div class="flex-1">
+                                <div class="text-xs text-gray-400 uppercase tracking-widest mb-1">GamePlay 架构</div>
+                                <h3
+                                    class="font-serif text-xl font-bold text-ink group-hover:text-ochre transition-colors mb-2">
+                                    Actor和Component</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">从 UObject 到 Actor，再到 Component
+                                    的组件化设计哲学。理解 UE 如何通过组件组装来构建游戏世界。</p>
+                                <div class="mt-4 text-xs text-gray-400">2026年1月4日</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Chapter 02 -->
+                    <a href="./Chapter02-LevelWorld/index.html" class="retro-card p-6 block group"
+                        data-date="2026-01-04" data-type="Article">
+                        <div class="flex items-start gap-6">
+                            <div
+                                class="text-4xl text-ochre font-serif font-bold opacity-30 group-hover:opacity-100 transition-opacity">
+                                02</div>
+                            <div class="flex-1">
+                                <div class="text-xs text-gray-400 uppercase tracking-widest mb-1">GamePlay 架构</div>
+                                <h3
+                                    class="font-serif text-xl font-bold text-ink group-hover:text-ochre transition-colors mb-2">
+                                    Level和World</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">UE 如何通过 Level 和 World 来组织和管理游戏场景。理解
+                                    PersistentLevel、Streaming Level 和 World 的关系。</p>
+                                <div class="mt-4 text-xs text-gray-400">2026年1月4日</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Chapter 03 -->
+                    <a href="./Chapter03-WorldContext/index.html" class="retro-card p-6 block group"
+                        data-date="2026-01-07" data-type="Article">
+                        <div class="flex items-start gap-6">
+                            <div
+                                class="text-4xl text-ochre font-serif font-bold opacity-30 group-hover:opacity-100 transition-opacity">
+                                03</div>
+                            <div class="flex-1">
+                                <div class="text-xs text-gray-400 uppercase tracking-widest mb-1">GamePlay 架构</div>
+                                <h3
+                                    class="font-serif text-xl font-bold text-ink group-hover:text-ochre transition-colors mb-2">
+                                    WorldContext，GameInstance，Engine</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">UE 的平行宇宙世界观，WorldContext 如何管理多个
+                                    World，GameInstance 的数据持久化，GEngine 作为一切的根源。</p>
+                                <div class="mt-4 text-xs text-gray-400">2026年1月7日</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Chapter 04 -->
+                    <a href="./Chapter04-Pawn/index.html" class="retro-card p-6 block group" data-date="2026-01-07"
+                        data-type="Article">
+                        <div class="flex items-start gap-6">
+                            <div
+                                class="text-4xl text-ochre font-serif font-bold opacity-30 group-hover:opacity-100 transition-opacity">
+                                04</div>
+                            <div class="flex-1">
+                                <div class="text-xs text-gray-400 uppercase tracking-widest mb-1">GamePlay 架构</div>
+                                <h3
+                                    class="font-serif text-xl font-bold text-ink group-hover:text-ochre transition-colors mb-2">
+                                    Pawn</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">Component 表达的功能概念，Actor 与 Controller
+                                    的分离，Pawn 的可操纵能力，DefaultPawn、SpectatorPawn、Character。</p>
+                                <div class="mt-4 text-xs text-gray-400">2026年1月7日</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Placeholder for future chapters -->
+                    <div class="border-2 border-dashed border-gray-300 p-6 rounded-sm text-center text-gray-400 italic">
+                        <p class="font-serif">更多章节即将更新...</p>
+                    </div>
+
+                </div>
+
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <a href="../index.html" class="text-ochre hover:underline">← Back to Articles</a>
+                    <span>Page 1 of 1</span>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">
+                &copy; 2026 Designed with Digital & Organic.
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

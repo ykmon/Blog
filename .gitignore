@@ -1,0 +1,25 @@
+# Build artifacts
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+build_error.log
+check_full.txt
+check_final.txt
+check_last.txt
+
+# Environment
+.env
+.env.production
+.env.development
+.DS_Store
+Thumbs.db
+
+# Temp
+src/pages/articles_bak/

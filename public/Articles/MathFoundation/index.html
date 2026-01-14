@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第4章 数学基础 - TechArt Chronicle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { paper: '#F5F5F7', ink: '#1a1a1a', forest: '#2d4a3e', ochre: '#8a6240' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], body: ['Noto Serif SC', 'serif'] },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest'), fontStyle: 'italic' },
+                                h3: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest') },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: { borderLeftColor: theme('colors.forest'), fontStyle: 'italic', backgroundColor: 'rgba(45, 74, 62, 0.05)', color: theme('colors.gray.600') },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        video {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .img-caption {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen font-body">
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Graphics Math</h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <nav class="space-y-4">
+                        <a href="../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+                        <a href="../index.html" class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                        <a href="../../Videos/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Videos</a>
+                        <a href="../../Tools/index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Tools</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Unity Shader /
+                        数学基础</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">第4章 数学基础</h1>
+                    <div class="text-sm text-gray-500 font-serif italic mb-8">坐标系、矢量、矩阵、变换与坐标空间</div>
+
+                    <video controls>
+                        <source src="旋转矩阵的几何意义解释_x264.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放。
+                    </video>
+                    <p class="img-caption">旋转矩阵的几何意义解释</p>
+
+                    <h2>左手坐标系和右手坐标系</h2>
+                    <p>在二维笛卡儿坐标系中，我们总可以通过一些旋转操作来使坐标轴指向相同。从这种意义上来说，所有的二维笛卡儿坐标系都是等价的。</p>
+                    <img src="Untitled.png" alt="二维坐标系">
+
+                    <p>但对于三维笛卡儿坐标系，靠这种旋转有时并不能使两个不同朝向的坐标系重合。因此，就出现了两种不同的三维坐标系：<strong>左手坐标系</strong>和<strong>右手坐标系</strong>。
+                    </p>
+                    <img src="Untitled 1.png" alt="左右手坐标系">
+                    <img src="Untitled 2.png" alt="左右手法则">
+
+                    <p>除了坐标轴朝向不同之外，左手坐标系和右手坐标系对于正向旋转的定义也不同，即<strong>左手法则(left-band
+                            rule)</strong>和<strong>右手法则(right-band rule)</strong>。</p>
+                    <img src="Untitled 3.png" alt="旋转定义">
+                    <img src="Untitled 4.png" alt="左右手移动">
+
+                    <h2>点和矢量</h2>
+                    <p><strong>点(point)</strong>是n维空间中的一个位置，它没有大小、宽度这类概念。</p>
+                    <p><strong>矢量(vector)</strong>是指n维空间中一种包含了<strong>模(magnitude)</strong>和<strong>方向(direction)</strong>的有向线段。
+                    </p>
+                    <img src="Untitled 5.png" alt="点和矢量">
+
+                    <h3>矢量的模</h3>
+                    <p>三维矢量的模：\(|v|=\sqrt{v_x^2+v_y^2+v_z^2}\)</p>
+                    <img src="Untitled 8.png" alt="勾股定理">
+
+                    <h3>单位矢量</h3>
+                    <p>单位矢量指的是那些模为1的矢量，也被称为<strong>被归一化的矢量</strong>。归一化公式：\(\hat{v} = \frac{v}{|v|}\)</p>
+
+                    <h3>矢量的点积</h3>
+                    <p>公式：\(a \cdot b = a_x b_x + a_y b_y + a_z b_z\)</p>
+                    <img src="Untitled 9.png" alt="点积符号">
+                    <img src="Untitled 10.png" alt="点积应用">
+
+                    <h3>矢量的叉积</h3>
+                    <p>叉积的模：\(|a \times b| = |a||b|\sin\theta\)</p>
+                    <img src="Untitled 11.png" alt="叉积1">
+                    <img src="Untitled 12.png" alt="叉积2">
+                    <img src="Untitled 13.png" alt="叉积方向">
+
+                    <h2>矩阵</h2>
+                    <p>矩阵就是由m×n个标量组成的长方形数组。\(m_{ij}\)表明了这个元素在矩阵m的第i行、第j列。</p>
+                    <img src="Untitled 14.png" alt="矩阵乘法">
+                    <img src="Untitled 15.png" alt="矩阵乘法解释">
+                    <p class="img-caption">注意：是矢量点乘的结果</p>
+
+                    <h3>特殊的矩阵</h3>
+                    <img src="Untitled 18.png" alt="方块矩阵">
+                    <img src="Untitled 19.png" alt="单位矩阵">
+                    <img src="Untitled 20.png" alt="转置矩阵">
+                    <img src="Untitled 22.png" alt="逆矩阵">
+                    <img src="Untitled 25.png" alt="正交矩阵">
+
+                    <h2>矩阵的几何意义：变换</h2>
+
+                    <h3>线性变换与仿射变换</h3>
+                    <p><strong>线性变换</strong>满足：\(f(x)+f(y)=f(x+y)\) 和 \(kf(x)=f(kx)\)</p>
+                    <p><strong>仿射变换</strong>就是合并线性变换和平移变换的变换类型。</p>
+                    <img src="Untitled 27.png" alt="仿射变换">
+
+                    <h3>齐次坐标</h3>
+                    <p>对于一个<em>点</em>，从三维坐标转换成齐次坐标是把其w分量设为1；对于<em>方向矢量</em>，需要把其w分量设为0。</p>
+                    <img src="Untitled 28.png" alt="基础变换矩阵">
+                    <p class="img-caption">基础变换矩阵</p>
+
+                    <h3>平移矩阵</h3>
+                    <img src="Untitled 29.png" alt="平移矩阵">
+                    <img src="Untitled 30.png" alt="平移对矢量无效">
+
+                    <h3>缩放矩阵</h3>
+                    <img src="Untitled 32.png" alt="缩放矩阵">
+
+                    <h3>旋转矩阵</h3>
+                    <img src="Untitled 35.png" alt="绕X轴旋转">
+                    <img src="Untitled 36.png" alt="绕Y轴旋转">
+                    <img src="Untitled 37.png" alt="绕Z轴旋转">
+
+                    <h3>复合变换</h3>
+                    <p>在绝大多数情况下，我们约定变换的顺序就是<strong>先缩放，再旋转，最后平移</strong>。</p>
+                    <p>\(P_{new}=M_{translation}M_{rotation}M_{scale}P_{old}\)</p>
+                    <img src="Untitled 38.png" alt="复合变换">
+
+                    <h2>坐标空间</h2>
+                    <p>我们需要在不同的情况下使用不同的坐标空间，<strong>因为一些概念只有在特定的坐标空间下才有意义</strong>。</p>
+                    <img src="Untitled 42.png" alt="坐标空间">
+
+                    <h3>坐标空间的变换</h3>
+                    <p>\(A_p=M_{c→p}A_c\) 和 \(B_c=M_{p→c}B_p\)</p>
+                    <img src="Untitled 43.png" alt="变换矩阵推导1">
+                    <img src="Untitled 44.png" alt="变换矩阵推导2">
+
+                    <h3>顶点的坐标空间变换过程</h3>
+                    <p>一个顶点最开始是在模型空间中定义的，最后它将会变换到屏幕空间中。</p>
+                    <img src="Untitled 50.png" alt="变换过程">
+
+                    <h4>模型空间</h4>
+                    <p>Unity在模型空间中使用的是左手坐标系，+x轴、+y轴、+z轴分别对应的是模型的右、上和前向。</p>
+                    <img src="Untitled 51.png" alt="模型空间">
+
+                    <h4>世界空间</h4>
+                    <p>顶点变换的第一步，就是将顶点坐标从模型空间变换到世界空间中。这个变换通常叫做<strong>模型变换(model transform)</strong>。</p>
+                    <img src="Untitled 52.png" alt="世界变换">
+
+                    <h4>观察空间</h4>
+                    <p>Unity中<strong>观察空间</strong>使用的是<strong>右手坐标系</strong>：+x轴指向右方，+y轴指向上方，而+z轴指向的是摄像机的后方。</p>
+                    <img src="Untitled 55.png" alt="观察空间">
+                    <img src="Untitled 56.png" alt="观察变换">
+
+                    <h4>裁剪空间</h4>
+                    <p>裁剪空间的目标是<strong>能够方便地对渲染图元进行裁剪</strong>。</p>
+                    <img src="Untitled 57.png" alt="透视与正交">
+                    <img src="Untitled 58.png" alt="视锥体">
+
+                    <p>透视投影：</p>
+                    <img src="Untitled 59.png" alt="透视投影参数">
+                    <img src="Untitled 60.png" alt="透视投影矩阵">
+                    <img src="Untitled 61.png" alt="透视变换后">
+
+                    <p>正交投影：</p>
+                    <img src="Untitled 62.png" alt="正交投影">
+
+                    <h4>屏幕空间</h4>
+                    <p>经过投影矩阵的变换后，我们可以进行裁剪操作。完成裁剪后需要进行真正的投影，把视锥体投影到屏幕空间中。</p>
+                    <img src="Untitled 66.png" alt="透视除法">
+                    <img src="Untitled 67.png" alt="正交NDC">
+                    <img src="Untitled 68.png" alt="屏幕映射">
+
+                    <h3>总结</h3>
+                    <img src="Untitled 69.png" alt="完整变换流程">
+
+                </article>
+
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <a href="../index.html" class="text-ochre hover:underline">← Back to Articles</a>
+                    <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">&copy; 2025 Designed with Digital & Organic.</div>
+        </div>
+    </footer>
+</body>
+
+</html>

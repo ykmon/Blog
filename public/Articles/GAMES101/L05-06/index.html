@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L05~06 Rasterization 光栅化 - GAMES101 - TechArt Chronicle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { paper: '#F5F5F7', ink: '#1a1a1a', forest: '#2d4a3e', ochre: '#8a6240' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], body: ['Noto Serif SC', 'serif'] },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                '--tw-prose-headings': theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest'), fontStyle: 'italic' },
+                                h3: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest') },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: { borderLeftColor: theme('colors.forest'), fontStyle: 'italic', backgroundColor: 'rgba(45, 74, 62, 0.05)', color: theme('colors.gray.600') },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .img-caption {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen font-body">
+
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">GAMES101</h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <nav class="space-y-4">
+                        <a href="../../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">GAMES101 系列</h4>
+                        <a href="../L02/index.html" class="block text-ink hover:text-ochre transition-colors">L02
+                            线性代数回顾</a>
+                        <a href="../L03/index.html" class="block text-ink hover:text-ochre transition-colors">L03
+                            Transformation</a>
+                        <a href="../L05-06/index.html" class="block text-ochre font-bold">L05~06 Rasterization</a>
+                        <a href="../L07-09/index.html" class="block text-ink hover:text-ochre transition-colors">L07~09
+                            Shading</a>
+                        <a href="../L13-14/index.html" class="block text-ink hover:text-ochre transition-colors">L13~14
+                            Ray Tracing (1)</a>
+                        <a href="../L14-16/index.html" class="block text-ink hover:text-ochre transition-colors">L14~16
+                            Ray Tracing (2)</a>
+                        <a href="../L17/index.html" class="block text-ink hover:text-ochre transition-colors">L17
+                            Materials</a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <a href="../../index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">GAMES101 / Lecture
+                        05~06</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">L05~06 Rasterization 光栅化</h1>
+                    <div class="text-sm text-gray-500 font-serif italic mb-8">离散化三角形、深度测试与抗锯齿</div>
+
+                    <h2>1 从标准化设备坐标NDC到屏幕</h2>
+
+                    <p>之前我们通过MVP矩阵把物体坐标变换到标准化设备坐标NDC（每个顶点的x，y，z坐标都应该在-1.0到1.0之间），那么接下来我们需要把它映射到屏幕中。</p>
+
+                    <img src="Untitled.png" alt="NDC到屏幕">
+
+                    <ul>
+                        <li><strong>何为屏幕？</strong>在图形学中，我们认为屏幕是一个二维数组，数组里的每一个元素为一个二维像素。屏幕是一个典型的光栅成像设备，光栅化的过程就是把东西画在屏幕上的过程。
+                        </li>
+                        <li><strong>何为像素？</strong>在这门课中我们暂时认为它是小的方块，内部的颜色是一个整体的颜色，颜色值用RGB表示。</li>
+                    </ul>
+
+                    <p>屏幕空间即在屏幕中建立坐标系，XOY平面屏幕空间坐标为整数，范围从(0,0)到(width-1,height-1)，像素(x,y)中心在(x+0.5,y+0.5)。</p>
+
+                    <h2>2 从图形到光栅显示</h2>
+
+                    <p>三角形是最基本的多边形，拥有很多特性：</p>
+                    <ul>
+                        <li>三角形可以分解其他的多边形</li>
+                        <li>三角形保证是平面的</li>
+                        <li>三角形的内外定义清晰，可以用叉乘判断内外</li>
+                        <li>三角形内可以定义明确的插值方法</li>
+                    </ul>
+
+                    <h3>2.1 采样</h3>
+
+                    <p>采样也就是把一个函数离散化的过程。我们定义了一个inside函数，判断了像素中心是否在三角形内部。</p>
+
+                    <p>这个inside函数如何实现判断点Q呢？我们要做的是<strong>叉乘</strong>：</p>
+
+                    <p>判断 \(P_1P_2 \times P_1Q\), \(P_0P_1 \times P_0Q\), \(P_2P_0 \times P_2Q\)
+                        这三个结果是否相同（右手螺旋定则确定Q点朝向屏幕内还是屏幕外）。</p>
+
+                    <img src="Untitled 1.png" alt="叉乘判断">
+
+                    <p>我们不必采样所有的屏幕，用<strong>BoundingBox包围盒</strong>的概念可以加速，在最小范围内采样。</p>
+
+                    <img src="Untitled 2.png" alt="包围盒优化">
+
+                    <h3>2.2 采样的缺点</h3>
+
+                    <p>我们经过采样后的图案是锯齿状的。像素本身有一定的大小，同时我们的采样率对于信号来说不够高，造成了锯齿问题。于是我们就要接触到，走样与反走样。</p>
+
+                    <h2>3 反走样（抗锯齿）</h2>
+
+                    <img src="Untitled 3.png" alt="走样示例">
+                    <img src="Untitled 4.png" alt="抗锯齿对比">
+
+                    <p><strong>图片走样的原因：</strong>真实世界的采样率是无限的，而屏幕的分辨率是有限的。</p>
+
+                    <p><strong>基本抗锯齿思想：</strong>先做模糊，再做采样（卷积）。</p>
+
+                    <ul>
+                        <li>只要不是横平竖直的线条，就一定会出现锯齿</li>
+                        <li>物体表面细节不足以表达：摩尔纹</li>
+                        <li>高频、变换速度快：高光</li>
+                    </ul>
+
+                    <img src="Untitled 5.png" alt="抗锯齿效果">
+
+                    <blockquote>
+                        <p><strong>思想：</strong>我们知道屏幕上像素的采样是不充分的，所以我们就多采样几次，把采样的值再平均。</p>
+                    </blockquote>
+
+                    <h3>超采样（SSAA）& 多采样（MSAA）</h3>
+
+                    <img src="Untitled 6.png" alt="SSAA和MSAA">
+
+                    <blockquote>
+                        <p><strong>SSAA：</strong>把所有尺寸double一下再降频为最终的结果。缺点：付出了4x的计算代价。</p>
+                    </blockquote>
+
+                    <p>锯齿产生最多的地方在几何的边缘，超采样中的大部分点其实不需要超采样，因为很多点都在几何的内部，真正有问题的是那些只占据一小部分的像素。</p>
+
+                    <blockquote>
+                        <p><strong>MSAA：</strong>虽然对空间依然是4x的采样，但做shading的时候，如果这四个像素都落在同一个像素上，那就只shading一次。如果不在一个像素上，那就都shading好，再根据占据比例算一个平均值。
+                        </p>
+                    </blockquote>
+
+                    <p>缺点：现代游戏几何密度非常高，有可能模型三角面的数量远超过像素的数量，这时就会失效。</p>
+
+                    <h3>快速近似抗锯齿（FXAA）</h3>
+
+                    <img src="Untitled 7.png" alt="FXAA">
+                    <p class="img-caption">现今工业界的方向之一</p>
+
+                    <blockquote>
+                        <p><strong>想法：</strong>提取图片的edge，只在edge的地方用插值的方法。对一个像素点采样它上下左右的像素做平均，如果大于某个阈值，那么就标记为边界。阈值怎么获得：把图片转化为亮度空间在对上下左右比较色差。
+                        </p>
+                    </blockquote>
+
+                    <img src="Untitled 8.png" alt="FXAA边界判断">
+                    <p class="img-caption">如何判断抗锯齿插值是上下方向还是左右方向</p>
+
+                    <img src="Untitled 9.png" alt="FXAA原理">
+                    <img src="Untitled 10.png" alt="颜色插值原理">
+                    <p class="img-caption">颜色插值的原理</p>
+
+                    <img src="Untitled 11.png" alt="FXAA流程">
+                    <img src="Untitled 12.png" alt="FXAA效果">
+                    <p class="img-caption">速度极快的FXAA，现在商业显卡内置</p>
+
+                    <h3>时序抗锯齿（TAA）</h3>
+
+                    <img src="Untitled 13.png" alt="TAA">
+
+                    <blockquote>
+                        <p><strong>思想：</strong>这一帧的计算用前一帧的数据，在时间轴上找数据。</p>
+                    </blockquote>
+
+                    <img src="Untitled 14.png" alt="TAA原理">
+                    <img src="Untitled 15.png" alt="TAA对比">
+                    <p class="img-caption">TAA没开时有很多的抖动</p>
+
+                    <p><strong>TAA缺点：</strong>看见On/Off之间有偏移了吗？因为TAA是和上一帧做的blend，所以会有一些offset，做不好时也会出现一些残影。</p>
+
+                </article>
+
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <a href="../L03/index.html" class="text-ochre hover:underline">← L03 Transformation</a>
+                    <a href="../L07-09/index.html" class="text-ochre hover:underline">Next: L07~09 Shading →</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">&copy; 2025 Designed with Digital & Organic.</div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

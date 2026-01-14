@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L17 Materials and Appearances - GAMES101 - TechArt Chronicle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { paper: '#F5F5F7', ink: '#1a1a1a', forest: '#2d4a3e', ochre: '#8a6240' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], body: ['Noto Serif SC', 'serif'] },
+                    typography: (theme) => ({
+                        DEFAULT: {
+                            css: {
+                                color: theme('colors.ink'),
+                                fontFamily: theme('fontFamily.body'),
+                                h1: { fontFamily: theme('fontFamily.serif') },
+                                h2: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest'), fontStyle: 'italic' },
+                                h3: { fontFamily: theme('fontFamily.serif'), color: theme('colors.forest') },
+                                strong: { color: theme('colors.ochre') },
+                                a: { color: theme('colors.ochre') },
+                                blockquote: { borderLeftColor: theme('colors.forest'), fontStyle: 'italic', backgroundColor: 'rgba(45, 74, 62, 0.05)', color: theme('colors.gray.600') },
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F5F7;
+            color: #1a1a1a;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 2rem;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen font-body">
+    <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+        <div class="container mx-auto px-6">
+            <a href="../../../index.html" class="inline-block">
+                <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle
+                </div>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">GAMES101</h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <aside class="hidden lg:block lg:col-span-3 relative">
+                <div class="sidebar-sticky space-y-12">
+                    <nav class="space-y-4">
+                        <a href="../../../index.html" class="block text-ink hover:text-ochre transition-colors group">
+                            <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to
+                            Home
+                        </a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">GAMES101 系列</h4>
+                        <a href="../L02/index.html" class="block text-ink hover:text-ochre transition-colors">L02
+                            线性代数回顾</a>
+                        <a href="../L03/index.html" class="block text-ink hover:text-ochre transition-colors">L03
+                            Transformation</a>
+                        <a href="../L05-06/index.html" class="block text-ink hover:text-ochre transition-colors">L05~06
+                            Rasterization</a>
+                        <a href="../L07-09/index.html" class="block text-ink hover:text-ochre transition-colors">L07~09
+                            Shading</a>
+                        <a href="../L13-14/index.html" class="block text-ink hover:text-ochre transition-colors">L13~14
+                            Ray Tracing (1)</a>
+                        <a href="../L14-16/index.html" class="block text-ink hover:text-ochre transition-colors">L14~16
+                            Ray Tracing (2)</a>
+                        <a href="../L17/index.html" class="block text-ochre font-bold">L17 Materials</a>
+                        <div class="h-px bg-gray-300 my-4"></div>
+                        <a href="../../index.html"
+                            class="block text-ink hover:text-ochre transition-colors">Articles</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-8 lg:col-start-5 relative">
+                <article class="prose prose-lg prose-slate max-w-none">
+                    <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">GAMES101 / Lecture
+                        17</span>
+                    <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">L17 Materials and Appearances</h1>
+                    <div class="text-sm text-gray-500 font-serif italic mb-8">材质和外观</div>
+
+                    <img src="Untitled.png" alt="材质展示">
+
+                    <h2>0 前言</h2>
+                    <p>我们研究材质，其实是研究<strong>材质如何与光线作用</strong>，也就是研究BRDF。这个思想将是这节的核心。</p>
+
+                    <h2>1 漫反射材质 Diffuse / Lambertian Material</h2>
+                    <p>对于漫反射材质，无论哪个方向的光进来，都会被均匀地反射到四面八方去。</p>
+                    <p>漫反射BRDF：\(f_r = \rho / \pi\)，其中 \(\rho\) 是反射率（albedo），在0到1之间。</p>
+
+                    <h2>2 光泽材质 Glossy Material</h2>
+                    <p>反射情况介于镜面反射和漫反射之间的材质，我们称为Glossy material。</p>
+
+                    <h2>3 理想反射/折射材质</h2>
+                    <p>反射和折射都有的材料，类似玻璃与水，我们称之为 Ideal reflective / refractive material。</p>
+
+                    <h3>3.1 完美镜面反射</h3>
+                    <img src="Untitled 1.png" alt="镜面反射">
+
+                    <h3>3.2 镜面折射</h3>
+                    <p>折射定律 Snell's Law：入射角正弦值×入射材质折射率 = 折射角正弦×出射材质折射率。</p>
+
+                    <h3>3.3 BSDF</h3>
+                    <p>BSDF（散射） = BRDF（反射） + BTDF（折射）</p>
+
+                    <h3>3.4 菲涅尔项 Fresnel Term</h3>
+                    <p>有多少光被反射，是和入射光与法线的角度有关系的。用菲涅尔项我们就可以判定有多少能量被反射，有多少能量被折射。</p>
+                    <img src="Untitled 2.png" alt="菲涅尔效应">
+                    <img src="Untitled 3.png" alt="导体菲涅尔">
+
+                    <h2>4 微表面模型 Microfacet Material</h2>
+                    <p>微表面模型假设物体表面是粗糙的，从远处看是一个粗糙的平面，从近处看可以看到凹凸不平的表面，并且每一个表面的微元都是完完全全镜面反射的物体。</p>
+                    <img src="Untitled 4.png" alt="微表面模型">
+                    <img src="Untitled 5.png" alt="微表面假设">
+
+                    <p>微表面模型的BRDF：</p>
+                    <ul>
+                        <li><strong>F</strong>：菲涅尔项，考虑入射和半程向量</li>
+                        <li><strong>D</strong>：法线分布，考虑查询半程向量是否在法线分布上</li>
+                        <li><strong>G</strong>：几何项，考虑可能发生互相遮挡</li>
+                    </ul>
+                    <img src="Untitled 6.png" alt="微表面BRDF">
+
+                    <h2>5 各向同性/各向异性材质</h2>
+                    <p>所谓<strong>各向同性</strong>，我们认为它的微表面并不存在一定的方向性。对于<strong>各向异性</strong>，我们认为它的微表面存在方向性。</p>
+                    <img src="Untitled 7.png" alt="各向异性材质1">
+                    <img src="Untitled 8.png" alt="各向异性材质2">
+
+                    <h2>6 BRDF总结</h2>
+                    <ul>
+                        <li><strong>非负性</strong>：描述能量分布</li>
+                        <li><strong>线性</strong>：可加、组合</li>
+                        <li><strong>可逆性</strong>：交换入射和出射，结果一致</li>
+                        <li><strong>能量守恒</strong>：能量要么前后一致，要么变小（被吸收）</li>
+                    </ul>
+
+                    <h2>7 测量BRDF</h2>
+                    <p>实际测量出来的BRDF和推算出来的BRDF经常会有很大差距。如果可以测量的话，也就不用推导模型，直接用数据了。</p>
+
+                </article>
+
+                <div
+                    class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+                    <a href="../L14-16/index.html" class="text-ochre hover:underline">← L14~16 Ray Tracing (2)</a>
+                    <a href="../../index.html" class="text-ochre hover:underline">Back to Articles →</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-ink text-paper py-12 mt-20 border-t-8 border-forest">
+        <div class="container mx-auto px-6 text-center">
+            <div class="font-serif italic text-2xl mb-4 opacity-90">TechArt Chronicle.</div>
+            <div class="text-xs text-gray-600 font-serif italic">&copy; 2025 Designed with Digital & Organic.</div>
+        </div>
+    </footer>
+</body>
+
+</html>

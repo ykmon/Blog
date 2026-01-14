@@ -1,0 +1,97 @@
+---
+// videos/index.astro - 视频列表页
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Footer from '../../components/Footer.astro';
+
+const pageTitle = 'Videos - TechArt Chronicle';
+const description = '技术美术视频教程 - Houdini 程序化、Unreal Engine PCG、布料解算等技术演示。';
+
+const videos = [
+  {
+    title: '自动化布料解算 Automate Cloth Solver Pipeline',
+    category: 'Procedural / CFX',
+    date: 'Dec 10, 2024',
+    bvid: 'BV14EqNYdEF4',
+    aid: '113622856505513',
+    cid: '27259832910'
+  },
+  {
+    title: '程序化生成场景 PCG Landscape',
+    category: 'Level Design / PCG',
+    date: 'Feb 05, 2025',
+    bvid: 'BV1qfPze6ExY',
+    aid: '113946639995417',
+    cid: '28217575778'
+  },
+];
+---
+
+<BaseLayout title={pageTitle} description={description} canonical="https://ykmon.github.io/Blog/videos/">
+  <!-- Header -->
+  <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+    <div class="container mx-auto px-6">
+      <a href="/" class="inline-block">
+        <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle</div>
+        <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Motion</h1>
+      </a>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+      <!-- SIDEBAR -->
+      <aside class="hidden lg:block lg:col-span-3 relative">
+        <div class="sticky top-8 space-y-12">
+          <nav class="space-y-4">
+            <a href="/" class="block text-ink hover:text-ochre transition-colors group">
+              <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to Home
+            </a>
+            <div class="h-px bg-gray-300 my-4"></div>
+            <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+            <a href="/articles/" class="block text-ink hover:text-ochre transition-colors">Articles</a>
+            <a href="/videos/" class="block text-ochre font-bold transition-colors">Videos</a>
+            <a href="/tools/" class="block text-ink hover:text-ochre transition-colors">Tools</a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="lg:col-span-8 lg:col-start-5 relative">
+        <div class="mb-12">
+          <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Video Gallery</span>
+          <p class="text-gray-600 italic font-serif">Visual explorations and technical demonstrations.</p>
+        </div>
+
+        <div class="grid gap-16">
+          {videos.map((video) => (
+            <article class="retro-frame p-2">
+              <div class="aspect-video bg-gray-800 relative overflow-hidden group">
+                <iframe
+                  src={`https://player.bilibili.com/player.html?isOutside=true&aid=${video.aid}&bvid=${video.bvid}&cid=${video.cid}&p=1&autoplay=0`}
+                  class="absolute top-0 left-0 w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <div class="p-6 md:flex justify-between items-end">
+                <div>
+                  <h3 class="font-serif text-2xl font-bold italic mb-1">{video.title}</h3>
+                  <p class="text-xs text-gray-500 uppercase tracking-widest">{video.category}</p>
+                </div>
+                <div class="text-ochre mt-4 md:mt-0 text-sm">{video.date} • Bilibili</div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+          <span>Page 1 of 1</span>
+          <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <Footer />
+</BaseLayout>

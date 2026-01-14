@@ -1,0 +1,48 @@
+---
+// ArticleCard.astro - 文章卡片组件
+export interface Props {
+  href: string;
+  title: string;
+  category: string;
+  description: string;
+  date: string;
+  readTime?: string;
+  image?: string;
+  imageAlt?: string;
+  placeholder?: string; // 如果没有图片，显示的占位文字
+}
+
+const { 
+  href, 
+  title, 
+  category, 
+  description, 
+  date, 
+  readTime = '5 Min Read',
+  image,
+  imageAlt = title,
+  placeholder
+} = Astro.props;
+---
+
+<a href={href} class="retro-card p-8 md:grid md:grid-cols-3 gap-6 items-center text-ink group block">
+  <div class="md:col-span-1 aspect-[4/3] bg-gray-200 overflow-hidden rounded-sm">
+    {image ? (
+      <img 
+        src={image} 
+        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 grayscale-[0.2]" 
+        alt={imageAlt}
+      />
+    ) : (
+      <div class="w-full h-full bg-forest flex items-center justify-center">
+        <span class="text-paper font-serif text-4xl italic">{placeholder || category.slice(0, 3).toUpperCase()}</span>
+      </div>
+    )}
+  </div>
+  <div class="md:col-span-2 mt-4 md:mt-0">
+    <div class="text-xs text-ochre font-bold uppercase tracking-wider mb-2">{category}</div>
+    <h2 class="font-serif text-2xl font-bold mb-2 group-hover:text-ochre transition-colors">{title}</h2>
+    <p class="text-sm text-gray-600 line-clamp-2 mb-4">{description}</p>
+    <span class="text-xs text-gray-400 italic font-serif">{date} • {readTime}</span>
+  </div>
+</a>

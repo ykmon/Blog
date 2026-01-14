@@ -1,0 +1,13 @@
+---
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+
+const content = `                    <img src="/Articles/games104/l07/Untitled.png" alt="渲染管线">                    <h2>Forward vs Deferred</h2>                    <img src="/Articles/games104/l07/Untitled 1.png" alt="Forward渲染">                    <img src="/Articles/games104/l07/Untitled 2.png" alt="Deferred渲染">                    <img src="/Articles/games104/l07/Untitled 3.png" alt="G-Buffer">                    <h2>后处理效果</h2>                    <img src="/Articles/games104/l07/Untitled 10.png" alt="Bloom">                    <img src="/Articles/games104/l07/Untitled 11.png" alt="DOF">                    <img src="/Articles/games104/l07/Untitled 12.png" alt="Motion Blur">                    <h2>抗锯齿</h2>                    <img src="/Articles/games104/l07/Untitled 30.png" alt="TAA">                    <img src="/Articles/games104/l07/Untitled 31.png" alt="FXAA">                    <h2>色调映射</h2>                    <img src="/Articles/games104/l07/Untitled 40.png" alt="Tonemapping">                    <img src="/Articles/games104/l07/Untitled 41.png" alt="Color Grading">                    <p>详细内容请参阅原始Markdown文档。</p>                `;
+---
+
+<ArticleLayout 
+  title="渲染管线、后处理和其他一切" 
+  category="games104"
+  description="Forward/Deferred渲染、后处理效果、AA"
+>
+  <div set:html={content} />
+</ArticleLayout>

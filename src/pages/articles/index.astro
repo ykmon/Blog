@@ -1,0 +1,193 @@
+---
+// articles/index.astro - 文章列表页
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Footer from '../../components/Footer.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+
+const pageTitle = 'Articles - TechArt Chronicle';
+const description = '技术美术文章合集 - Unreal Engine、Unity Shader、Houdini、GAMES 系列课程笔记等。';
+
+// 文章数据
+const articles = [
+  {
+    href: '/articles/ue-plugin-dev/',
+    title: 'UE 插件开发笔记：深入剖析 SetSkeletalMeshSectionSettings',
+    category: 'Unreal Engine',
+    description: '深入解析如何在 C++ 中正确修改 SkeletalMesh 的 Section 数据，重点讲解 UE5 引入的 UserSectionsData 陷阱。',
+    date: 'Jan 14, 2026',
+    readTime: '8 Min Read',
+    placeholder: 'CPP'
+  },
+  {
+    href: '/articles/inside-ue4/',
+    title: 'InsideUE4 源码分析系列',
+    category: 'InsideUE4',
+    description: '深入 UE4 GamePlay 架构源码，从 Actor/Component 到 Level/World。包含2篇笔记，持续更新中。',
+    date: 'Jan 4, 2026',
+    readTime: 'Series',
+    image: '/Articles/InsideUE4/Chapter01-ActorComponent/image.png'
+  },
+  {
+    href: '/articles/ue-python-binding/',
+    title: 'UE 学习笔记：从 C++ 到 Python 的函数暴露机制',
+    category: 'Unreal Engine',
+    description: '深入理解UE反射系统如何自动生成Python绑定，以及从Native代码到Scripting的映射规则。',
+    date: 'Jan 12, 2026',
+    readTime: '6 Min Read',
+    placeholder: 'UE5'
+  },
+  {
+    href: '/articles/substance-painter/',
+    title: 'Substance Painter 小技巧',
+    category: '3D Art',
+    description: '材质制作、UV处理、贴花融合等实用技巧汇总。',
+    date: 'Sep 15, 2021',
+    readTime: '5 Min Read',
+    image: '/Articles/SubstancePainter/Untitled.png'
+  },
+  {
+    href: '/articles/games104/',
+    title: 'GAMES104 游戏引擎系列',
+    category: 'GAMES104',
+    description: '从渲染实践到动画技术，深入理解现代游戏引擎架构。包含6篇笔记。',
+    date: 'Jun 10, 2021',
+    readTime: 'Series',
+    image: '/Articles/GAMES104/L04/Untitled.png'
+  },
+  {
+    href: '/articles/games101/',
+    title: 'GAMES101 图形学入门系列',
+    category: 'GAMES101',
+    description: '从线性代数到光线追踪，系统学习计算机图形学基础知识。包含7篇笔记。',
+    date: 'Mar 5, 2021',
+    readTime: 'Series',
+    image: '/Articles/GAMES101/L02/Untitled.png'
+  },
+  {
+    href: '/articles/math-foundation/',
+    title: '数学基础',
+    category: 'Unity Shader',
+    description: '坐标系、矢量、矩阵、变换与坐标空间。从模型空间到屏幕空间的完整变换流程。',
+    date: 'Jan 15, 2021',
+    readTime: '15 Min Read',
+    image: '/Articles/MathFoundation/Untitled 2.png'
+  },
+  {
+    href: '/articles/lumen-rendering/',
+    title: '高品质渲染解析 - Lumen',
+    category: 'Unreal Engine',
+    description: 'Lumen光线追踪与Surface Cache详解，软件光追与硬件光追的区别与应用。',
+    date: 'Aug 20, 2021',
+    readTime: '8 Min Read',
+    image: '/Articles/LumenRendering/Untitled 7.png'
+  },
+  {
+    href: '/articles/ue-plugin-compile/',
+    title: 'UE5 插件编译报错解决方案',
+    category: 'Unreal Engine',
+    description: '解决 "Plugin could not be compiled. Try rebuilding from source manually" 错误的完整指南。',
+    date: 'Nov 10, 2021',
+    readTime: '3 Min Read',
+    placeholder: 'UE5'
+  },
+  {
+    href: '/articles/mit18-06/',
+    title: 'MIT 18.06 线性代数笔记 - 第一讲',
+    category: 'Linear Algebra',
+    description: '方程组的几何解释：从 Row Picture 到 Column Picture。了解矩阵乘法的本质。',
+    date: 'Dec 23, 2025',
+    readTime: '10 Min Read',
+    image: '/Articles/MIT18.06/images/row_picture.png'
+  },
+  {
+    href: '/articles/unity-shader-structures/',
+    title: 'Unity Shader 结构体类型',
+    category: 'Unity Shader',
+    description: '详细解释 a2v, v2f 等常用结构体的定义与作用，包括 appdata_base, appdata_tan, appdata_full 等内置结构。',
+    date: 'Dec 22, 2022',
+    readTime: '3 Min Read',
+    image: '/Articles/UnityShaderStructures/images/cover.png'
+  },
+  {
+    href: '/articles/groom-parameters/',
+    title: 'Groom 物理参数详解',
+    category: 'Unreal Engine',
+    description: '深入拆解 Solver Settings 中的弯曲约束与拉伸约束，掌握数字毛发的物理模拟艺术。',
+    date: 'Dec 20, 2022',
+    readTime: '3 Min Read',
+    image: '/Articles/GroomParameters/images/Untitled.png'
+  },
+  {
+    href: '/articles/unreal-svn/',
+    title: 'Unreal SVN 仓库搭建指北',
+    category: 'DevOps',
+    description: '从 TortoiseSVN 安装到 UE 源码控制配置，为团队协作构建稳固的版本控制基石。',
+    date: 'Dec 15, 2022',
+    readTime: '5 Min Read',
+    image: '/Articles/UnrealSVN/images/Untitled_7.png'
+  },
+  {
+    href: '/articles/shaderlab-structure/',
+    title: 'ShaderLab 结构详解',
+    category: 'Shader',
+    description: '通过图解方式拆解 Unity ShaderLab 的核心结构，让代码不再只是枯燥的字符。',
+    date: 'Dec 10, 2022',
+    readTime: '4 Min Read',
+    image: '/Articles/ShaderLabStructure/images/cover.webp'
+  },
+];
+---
+
+<BaseLayout title={pageTitle} description={description} canonical="https://ykmon.github.io/Blog/articles/">
+  <!-- Header -->
+  <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+    <div class="container mx-auto px-6">
+      <a href="/" class="inline-block">
+        <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle</div>
+        <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Archive</h1>
+      </a>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+      <!-- SIDEBAR -->
+      <aside class="hidden lg:block lg:col-span-3 relative">
+        <div class="sticky top-8 space-y-12">
+          <nav class="space-y-4">
+            <a href="/" class="block text-ink hover:text-ochre transition-colors group">
+              <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to Home
+            </a>
+            <div class="h-px bg-gray-300 my-4"></div>
+            <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+            <a href="/articles/" class="block text-ochre font-bold transition-colors">Articles</a>
+            <a href="/videos/" class="block text-ink hover:text-ochre transition-colors">Videos</a>
+            <a href="/tools/" class="block text-ink hover:text-ochre transition-colors">Tools</a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="lg:col-span-8 lg:col-start-5 relative">
+        <div class="mb-12">
+          <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">All Posts</span>
+          <p class="text-gray-600 italic font-serif">Exploring the intersection of technology and art.</p>
+        </div>
+
+        <div class="grid gap-8">
+          {articles.map((article) => (
+            <ArticleCard {...article} />
+          ))}
+        </div>
+
+        <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+          <span>Page 1 of 1</span>
+          <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <Footer />
+</BaseLayout>

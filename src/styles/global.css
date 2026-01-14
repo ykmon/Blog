@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Paper Texture Background */
+body {
+  background-color: #F5F5F7;
+  color: #1a1a1a;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+/* Drop Cap for Articles */
+.drop-cap::first-letter {
+  float: left;
+  font-family: 'Playfair Display', serif;
+  font-size: 4.5rem;
+  line-height: 0.8;
+  padding-right: 0.5rem;
+  padding-top: 0.2rem;
+  color: #2d4a3e;
+  font-weight: 700;
+}
+
+/* Blur to Focus Animation */
+.blur-load {
+  filter: blur(10px);
+  opacity: 0;
+  transition: filter 1.2s ease-out, opacity 1s ease-out;
+  transform: scale(0.98);
+}
+
+.blur-load.loaded {
+  filter: blur(0);
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Retro Frame for Videos */
+.retro-frame {
+  border: 8px solid #e5e5e0;
+  outline: 1px solid #d1d1cc;
+  border-radius: 4px;
+  box-shadow:
+    inset 2px 2px 5px rgba(0, 0, 0, 0.05),
+    10px 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Retro Card */
+.retro-card {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.retro-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 4px 4px 0px 0px rgba(138, 98, 64, 0.2);
+  border-color: #8a6240;
+}
+
+/* Vertical Line for Timeline */
+.timeline-line {
+  position: absolute;
+  left: 2rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #d4d4d0;
+  z-index: 0;
+}
+
+/* Custom Selection */
+::selection {
+  background: #2d4a3e;
+  color: #fff;
+}
+
+/* Sidebar Sticky */
+.sidebar-sticky {
+  position: sticky;
+  top: 2rem;
+}

@@ -1,0 +1,85 @@
+---
+// BaseLayout.astro - 基础布局模板
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+}
+
+const { 
+  title, 
+  description = '技术美术博客 - 分享 Unreal Engine、Houdini、Shader 开发、自动化管线等技术笔记与经验。',
+  canonical = 'https://ykmon.github.io/Blog/'
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content={description}>
+  <meta name="keywords" content="技术美术, Technical Artist, Unreal Engine, Houdini, Shader, Python, 游戏开发">
+  <meta name="author" content="YKMON">
+  <link rel="canonical" href={canonical}>
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonical}>
+  <meta property="og:site_name" content="TechArt Chronicle">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Highlight.js for code -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/glsl.min.js"></script>
+</head>
+
+<body class="antialiased min-h-screen font-body">
+  <slot />
+  
+  <script>
+    // Highlight.js Init
+    declare const hljs: any;
+    document.addEventListener('astro:page-load', () => {
+      document.querySelectorAll('pre code').forEach((block) => {
+        if (!block.className.includes('language-')) {
+          block.classList.add('language-python');
+        }
+        hljs.highlightElement(block);
+      });
+      
+      // Lazy Load Effect
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('loaded');
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.blur-load').forEach(el => {
+        observer.observe(el);
+      });
+    });
+  </script>
+</body>
+</html>

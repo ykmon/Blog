@@ -1,0 +1,21 @@
+---
+// Header.astro - Vogue 风格的网站头部
+export interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const { title = 'TechArt Chronicle.', subtitle } = Astro.props;
+---
+
+<header class="py-16 md:py-20 text-center border-b border-gray-300 relative bg-paper z-10">
+  <div class="container mx-auto px-6">
+    <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-4 font-serif">Est. 2025</div>
+    <h1 class="font-serif text-5xl md:text-7xl font-bold tracking-tight text-ink mb-4">{title}</h1>
+    {subtitle && (
+      <p class="font-body text-gray-500 max-w-lg mx-auto leading-relaxed text-sm md:text-base">
+        <Fragment set:html={subtitle} />
+      </p>
+    )}
+  </div>
+</header>

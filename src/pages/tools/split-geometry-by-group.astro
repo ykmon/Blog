@@ -1,0 +1,86 @@
+---
+// split-geometry-by-group.astro - 按组拆分模型工具页
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Footer from '../../components/Footer.astro';
+
+const pageTitle = '按照组拆分模型 - TechArt Chronicle';
+const description = '自动按照Point/Prim/Edge组拆分几何体';
+
+const code = `nodeList = list(hou.selectedNodes())
+
+# 遍历选中的每个节点
+for node in nodeList:
+    # 创建一个包含不同类型（点、面、边）分组的字典
+    group = {
+        'point': node.geometry().pointGroups(),
+        'prim': node.geometry().primGroups(),
+        'edge': node.geometry().edgeGroups()
+    }
+    
+    # 遍历每个分组类型
+    for child, allgroup in group.items():
+        # 获取当前分组类型下的所有分组
+        for a in allgroup:
+            # 获取分组名称
+            name = a.name()
+            
+            # 创建一个 blast 节点
+            blast = node.createOutputNode('blast')
+            # 设置 blast 节点的组参数为当前分组名称
+            blast.parm('group').set(name)
+            # 将 blast 节点设置为负选择（删除分组内的几何）
+            blast.parm('negate').set(1)
+            # 设置 blast 节点以删除指定分组
+            blast.parm('removegrp').set(1)
+            
+            # 创建一个 null 节点作为 blast 节点的输出
+            null = blast.createOutputNode('null', "OUT_" + name)
+            # 设置 null 节点的颜色为绿色
+            null.setColor(hou.Color(0, 1, 0))`;
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+    <div class="container mx-auto px-6">
+      <a href="/" class="inline-block">
+        <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle</div>
+        <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Library</h1>
+      </a>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <aside class="hidden lg:block lg:col-span-3 relative">
+        <div class="sidebar-sticky space-y-12">
+          <nav class="space-y-4">
+            <a href="/" class="block text-ink hover:text-ochre transition-colors group">
+              <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to Home
+            </a>
+            <div class="h-px bg-gray-300 my-4"></div>
+            <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+            <a href="/articles/" class="block text-ink hover:text-ochre transition-colors">Articles</a>
+            <a href="/videos/" class="block text-ink hover:text-ochre transition-colors">Videos</a>
+            <a href="/tools/" class="block text-ochre font-bold transition-colors">Tools</a>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="lg:col-span-8 lg:col-start-5 relative">
+        <article class="prose prose-lg prose-slate max-w-none mb-12">
+          <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Houdini / Tool</span>
+          <h1>按照组拆分模型</h1>
+          <p>自动遍历选中节点的所有 Point/Prim/Edge 组，使用 Blast 节点拆分并输出每个组的几何体。</p>
+          <pre><code class="language-python">{code}</code></pre>
+        </article>
+
+        <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+          <a href="/tools/" class="text-ochre hover:underline">← Back to Tools</a>
+          <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <Footer />
+</BaseLayout>

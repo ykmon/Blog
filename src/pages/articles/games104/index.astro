@@ -1,0 +1,39 @@
+---
+// games104/index.astro - GAMES104 系列索引页
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+
+const articles = [
+  { href: 'l04', title: 'L04 渲染实践', desc: '现代游戏引擎渲染管线概述' },
+  { href: 'l05', title: 'L05 光照与材质', desc: '全局光照与PBR材质系统' },
+  { href: 'l06-1', title: 'L06-1 渲染地形', desc: '大规模地形渲染技术' },
+  { href: 'l06-2', title: 'L06-2 渲染天空与大气', desc: '天空与大气散射渲染' },
+  { href: 'l07', title: 'L07 渲染管线', desc: '延迟渲染与前向渲染' },
+  { href: 'l08', title: 'L08 动画技术', desc: '骨骼动画与蒙皮系统' },
+];
+---
+
+<ArticleLayout 
+  title="GAMES104 游戏引擎系列" 
+  category="GAMES104"
+  categoryLink="/articles/"
+  description="GAMES104 现代游戏引擎课程笔记"
+>
+  <p class="text-gray-600 italic mb-8">
+    GAMES104 是现代游戏引擎入门课程，从渲染系统到动画系统，深入理解游戏引擎架构设计。
+  </p>
+  
+  <h2>课程笔记</h2>
+  <div class="not-prose grid gap-4 mt-6">
+    {articles.map((article, index) => (
+      <a href={article.href} class="block p-4 border border-gray-200 rounded-lg hover:border-ochre hover:bg-ochre/5 transition-all group">
+        <div class="flex items-start gap-4">
+          <span class="text-2xl font-serif text-ochre opacity-50 group-hover:opacity-100">{String(index + 1).padStart(2, '0')}</span>
+          <div>
+            <h3 class="font-bold text-ink group-hover:text-ochre transition-colors">{article.title}</h3>
+            <p class="text-sm text-gray-500 mt-1">{article.desc}</p>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+</ArticleLayout>

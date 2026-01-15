@@ -1,0 +1,40 @@
+---
+// games101/index.astro - GAMES101 系列索引页
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+
+const articles = [
+  { href: 'l02', title: 'L02 线性代数回顾', desc: '向量点乘、叉乘、矩阵乘法基础' },
+  { href: 'l03', title: 'L03 变换', desc: '二维/三维变换矩阵与齐次坐标' },
+  { href: 'l05-06', title: 'L05-06 光栅化', desc: '三角形光栅化与深度缓冲' },
+  { href: 'l07-09', title: 'L07-09 着色', desc: 'Blinn-Phong模型与纹理映射' },
+  { href: 'l13-14', title: 'L13-14 光线追踪', desc: 'Whitted-Style光线追踪与加速结构' },
+  { href: 'l14-16', title: 'L14-16 路径追踪', desc: '蒙特卡洛积分与渲染方程' },
+  { href: 'l17', title: 'L17 材质与外观', desc: 'BRDF与微表面模型' },
+];
+---
+
+<ArticleLayout 
+  title="GAMES101 图形学入门系列" 
+  category="GAMES101"
+  categoryLink="/articles/"
+  description="GAMES101 现代计算机图形学入门课程笔记"
+>
+  <p class="text-gray-600 italic mb-8">
+    GAMES101 是闫令琪老师主讲的计算机图形学入门课程，涵盖光栅化、几何处理、光线追踪、动画与模拟等核心主题。
+  </p>
+  
+  <h2>课程笔记</h2>
+  <div class="not-prose grid gap-4 mt-6">
+    {articles.map((article, index) => (
+      <a href={article.href} class="block p-4 border border-gray-200 rounded-lg hover:border-ochre hover:bg-ochre/5 transition-all group">
+        <div class="flex items-start gap-4">
+          <span class="text-2xl font-serif text-ochre opacity-50 group-hover:opacity-100">{String(index + 1).padStart(2, '0')}</span>
+          <div>
+            <h3 class="font-bold text-ink group-hover:text-ochre transition-colors">{article.title}</h3>
+            <p class="text-sm text-gray-500 mt-1">{article.desc}</p>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+</ArticleLayout>

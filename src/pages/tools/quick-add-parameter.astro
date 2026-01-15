@@ -1,0 +1,98 @@
+---
+// quick-add-parameter.astro - 快速添加自定义Parameter工具页
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Footer from '../../components/Footer.astro';
+
+const pageTitle = '快速添加自定义Parameter - TechArt Chronicle';
+const description = '通过Python脚本快速为Houdini节点添加自定义参数';
+
+const code = `nodeList = list(hou.selectedNodes())
+
+parm_templates = {
+    "float": hou.FloatParmTemplate,
+    "int": hou.IntParmTemplate,
+    "string": hou.StringParmTemplate
+}
+
+def input_Name():
+    # 使用 Houdini 的 UI 接口读取输入
+    inputName = hou.ui.readMultiInput("创建属性信息", ["属性类型", "属性名称", "属性标签Label"], buttons=["OK", "Cancel"])[1]
+    return inputName
+
+def add_Parameter(node):
+    # 将输入的属性信息拆分
+    parm_type, parm_name, parm_label = input_Name()
+
+    # 根据属性类型创建相应的参数模板
+    parm_template = parm_templates[parm_type](parm_name, parm_label, 1)
+    
+    # 获取节点的参数模板组
+    parm_template_group = node.parmTemplateGroup()
+
+    # 根据参数类型插入参数模板
+    if b == 'group':
+        parm_template_group.insertBefore('group', parm_template)
+    else:
+        parm_template_group.insertBefore(c, parm_template)
+
+    # 更新节点的参数模板组
+    node.setParmTemplateGroup(parm_template_group)
+
+# 遍历选中的每个节点
+for selNode in nodeList:
+    # 获取节点的所有参数
+    parameters = selNode.parms()
+    
+    # 获取节点的第一个和第二个参数名
+    b = parameters[0].name()
+    c = parameters[1].name()
+
+    # 调用函数添加参数
+    add_Parameter(selNode)`;
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+    <div class="container mx-auto px-6">
+      <a href="/" class="inline-block">
+        <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle</div>
+        <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">Library</h1>
+      </a>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <aside class="hidden lg:block lg:col-span-3 relative">
+        <div class="sidebar-sticky space-y-12">
+          <nav class="space-y-4">
+            <a href="/" class="block text-ink hover:text-ochre transition-colors group">
+              <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to Home
+            </a>
+            <div class="h-px bg-gray-300 my-4"></div>
+            <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+            <a href="/articles/" class="block text-ink hover:text-ochre transition-colors">Articles</a>
+            <a href="/videos/" class="block text-ink hover:text-ochre transition-colors">Videos</a>
+            <a href="/tools/" class="block text-ochre font-bold transition-colors">Tools</a>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="lg:col-span-8 lg:col-start-5 relative">
+        <article class="prose prose-lg prose-slate max-w-none mb-12">
+          <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Houdini / Tool</span>
+          <h1>快速添加自定义Parameter</h1>
+          <p>通过对话框快速为选中的 Houdini 节点添加 float、int 或 string 类型的自定义参数。</p>
+          <pre><code class="language-python">{code}</code></pre>
+        </article>
+
+        <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+          <a href="/tools/" class="text-ochre hover:underline">← Back to Tools</a>
+          <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+// inside-ue4/index.astro - InsideUE4 系列索引页
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+
+const articles = [
+  { href: 'chapter01-actorcomponent', title: 'Chapter01 Actor和Component', desc: 'GamePlay架构基础：Actor与Component模型' },
+  { href: 'chapter02-levelworld', title: 'Chapter02 Level和World', desc: '关卡管理：Level与World的组织结构' },
+  { href: 'chapter03-worldcontext', title: 'Chapter03 WorldContext', desc: '世界上下文与游戏实例' },
+  { href: 'chapter04-pawn', title: 'Chapter04 Pawn', desc: '玩家控制：Pawn与Controller' },
+];
+---
+
+<ArticleLayout 
+  title="InsideUE4 源码分析系列" 
+  category="InsideUE4"
+  categoryLink="/articles/"
+  description="深入 UE4 GamePlay 架构源码分析"
+>
+  <p class="text-gray-600 italic mb-8">
+    InsideUE4 系列基于大钊的博客笔记整理，深入分析 Unreal Engine 4 GamePlay 架构源码，
+    从 Actor/Component 模型到 Level/World 管理机制。
+  </p>
+  
+  <h2>系列文章</h2>
+  <div class="not-prose grid gap-4 mt-6">
+    {articles.map((article, index) => (
+      <a href={article.href} class="block p-4 border border-gray-200 rounded-lg hover:border-ochre hover:bg-ochre/5 transition-all group">
+        <div class="flex items-start gap-4">
+          <span class="text-2xl font-serif text-ochre opacity-50 group-hover:opacity-100">{String(index + 1).padStart(2, '0')}</span>
+          <div>
+            <h3 class="font-bold text-ink group-hover:text-ochre transition-colors">{article.title}</h3>
+            <p class="text-sm text-gray-500 mt-1">{article.desc}</p>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+</ArticleLayout>

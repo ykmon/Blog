@@ -54,15 +54,19 @@ const {
   <script>
     // Highlight.js Init
     declare const hljs: any;
-    document.addEventListener('astro:page-load', () => {
+    
+    function initPage() {
+      // Code highlighting
       document.querySelectorAll('pre code').forEach((block) => {
         if (!block.className.includes('language-')) {
           block.classList.add('language-python');
         }
-        hljs.highlightElement(block);
+        if (typeof hljs !== 'undefined') {
+          hljs.highlightElement(block);
+        }
       });
       
-      // Lazy Load Effect
+      // Lazy Load Effect with Intersection Observer
       const observerOptions = {
         threshold: 0.1,
         rootMargin: "0px 0px -50px 0px"
@@ -79,7 +83,17 @@ const {
       document.querySelectorAll('.blur-load').forEach(el => {
         observer.observe(el);
       });
-    });
+    }
+    
+    // Support both static sites and View Transitions
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+      // DOM already loaded
+      initPage();
+    }
+    // Also support Astro View Transitions
+    document.addEventListener('astro:page-load', initPage);
   </script>
 </body>
 </html>

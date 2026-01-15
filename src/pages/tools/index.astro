@@ -6,44 +6,7 @@ import Footer from '../../components/Footer.astro';
 const pageTitle = 'Houdini Tools - TechArt Chronicle';
 const description = 'Houdini 工具库 - Python 脚本和 HDA 开发技巧收录，提升程序化工作流效率。';
 
-const tools = [
-  {
-    href: '/tools/switch-to-output-group/',
-    icon: '☊',
-    title: '从 Switch 创建输出组',
-    description: 'Quickly create output groups from switch nodes'
-  },
-  {
-    href: '/tools/add-handle-to-hda/',
-    icon: '🔧',
-    title: '如何为 HDA 添加 Handle',
-    description: 'Adding custom handles to Houdini Digital Assets'
-  },
-  {
-    href: '/tools/quick-add-parameter/',
-    icon: '⚡',
-    title: '快速添加自定义 Parameter',
-    description: 'Quickly add custom parameters scripts'
-  },
-  {
-    href: '/tools/batch-create-object-merge/',
-    icon: '⛓️',
-    title: '批量创建选中的 ObjectMerge',
-    description: 'Batch create Object Merge nodes for selection'
-  },
-  {
-    href: '/tools/split-geometry-by-group/',
-    icon: '✂️',
-    title: '按照组拆分模型',
-    description: 'Split geometry by groups automatically'
-  },
-  {
-    href: '/tools/node-input-count/',
-    icon: '🔢',
-    title: '节点输入数量',
-    description: 'Managing node input connections util'
-  },
-];
+import { tools } from '../../data/content';
 ---
 
 <BaseLayout title={pageTitle} description={description} canonical="https://ykmon.github.io/Blog/tools/">

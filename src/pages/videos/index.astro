@@ -6,24 +6,7 @@ import Footer from '../../components/Footer.astro';
 const pageTitle = 'Videos - TechArt Chronicle';
 const description = '技术美术视频教程 - Houdini 程序化、Unreal Engine PCG、布料解算等技术演示。';
 
-const videos = [
-  {
-    title: '自动化布料解算 Automate Cloth Solver Pipeline',
-    category: 'Procedural / CFX',
-    date: 'Dec 10, 2024',
-    bvid: 'BV14EqNYdEF4',
-    aid: '113622856505513',
-    cid: '27259832910'
-  },
-  {
-    title: '程序化生成场景 PCG Landscape',
-    category: 'Level Design / PCG',
-    date: 'Feb 05, 2025',
-    bvid: 'BV1qfPze6ExY',
-    aid: '113946639995417',
-    cid: '28217575778'
-  },
-];
+import { videos } from '../../data/content';
 ---
 
 <BaseLayout title={pageTitle} description={description} canonical="https://ykmon.github.io/Blog/videos/">

@@ -21,18 +21,18 @@ body {
   font-weight: 700;
 }
 
-/* Blur to Focus Animation */
+/* Blur to Focus Animation - Content is visible by default */
 .blur-load {
-  filter: blur(10px);
-  opacity: 0;
-  transition: filter 1.2s ease-out, opacity 1s ease-out;
-  transform: scale(0.98);
+  filter: blur(3px);
+  opacity: 0.8;
+  transition: filter 0.8s ease-out, opacity 0.5s ease-out, transform 0.5s ease-out;
+  transform: translateY(10px);
 }
 
 .blur-load.loaded {
   filter: blur(0);
   opacity: 1;
-  transform: scale(1);
+  transform: translateY(0);
 }
 
 /* Retro Frame for Videos */

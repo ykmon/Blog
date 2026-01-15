@@ -1,7 +1,51 @@
 ---
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
 
-const content = `                    <img src="/Articles/games101/l17/Untitled.png" alt="材质展示">                    <h2>0 前言</h2>                    <p>我们研究材质，其实是研究<strong>材质如何与光线作用</strong>，也就是研究BRDF。这个思想将是这节的核心。</p>                    <h2>1 漫反射材质 Diffuse / Lambertian Material</h2>                    <p>对于漫反射材质，无论哪个方向的光进来，都会被均匀地反射到四面八方去。</p>                    <p>漫反射BRDF：\\(f_r = \\rho / \\pi\\)，其中 \\(\\rho\\) 是反射率（albedo），在0到1之间。</p>                    <h2>2 光泽材质 Glossy Material</h2>                    <p>反射情况介于镜面反射和漫反射之间的材质，我们称为Glossy material。</p>                    <h2>3 理想反射/折射材质</h2>                    <p>反射和折射都有的材料，类似玻璃与水，我们称之为 Ideal reflective / refractive material。</p>                    <h3>3.1 完美镜面反射</h3>                    <img src="/Articles/games101/l17/Untitled 1.png" alt="镜面反射">                    <h3>3.2 镜面折射</h3>                    <p>折射定律 Snell's Law：入射角正弦值×入射材质折射率 = 折射角正弦×出射材质折射率。</p>                    <h3>3.3 BSDF</h3>                    <p>BSDF（散射） = BRDF（反射） + BTDF（折射）</p>                    <h3>3.4 菲涅尔项 Fresnel Term</h3>                    <p>有多少光被反射，是和入射光与法线的角度有关系的。用菲涅尔项我们就可以判定有多少能量被反射，有多少能量被折射。</p>                    <img src="/Articles/games101/l17/Untitled 2.png" alt="菲涅尔效应">                    <img src="/Articles/games101/l17/Untitled 3.png" alt="导体菲涅尔">                    <h2>4 微表面模型 Microfacet Material</h2>                    <p>微表面模型假设物体表面是粗糙的，从远处看是一个粗糙的平面，从近处看可以看到凹凸不平的表面，并且每一个表面的微元都是完完全全镜面反射的物体。</p>                    <img src="/Articles/games101/l17/Untitled 4.png" alt="微表面模型">                    <img src="/Articles/games101/l17/Untitled 5.png" alt="微表面假设">                    <p>微表面模型的BRDF：</p>                    <ul>                        <li><strong>F</strong>：菲涅尔项，考虑入射和半程向量</li>                        <li><strong>D</strong>：法线分布，考虑查询半程向量是否在法线分布上</li>                        <li><strong>G</strong>：几何项，考虑可能发生互相遮挡</li>                    </ul>                    <img src="/Articles/games101/l17/Untitled 6.png" alt="微表面BRDF">                    <h2>5 各向同性/各向异性材质</h2>                    <p>所谓<strong>各向同性</strong>，我们认为它的微表面并不存在一定的方向性。对于<strong>各向异性</strong>，我们认为它的微表面存在方向性。</p>                    <img src="/Articles/games101/l17/Untitled 7.png" alt="各向异性材质1">                    <img src="/Articles/games101/l17/Untitled 8.png" alt="各向异性材质2">                    <h2>6 BRDF总结</h2>                    <ul>                        <li><strong>非负性</strong>：描述能量分布</li>                        <li><strong>线性</strong>：可加、组合</li>                        <li><strong>可逆性</strong>：交换入射和出射，结果一致</li>                        <li><strong>能量守恒</strong>：能量要么前后一致，要么变小（被吸收）</li>                    </ul>                    <h2>7 测量BRDF</h2>                    <p>实际测量出来的BRDF和推算出来的BRDF经常会有很大差距。如果可以测量的话，也就不用推导模型，直接用数据了。</p>                `;
+const content = `                    <img src="/Articles/GAMES101/L17/Untitled.png" alt="材质展示">
+                    <h2>0 前言</h2>
+                    <p>我们研究材质，其实是研究<strong>材质如何与光线作用</strong>，也就是研究BRDF。这个思想将是这节的核心。</p>
+                    <h2>1 漫反射材质 Diffuse / Lambertian Material</h2>
+                    <p>对于漫反射材质，无论哪个方向的光进来，都会被均匀地反射到四面八方去。</p>
+                    <p>漫反射BRDF：\\(f_r = \\rho / \\pi\\)，其中 \\(\\rho\\) 是反射率（albedo），在0到1之间。</p>
+                    <h2>2 光泽材质 Glossy Material</h2>
+                    <p>反射情况介于镜面反射和漫反射之间的材质，我们称为Glossy material。</p>
+                    <h2>3 理想反射/折射材质</h2>
+                    <p>反射和折射都有的材料，类似玻璃与水，我们称之为 Ideal reflective / refractive material。</p>
+                    <h3>3.1 完美镜面反射</h3>
+                    <img src="/Articles/GAMES101/L17/Untitled 1.png" alt="镜面反射">
+                    <h3>3.2 镜面折射</h3>
+                    <p>折射定律 Snell's Law：入射角正弦值×入射材质折射率 = 折射角正弦×出射材质折射率。</p>
+                    <h3>3.3 BSDF</h3>
+                    <p>BSDF（散射） = BRDF（反射） + BTDF（折射）</p>
+                    <h3>3.4 菲涅尔项 Fresnel Term</h3>
+                    <p>有多少光被反射，是和入射光与法线的角度有关系的。用菲涅尔项我们就可以判定有多少能量被反射，有多少能量被折射。</p>
+                    <img src="/Articles/GAMES101/L17/Untitled 2.png" alt="菲涅尔效应">
+                    <img src="/Articles/GAMES101/L17/Untitled 3.png" alt="导体菲涅尔">
+                    <h2>4 微表面模型 Microfacet Material</h2>
+                    <p>微表面模型假设物体表面是粗糙的，从远处看是一个粗糙的平面，从近处看可以看到凹凸不平的表面，并且每一个表面的微元都是完完全全镜面反射的物体。</p>
+                    <img src="/Articles/GAMES101/L17/Untitled 4.png" alt="微表面模型">
+                    <img src="/Articles/GAMES101/L17/Untitled 5.png" alt="微表面假设">
+                    <p>微表面模型的BRDF：</p>
+                    <ul>
+                        <li><strong>F</strong>：菲涅尔项，考虑入射和半程向量</li>
+                        <li><strong>D</strong>：法线分布，考虑查询半程向量是否在法线分布上</li>
+                        <li><strong>G</strong>：几何项，考虑可能发生互相遮挡</li>
+                    </ul>
+                    <img src="/Articles/GAMES101/L17/Untitled 6.png" alt="微表面BRDF">
+                    <h2>5 各向同性/各向异性材质</h2>
+                    <p>所谓<strong>各向同性</strong>，我们认为它的微表面并不存在一定的方向性。对于<strong>各向异性</strong>，我们认为它的微表面存在方向性。</p>
+                    <img src="/Articles/GAMES101/L17/Untitled 7.png" alt="各向异性材质1">
+                    <img src="/Articles/GAMES101/L17/Untitled 8.png" alt="各向异性材质2">
+                    <h2>6 BRDF总结</h2>
+                    <ul>
+                        <li><strong>非负性</strong>：描述能量分布</li>
+                        <li><strong>线性</strong>：可加、组合</li>
+                        <li><strong>可逆性</strong>：交换入射和出射，结果一致</li>
+                        <li><strong>能量守恒</strong>：能量要么前后一致，要么变小（被吸收）</li>
+                    </ul>
+                    <h2>7 测量BRDF</h2>
+                    <p>实际测量出来的BRDF和推算出来的BRDF经常会有很大差距。如果可以测量的话，也就不用推导模型，直接用数据了。</p>
+                `;
 ---
 
 <ArticleLayout 

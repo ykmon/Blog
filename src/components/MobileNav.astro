@@ -1,0 +1,176 @@
+---
+// MobileNav.astro - 移动端导航抽屉组件
+// 仅在小于 lg (1024px) 断点时显示
+import TagFilter from './TagFilter.astro';
+import SearchBox from './SearchBox.astro';
+
+const sections = [
+  { id: 'home', num: '00', label: '首页', labelEn: 'Home', href: '/' },
+  { id: 'articles', num: '01', label: '文章列表', labelEn: 'Articles', href: '/articles/' },
+  { id: 'videos', num: '02', label: '视频教程', labelEn: 'Videos', href: '/videos/' },
+  { id: 'tools', num: '03', label: '工具库', labelEn: 'Tools', href: '/tools/' },
+  { id: 'about', num: '04', label: '关于', labelEn: 'About', href: '#about' },
+];
+---
+
+<!-- 浮动汉堡按钮 - 仅移动端可见 -->
+<button
+  id="mobile-nav-toggle"
+  class="lg:hidden fixed bottom-6 right-6 z-50 w-14 h-14 bg-ochre text-white rounded-full shadow-lg flex items-center justify-center hover:bg-ochre/90 transition-all duration-300 hover:scale-105 active:scale-95"
+  aria-label="打开导航菜单"
+  aria-expanded="false"
+  aria-controls="mobile-nav-drawer"
+>
+  <!-- 汉堡图标 -->
+  <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+  </svg>
+  <!-- 关闭图标 (默认隐藏) -->
+  <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+  </svg>
+</button>
+
+<!-- 遮罩层 -->
+<div
+  id="mobile-nav-overlay"
+  class="fixed inset-0 bg-black/50 z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+  aria-hidden="true"
+></div>
+
+<!-- 抽屉面板 -->
+<aside
+  id="mobile-nav-drawer"
+  class="fixed right-0 top-0 h-full w-80 max-w-[85vw] bg-paper z-50 shadow-2xl overflow-y-auto transform translate-x-full transition-transform duration-300 ease-out"
+  aria-label="移动端导航菜单"
+  aria-hidden="true"
+>
+  <div class="p-6 space-y-6">
+    <!-- 头部 -->
+    <div class="flex items-center justify-between border-b border-gray-200 pb-4">
+      <h2 class="font-serif text-xl font-bold text-ink">菜单</h2>
+      <button
+        id="mobile-nav-close"
+        class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-ink transition-colors rounded-full hover:bg-gray-100"
+        aria-label="关闭菜单"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- 个人简介 -->
+    <div class="text-center p-4 border border-gray-200 bg-white/50 backdrop-blur-sm rounded-sm">
+      <div class="w-16 h-16 mx-auto bg-gray-300 rounded-full mb-3 overflow-hidden">
+        <img src="/Resource/ykmon.jpg" alt="Avatar" class="object-cover w-full h-full">
+      </div>
+      <h3 class="font-serif text-lg font-bold mb-1">YKMON</h3>
+      <p class="text-xs text-gray-500 uppercase tracking-widest">Technical Artist</p>
+    </div>
+
+    <!-- 搜索框 -->
+    <SearchBox />
+
+    <!-- 导航链接 -->
+    <nav class="space-y-3">
+      <h4 class="font-serif text-lg border-b border-gray-300 pb-2 mb-3 italic">Sections</h4>
+      {sections.map((section) => (
+        <a
+          href={section.href}
+          class="block py-2 text-ink hover:text-ochre transition-colors group"
+        >
+          <span class="text-xs font-bold mr-2 text-gray-400 group-hover:text-ochre">{section.num}</span>
+          {section.label} / {section.labelEn}
+        </a>
+      ))}
+    </nav>
+
+    <!-- 标签过滤 -->
+    <TagFilter />
+  </div>
+</aside>
+
+<script>
+  // 移动端导航控制脚本
+  function initMobileNav() {
+    const toggle = document.getElementById('mobile-nav-toggle');
+    const overlay = document.getElementById('mobile-nav-overlay');
+    const drawer = document.getElementById('mobile-nav-drawer');
+    const closeBtn = document.getElementById('mobile-nav-close');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+
+    if (!toggle || !overlay || !drawer || !closeBtn) return;
+
+    let isOpen = false;
+
+    function openDrawer() {
+      isOpen = true;
+      drawer?.classList.remove('translate-x-full');
+      drawer?.classList.add('translate-x-0');
+      drawer?.setAttribute('aria-hidden', 'false');
+      overlay?.classList.remove('opacity-0', 'pointer-events-none');
+      overlay?.classList.add('opacity-100', 'pointer-events-auto');
+      toggle?.setAttribute('aria-expanded', 'true');
+      menuIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+      document.body.classList.add('drawer-open');
+    }
+
+    function closeDrawer() {
+      isOpen = false;
+      drawer?.classList.add('translate-x-full');
+      drawer?.classList.remove('translate-x-0');
+      drawer?.setAttribute('aria-hidden', 'true');
+      overlay?.classList.add('opacity-0', 'pointer-events-none');
+      overlay?.classList.remove('opacity-100', 'pointer-events-auto');
+      toggle?.setAttribute('aria-expanded', 'false');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      document.body.classList.remove('drawer-open');
+    }
+
+    function toggleDrawer() {
+      if (isOpen) {
+        closeDrawer();
+      } else {
+        openDrawer();
+      }
+    }
+
+    // 事件绑定
+    toggle.addEventListener('click', toggleDrawer);
+    overlay.addEventListener('click', closeDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+
+    // ESC 键关闭
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        closeDrawer();
+      }
+    });
+
+    // 导航链接点击后自动关闭抽屉
+    drawer.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        setTimeout(closeDrawer, 150);
+      });
+    });
+
+    // 窗口调整大小时，如果超过 lg 断点则自动关闭
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024 && isOpen) {
+        closeDrawer();
+      }
+    });
+  }
+
+  // 支持初始加载和 Astro View Transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileNav);
+  } else {
+    initMobileNav();
+  }
+  document.addEventListener('astro:page-load', initMobileNav);
+</script>

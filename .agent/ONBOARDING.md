@@ -79,6 +79,15 @@ import ArticleLayout from '../../layouts/ArticleLayout.astro';
   - URL 参数：`?tags=UE,Houdini`
 - 可同时使用，结果取交集
 
+## 移动端适配
+
+- **MobileNav 组件**：`src/components/MobileNav.astro`
+  - 浮动汉堡按钮（右下角，`lg:hidden`）
+  - 抽屉式侧边栏（从右侧滑入）
+  - 包含搜索、导航、标签过滤
+  - 点击遮罩或 ESC 关闭
+  - 断点：`< 1024px` 显示
+
 ## 注意事项
 
 - **日期**: `'Jan 14, 2026'` 格式
@@ -88,4 +97,4 @@ import ArticleLayout from '../../layouts/ArticleLayout.astro';
 - **代码高亮**: highlight.js (Python/C++/GLSL)
 
 ---
-*更新: 2026-01-16 14:10*
+*更新: 2026-01-16 15:20*

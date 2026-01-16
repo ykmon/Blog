@@ -1,6 +1,7 @@
 ---
 // BaseLayout.astro - 基础布局模板
 import '../styles/global.css';
+import MobileNav from '../components/MobileNav.astro';
 
 export interface Props {
   title: string;
@@ -50,6 +51,7 @@ const {
 
 <body class="antialiased min-h-screen font-body">
   <slot />
+  <MobileNav />
   
   <script>
     // Highlight.js Init

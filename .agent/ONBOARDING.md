@@ -88,6 +88,15 @@ import ArticleLayout from '../../layouts/ArticleLayout.astro';
   - 点击遮罩或 ESC 关闭
   - 断点：`< 1024px` 显示
 
+
+## 背景音乐播放器
+
+- **MusicPlayer 组件**：`src/components/MusicPlayer.astro`
+  - 浮动按钮（右下角，MobileNav 上方）
+  - 网易云音乐外链嵌入
+  - 全局布局集成 (`BaseLayout`)
+  - 状态持久化 (localStorage)
+
 ## 注意事项
 
 - **日期**: `'Jan 14, 2026'` 格式

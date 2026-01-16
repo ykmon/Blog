@@ -38,14 +38,14 @@ import { tagCategories } from '../data/content';
 
 <script>
   class TagFilterController {
-    private selectedTags: Set<string> = new Set();
-    private allItems: HTMLElement[] = [];
+    selectedTags = new Set();
+    allItems = [];
     
     constructor() {
       this.init();
     }
     
-    private init() {
+    init() {
       // 获取所有可过滤的内容项
       this.allItems = Array.from(document.querySelectorAll('[data-tags]'));
       
@@ -62,17 +62,20 @@ import { tagCategories } from '../data/content';
         if (tag && this.selectedTags.has(tag)) {
           btn.classList.add('active');
         }
-        btn.addEventListener('click', () => this.toggle(tag!));
+        btn.addEventListener('click', () => this.toggle(tag));
       });
       
       // 绑定清除按钮
-      document.getElementById('clear-filters')?.addEventListener('click', () => this.clearAll());
+      const clearBtn = document.getElementById('clear-filters');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => this.clearAll());
+      }
       
       // 应用初始过滤
       this.filter();
     }
     
-    private toggle(tag: string) {
+    toggle(tag) {
       if (this.selectedTags.has(tag)) {
         this.selectedTags.delete(tag);
       } else {
@@ -80,7 +83,7 @@ import { tagCategories } from '../data/content';
       }
       
       // 更新按钮状态
-      document.querySelectorAll(`.tag-btn[data-tag="${CSS.escape(tag)}"]`).forEach(btn => {
+      document.querySelectorAll('.tag-btn[data-tag="' + CSS.escape(tag) + '"]').forEach(btn => {
         btn.classList.toggle('active', this.selectedTags.has(tag));
       });
       
@@ -88,14 +91,14 @@ import { tagCategories } from '../data/content';
       this.syncUrl();
     }
     
-    private clearAll() {
+    clearAll() {
       this.selectedTags.clear();
       document.querySelectorAll('.tag-btn.active').forEach(btn => btn.classList.remove('active'));
       this.filter();
       this.syncUrl();
     }
     
-    private filter() {
+    filter() {
       const statusEl = document.getElementById('filter-status');
       const countEl = document.getElementById('filter-count');
       
@@ -105,17 +108,18 @@ import { tagCategories } from '../data/content';
           item.style.display = '';
           // 也显示相邻的分隔符
           const nextSibling = item.nextElementSibling;
-          if (nextSibling?.tagName === 'HR') {
-            (nextSibling as HTMLElement).style.display = '';
+          if (nextSibling && nextSibling.tagName === 'HR') {
+            nextSibling.style.display = '';
           }
         });
-        statusEl?.classList.add('hidden');
+        if (statusEl) statusEl.classList.add('hidden');
         return;
       }
       
       let visibleCount = 0;
       this.allItems.forEach(item => {
-        const itemTags = item.getAttribute('data-tags')?.split(',') || [];
+        const tagsAttr = item.getAttribute('data-tags');
+        const itemTags = tagsAttr ? tagsAttr.split(',') : [];
         // OR 模式：任一标签匹配即显示
         const matches = itemTags.some(t => this.selectedTags.has(t.trim()));
         
@@ -128,20 +132,20 @@ import { tagCategories } from '../data/content';
         
         // 处理分隔符显示
         const nextSibling = item.nextElementSibling;
-        if (nextSibling?.tagName === 'HR') {
-          (nextSibling as HTMLElement).style.display = matches ? '' : 'none';
+        if (nextSibling && nextSibling.tagName === 'HR') {
+          nextSibling.style.display = matches ? '' : 'none';
         }
       });
       
       // 更新状态显示
       if (countEl) {
         const tagList = Array.from(this.selectedTags).join(', ');
-        countEl.textContent = `Showing ${visibleCount} of ${this.allItems.length} items • ${tagList}`;
+        countEl.textContent = 'Showing ' + visibleCount + ' of ' + this.allItems.length + ' items • ' + tagList;
       }
-      statusEl?.classList.remove('hidden');
+      if (statusEl) statusEl.classList.remove('hidden');
     }
     
-    private syncUrl() {
+    syncUrl() {
       const url = new URL(window.location.href);
       if (this.selectedTags.size > 0) {
         url.searchParams.set('tags', Array.from(this.selectedTags).map(t => encodeURIComponent(t)).join(','));

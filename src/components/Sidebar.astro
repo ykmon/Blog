@@ -1,10 +1,13 @@
 ---
 // Sidebar.astro - 侧边栏导航
+import TagFilter from './TagFilter.astro';
+
 export interface Props {
   currentSection?: 'articles' | 'videos' | 'tools' | 'home';
+  showFilter?: boolean;
 }
 
-const { currentSection = 'home' } = Astro.props;
+const { currentSection = 'home', showFilter = true } = Astro.props;
 
 const sections = [
   { id: 'articles', num: '01', label: '文章列表', labelEn: 'Articles', href: '/articles/' },
@@ -12,12 +15,10 @@ const sections = [
   { id: 'tools', num: '03', label: '工具库', labelEn: 'Tools', href: '/tools/' },
   { id: 'about', num: '04', label: '关于', labelEn: 'About', href: '#about' },
 ];
-
-const topics = ['Unreal', 'Houdini', 'Shader', 'Python'];
 ---
 
 <aside class="hidden lg:block lg:col-span-3 relative">
-  <div class="sidebar-sticky space-y-12">
+  <div class="sidebar-sticky space-y-8">
     <!-- Profile Widget -->
     <div class="text-center p-6 border border-gray-200 bg-white/50 backdrop-blur-sm rounded-sm">
       <div class="w-24 h-24 mx-auto bg-gray-300 rounded-full mb-4 overflow-hidden">
@@ -50,16 +51,8 @@ const topics = ['Unreal', 'Houdini', 'Shader', 'Python'];
       ))}
     </nav>
 
-    <!-- Tags/Topics -->
-    <div>
-      <h4 class="font-serif text-lg border-b border-gray-300 pb-2 mb-4 italic">Topics</h4>
-      <div class="flex flex-wrap gap-2">
-        {topics.map((topic) => (
-          <span class="px-3 py-1 bg-gray-200 text-xs text-gray-600 rounded-full hover:bg-forest hover:text-white transition-colors cursor-pointer">
-            {topic}
-          </span>
-        ))}
-      </div>
-    </div>
+    <!-- Tag Filter -->
+    {showFilter && <TagFilter />}
   </div>
 </aside>
+

@@ -4,6 +4,7 @@ export interface Props {
   href: string;
   title: string;
   category: string;
+  tags?: string[];
   description: string;
   date: string;
   readTime?: string;
@@ -16,6 +17,7 @@ const {
   href, 
   title, 
   category, 
+  tags = [],
   description, 
   date, 
   readTime = '5 Min Read',
@@ -25,7 +27,7 @@ const {
 } = Astro.props;
 ---
 
-<a href={href} class="retro-card p-8 md:grid md:grid-cols-3 gap-6 items-center text-ink group block">
+<a href={href} class="retro-card p-8 md:grid md:grid-cols-3 gap-6 items-center text-ink group block" data-tags={tags.join(',')}>
   <div class="md:col-span-1 aspect-[4/3] bg-gray-200 overflow-hidden rounded-sm">
     {image ? (
       <img 

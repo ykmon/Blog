@@ -47,7 +47,7 @@ function getMonthDay(dateStr: string) {
           {allContent.map((item, index) => (
             <>
               {item.type === 'article' && (
-                <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-start blur-load group scroll-mt-24">
+                <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-start blur-load group scroll-mt-24" data-tags={item.tags?.join(',')}>
                   <div class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
                     {getMonthDay(item.date)}
                   </div>
@@ -87,7 +87,7 @@ function getMonthDay(dateStr: string) {
               )}
 
               {item.type === 'video' && (
-                <article class="relative mb-20 blur-load scroll-mt-24">
+                <article class="relative mb-20 blur-load scroll-mt-24" data-tags={item.tags?.join(',')}>
                   <div class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
                     {getMonthDay(item.date)}
                   </div>
@@ -112,7 +112,7 @@ function getMonthDay(dateStr: string) {
               )}
 
               {item.type === 'tool' && (
-                <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-center blur-load group scroll-mt-24">
+                <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-center blur-load group scroll-mt-24" data-tags={item.tags?.join(',')}>
                   <div class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
                     {getMonthDay(item.date)}
                   </div>

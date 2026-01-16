@@ -8,7 +8,7 @@
 src/
 ├── data/content.ts      # 📌 所有内容定义于此（Article/Tool/Video）
 ├── layouts/BaseLayout.astro, ArticleLayout.astro
-├── components/Header, Sidebar, Footer, ArticleCard
+├── components/Header, Sidebar, Footer, ArticleCard, SearchBox, TagFilter
 ├── pages/index.astro, articles/, tools/, videos/
 └── styles/global.css
 public/Articles/         # 静态资源
@@ -70,6 +70,15 @@ import ArticleLayout from '../../layouts/ArticleLayout.astro';
 </ArticleLayout>
 ```
 
+## 搜索与过滤
+
+- **全局搜索**：SearchBox 组件（Fuse.js 模糊搜索）
+  - 搜索范围：标题、描述、分类、标签
+  - URL 参数：`?q=关键词`
+- **标签过滤**：TagFilter 组件（OR 模式）
+  - URL 参数：`?tags=UE,Houdini`
+- 可同时使用，结果取交集
+
 ## 注意事项
 
 - **日期**: `'Jan 14, 2026'` 格式
@@ -79,4 +88,4 @@ import ArticleLayout from '../../layouts/ArticleLayout.astro';
 - **代码高亮**: highlight.js (Python/C++/GLSL)
 
 ---
-*更新: 2026-01-16 09:48*
+*更新: 2026-01-16 14:10*

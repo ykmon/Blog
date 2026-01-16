@@ -1,13 +1,15 @@
 ---
 // Sidebar.astro - 侧边栏导航
 import TagFilter from './TagFilter.astro';
+import SearchBox from './SearchBox.astro';
 
 export interface Props {
   currentSection?: 'articles' | 'videos' | 'tools' | 'home';
   showFilter?: boolean;
+  showSearch?: boolean;
 }
 
-const { currentSection = 'home', showFilter = true } = Astro.props;
+const { currentSection = 'home', showFilter = true, showSearch = true } = Astro.props;
 
 const sections = [
   { id: 'articles', num: '01', label: '文章列表', labelEn: 'Articles', href: '/articles/' },
@@ -30,6 +32,9 @@ const sections = [
         致力自动化管线开发，非传统技术美术，从项目管理到技术落地。
       </p>
     </div>
+
+    <!-- Search Box -->
+    {showSearch && <SearchBox />}
 
     <!-- Navigation -->
     <nav class="space-y-4">

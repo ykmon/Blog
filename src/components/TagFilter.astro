@@ -36,133 +36,154 @@ import { tagCategories } from '../data/content';
   }
 </style>
 
-<script>
-  class TagFilterController {
-    selectedTags = new Set();
-    allItems = [];
+<script is:inline>
+  (function() {
+    // 防止重复初始化
+    if (window.__tagFilterInitialized) return;
     
-    constructor() {
-      this.init();
-    }
-    
-    init() {
-      // 获取所有可过滤的内容项
-      this.allItems = Array.from(document.querySelectorAll('[data-tags]'));
-      
-      // 从 URL 读取初始状态
-      const params = new URLSearchParams(window.location.search);
-      const tagsParam = params.get('tags');
-      if (tagsParam) {
-        tagsParam.split(',').forEach(tag => this.selectedTags.add(decodeURIComponent(tag)));
+    class TagFilterController {
+      constructor() {
+        this.selectedTags = new Set();
+        this.allItems = [];
+        this.init();
       }
       
-      // 绑定标签按钮事件
-      document.querySelectorAll('.tag-btn').forEach(btn => {
-        const tag = btn.getAttribute('data-tag');
-        if (tag && this.selectedTags.has(tag)) {
-          btn.classList.add('active');
+      init() {
+        // 获取所有可过滤的内容项
+        this.allItems = Array.from(document.querySelectorAll('[data-tags]'));
+        
+        // 如果没有找到内容项，可能 DOM 还没准备好
+        if (this.allItems.length === 0) {
+          console.warn('TagFilter: No [data-tags] elements found');
         }
-        btn.addEventListener('click', () => this.toggle(tag));
-      });
-      
-      // 绑定清除按钮
-      const clearBtn = document.getElementById('clear-filters');
-      if (clearBtn) {
-        clearBtn.addEventListener('click', () => this.clearAll());
+        
+        // 从 URL 读取初始状态
+        const params = new URLSearchParams(window.location.search);
+        const tagsParam = params.get('tags');
+        if (tagsParam) {
+          tagsParam.split(',').forEach(tag => this.selectedTags.add(decodeURIComponent(tag)));
+        }
+        
+        // 绑定标签按钮事件
+        document.querySelectorAll('.tag-btn').forEach(btn => {
+          const tag = btn.getAttribute('data-tag');
+          if (tag && this.selectedTags.has(tag)) {
+            btn.classList.add('active');
+          }
+          btn.addEventListener('click', () => this.toggle(tag));
+        });
+        
+        // 绑定清除按钮
+        const clearBtn = document.getElementById('clear-filters');
+        if (clearBtn) {
+          clearBtn.addEventListener('click', () => this.clearAll());
+        }
+        
+        // 应用初始过滤
+        this.filter();
+        
+        window.__tagFilterInitialized = true;
       }
       
-      // 应用初始过滤
-      this.filter();
-    }
-    
-    toggle(tag) {
-      if (this.selectedTags.has(tag)) {
-        this.selectedTags.delete(tag);
-      } else {
-        this.selectedTags.add(tag);
+      toggle(tag) {
+        if (this.selectedTags.has(tag)) {
+          this.selectedTags.delete(tag);
+        } else {
+          this.selectedTags.add(tag);
+        }
+        
+        // 更新按钮状态
+        document.querySelectorAll('.tag-btn[data-tag="' + CSS.escape(tag) + '"]').forEach(btn => {
+          btn.classList.toggle('active', this.selectedTags.has(tag));
+        });
+        
+        this.filter();
+        this.syncUrl();
       }
       
-      // 更新按钮状态
-      document.querySelectorAll('.tag-btn[data-tag="' + CSS.escape(tag) + '"]').forEach(btn => {
-        btn.classList.toggle('active', this.selectedTags.has(tag));
-      });
+      clearAll() {
+        this.selectedTags.clear();
+        document.querySelectorAll('.tag-btn.active').forEach(btn => btn.classList.remove('active'));
+        this.filter();
+        this.syncUrl();
+      }
       
-      this.filter();
-      this.syncUrl();
-    }
-    
-    clearAll() {
-      this.selectedTags.clear();
-      document.querySelectorAll('.tag-btn.active').forEach(btn => btn.classList.remove('active'));
-      this.filter();
-      this.syncUrl();
-    }
-    
-    filter() {
-      const statusEl = document.getElementById('filter-status');
-      const countEl = document.getElementById('filter-count');
-      
-      if (this.selectedTags.size === 0) {
-        // 无过滤，显示所有
+      filter() {
+        const statusEl = document.getElementById('filter-status');
+        const countEl = document.getElementById('filter-count');
+        
+        if (this.selectedTags.size === 0) {
+          // 无过滤，显示所有
+          this.allItems.forEach(item => {
+            item.style.display = '';
+            // 也显示相邻的分隔符
+            const nextSibling = item.nextElementSibling;
+            if (nextSibling && nextSibling.tagName === 'HR') {
+              nextSibling.style.display = '';
+            }
+          });
+          if (statusEl) statusEl.classList.add('hidden');
+          return;
+        }
+        
+        let visibleCount = 0;
         this.allItems.forEach(item => {
-          item.style.display = '';
-          // 也显示相邻的分隔符
+          const tagsAttr = item.getAttribute('data-tags');
+          const itemTags = tagsAttr ? tagsAttr.split(',') : [];
+          // OR 模式：任一标签匹配即显示
+          const matches = itemTags.some(t => this.selectedTags.has(t.trim()));
+          
+          if (matches) {
+            item.style.display = '';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+          
+          // 处理分隔符显示
           const nextSibling = item.nextElementSibling;
           if (nextSibling && nextSibling.tagName === 'HR') {
-            nextSibling.style.display = '';
+            nextSibling.style.display = matches ? '' : 'none';
           }
         });
-        if (statusEl) statusEl.classList.add('hidden');
-        return;
+        
+        // 更新状态显示
+        if (countEl) {
+          const tagList = Array.from(this.selectedTags).join(', ');
+          countEl.textContent = 'Showing ' + visibleCount + ' of ' + this.allItems.length + ' items • ' + tagList;
+        }
+        if (statusEl) statusEl.classList.remove('hidden');
       }
       
-      let visibleCount = 0;
-      this.allItems.forEach(item => {
-        const tagsAttr = item.getAttribute('data-tags');
-        const itemTags = tagsAttr ? tagsAttr.split(',') : [];
-        // OR 模式：任一标签匹配即显示
-        const matches = itemTags.some(t => this.selectedTags.has(t.trim()));
-        
-        if (matches) {
-          item.style.display = '';
-          visibleCount++;
+      syncUrl() {
+        const url = new URL(window.location.href);
+        if (this.selectedTags.size > 0) {
+          url.searchParams.set('tags', Array.from(this.selectedTags).map(t => encodeURIComponent(t)).join(','));
         } else {
-          item.style.display = 'none';
+          url.searchParams.delete('tags');
         }
-        
-        // 处理分隔符显示
-        const nextSibling = item.nextElementSibling;
-        if (nextSibling && nextSibling.tagName === 'HR') {
-          nextSibling.style.display = matches ? '' : 'none';
-        }
-      });
-      
-      // 更新状态显示
-      if (countEl) {
-        const tagList = Array.from(this.selectedTags).join(', ');
-        countEl.textContent = 'Showing ' + visibleCount + ' of ' + this.allItems.length + ' items • ' + tagList;
+        window.history.replaceState({}, '', url.toString());
       }
-      if (statusEl) statusEl.classList.remove('hidden');
     }
     
-    syncUrl() {
-      const url = new URL(window.location.href);
-      if (this.selectedTags.size > 0) {
-        url.searchParams.set('tags', Array.from(this.selectedTags).map(t => encodeURIComponent(t)).join(','));
-      } else {
-        url.searchParams.delete('tags');
-      }
-      window.history.replaceState({}, '', url.toString());
+    // 初始化函数
+    function initTagFilter() {
+      if (window.__tagFilterInitialized) return;
+      new TagFilterController();
     }
-  }
-  
-  // 页面加载完成后初始化
-  document.addEventListener('DOMContentLoaded', () => {
-    new TagFilterController();
-  });
-  
-  // Astro View Transitions 支持
-  document.addEventListener('astro:page-load', () => {
-    new TagFilterController();
-  });
+    
+    // 多重保障：确保初始化一定执行
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTagFilter);
+    } else {
+      // DOM 已经加载完成，立即执行
+      initTagFilter();
+    }
+    
+    // Astro View Transitions 支持 - 需要重置标志位
+    document.addEventListener('astro:page-load', function() {
+      window.__tagFilterInitialized = false;
+      initTagFilter();
+    });
+  })();
 </script>

@@ -60,6 +60,17 @@ export type ContentItem = Article | Tool | Video;
 export const articles: Article[] = [
     {
         type: 'article',
+        href: '/articles/houdini-bypass-qt-ui/',
+        title: 'Houdini 中绕过 Qt UI，直接调用 Python 逻辑',
+        category: 'Houdini',
+        tags: ['Houdini', 'Automation', 'Code'],
+        description: '在 Houdini 自动化或 Headless 环境中，如何绕过 Qt Dialog 直接执行核心 Python 业务逻辑。',
+        date: 'Jan 21, 2026',
+        readTime: '10 Min Read',
+        placeholder: 'Houdini'
+    },
+    {
+        type: 'article',
         href: '/articles/ue-plugin-dev/',
         title: 'UE 插件开发笔记：深入剖析 SetSkeletalMeshSectionSettings',
         category: 'Unreal Engine',

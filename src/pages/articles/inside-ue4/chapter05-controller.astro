@@ -2,7 +2,7 @@
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
 
 const content = `<h2>GamePlay架构5：Controller</h2>
-<h2>**MVC**</h2>
+<h2>MVC</h2>
 <p>如果依照纯朴的"程序=数据+算法"的结构来看，再算上用于用户显示和输入的界面，那么就得到“程序=数据+算法+显示”。这三大基本块（数据，算法，显示）构成了程序的三大变化，而如何把这三者“+”到一起，用的就是我们的种种设计框架模式。</p>
 <p>典型的，对于游戏：</p>
 <ul>
@@ -12,8 +12,8 @@ const content = `<h2>GamePlay架构5：Controller</h2>
 </ul>
 <p>抽象这三个变化，并归纳关系，就是典型的MVC模式了：</p>
 <img src="https://github.com/tiax615/Learn_InsideUE4/raw/master/Docs/Image/6.png" alt="6">
-<h2>**AController**</h2>
-<img src="/Articles/inside-ue4/chapter05-controller/image.png" alt="image.png">
+<h2>AController</h2>
+<img src="/Articles/InsideUE4/Chapter05-Controller/image.png" alt="image.png">
 <p>观察下从AActor继承下来AController怎么样，Actor比Object多了一些我们正需要的配置动态生成、输入事件响应、Tick、可继承、可容纳Component、可在世界里出现、可在网络间同步。好了，现在就差控制Pawn的能力，那我们就在这个分化出来的AController增加一些控制Pawn的接口，这个思路正是和我们从Actor从分化出Pawn的时候不谋而合！</p>
 <p><strong>思考：Controller和Pawn必须1:1吗？</strong></p>
 <p>观察UE实现里我们发现Controller里只是保存了一个Pawn指针，而不是数组。那UE为何不实现成多对多呢？我觉得理由往往很简单，就是想保持一定的简单。当前1:1的时候，我们的脑袋逻辑很清晰，我们可以在Controller里直接GetPawn，也可以在Pawn中GetController，都非常方便。</p>
@@ -33,16 +33,16 @@ const content = `<h2>GamePlay架构5：Controller</h2>
 <li>从存在性来说，Controller的生命期比Pawn要长一些，比如我们经常会实现的游戏中玩家死亡后复活的功能。</li>
 </ul>
 <h2>APlayerState</h2>
-<img src="/Articles/inside-ue4/chapter05-controller/image 1.png" alt="image.png">
+<img src="/Articles/InsideUE4/Chapter05-Controller/image 1.png" alt="image.png">
 <p>AInfo是存储纯数据的大本营，所以APlayerState自然而然继承他</p>
 <p>注意，这个APlayerState也理所当然是生成在Level中的，跟Pawn和Controller是平级的关系，Controller里只不过保存了一个指针引用罢了。</p>
 <p><strong>思考：哪些数据应该放在PlayerState中？</strong></p>
 <p>从应用范围上来说，PlayerState表示的是玩家的游玩数据，所有PlayerState实际上表达的是当前关卡的玩家得分等数据。</p>
 <p>关卡内的其他游戏数据应该归GameState。</p>
 <p>跨关卡的统计数据应该放在外面的GameInstance，然后用SaveGame保存起来。</p>
-<h2>**总结**</h2>
+<h2>总结</h2>
 <p>UE在Pawn这个层级演化构成了一个最基本和非常完善的Component-Actor-Pawn-Controller的结构：</p>
-<img src="/Articles/inside-ue4/chapter05-controller/image 2.png" alt="image.png">`;
+<img src="/Articles/InsideUE4/Chapter05-Controller/image 2.png" alt="image.png">`;
 ---
 
 <ArticleLayout 

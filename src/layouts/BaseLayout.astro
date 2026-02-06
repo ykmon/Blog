@@ -63,6 +63,7 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
   <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"></noscript>
   
   <!-- Highlight.js - 异步按需加载，仅在有代码块时才加载 -->
+  <!-- KaTeX - 异步按需加载，仅在有数学公式时才加载 -->
 </head>
 
 <body class="antialiased min-h-screen font-body">
@@ -123,6 +124,57 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
       }
     }
     
+    // KaTeX — 异步按需加载数学公式渲染
+    async function loadKaTeX() {
+      // 检测页面中是否包含 LaTeX 数学公式分隔符 \(...\) 或 \[...\] 或 $$...$$
+      const body = document.body.innerHTML;
+      const hasMath = /\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|\$\$[\s\S]*?\$\$/.test(body);
+      if (!hasMath) return; // 无数学公式则跳过
+
+      // 加载 KaTeX CSS
+      if (!document.querySelector('link[href*="katex"]')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css';
+        link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+      }
+
+      // 动态加载 KaTeX JS
+      const loadScript = (src: string): Promise<void> => new Promise((resolve, reject) => {
+        if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+        const s = document.createElement('script');
+        s.src = src;
+        s.crossOrigin = 'anonymous';
+        s.onload = () => resolve();
+        s.onerror = () => reject(new Error(`Failed to load ${src}`));
+        document.head.appendChild(s);
+      });
+
+      try {
+        // 加载 KaTeX 核心
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js');
+        // 加载 auto-render 扩展（自动扫描并渲染页面中的数学公式）
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js');
+
+        const renderMathInElement = (window as any).renderMathInElement;
+        if (renderMathInElement) {
+          renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$', right: '$$', display: true },
+              { left: '\\[', right: '\\]', display: true },
+              { left: '\\(', right: '\\)', display: false },
+            ],
+            throwOnError: false,
+            // 忽略这些标签内的内容，避免误渲染
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          });
+        }
+      } catch (e) {
+        console.warn('KaTeX load failed:', e);
+      }
+    }
+
     // Lazy Load Effect with Intersection Observer
     function initObserver() {
       const observerOptions = {
@@ -145,6 +197,7 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
 
     function initPage() {
       loadHighlightJS();
+      loadKaTeX();
       initObserver();
     }
     

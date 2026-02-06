@@ -99,3 +99,31 @@ body.drawer-open {
   background-color: theme('colors.paper');
   background-image: inherit;
 }
+
+/* ===== KaTeX 数学公式样式 ===== */
+
+/* 行内公式 — 与正文自然融合 */
+.katex {
+  font-size: 1.05em;
+}
+
+/* 块级公式 — 居中显示，增加上下间距 */
+.katex-display {
+  margin: 1.5em 0;
+  padding: 0.8em 1em;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: rgba(45, 74, 62, 0.03);
+  border-left: 3px solid theme('colors.forest');
+  border-radius: 0 4px 4px 0;
+}
+
+/* 块级公式滚动条样式 */
+.katex-display::-webkit-scrollbar {
+  height: 4px;
+}
+
+.katex-display::-webkit-scrollbar-thumb {
+  background: rgba(138, 98, 64, 0.3);
+  border-radius: 2px;
+}

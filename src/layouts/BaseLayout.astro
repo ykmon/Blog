@@ -135,7 +135,7 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
       if (!document.querySelector('link[href*="katex"]')) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css';
         link.crossOrigin = 'anonymous';
         document.head.appendChild(link);
       }
@@ -153,9 +153,9 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
 
       try {
         // 加载 KaTeX 核心
-        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js');
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js');
         // 加载 auto-render 扩展（自动扫描并渲染页面中的数学公式）
-        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js');
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js');
 
         const renderMathInElement = (window as any).renderMathInElement;
         if (renderMathInElement) {

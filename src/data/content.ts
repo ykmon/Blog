@@ -111,7 +111,7 @@ export const articles: Article[] = [
         description: '材质制作、UV处理、贴花融合等实用技巧汇总。',
         date: 'Sep 15, 2021',
         readTime: '5 Min Read',
-        image: '/Articles/SubstancePainter/Untitled.png'
+        image: '/Articles/substance-painter/Untitled.png'
     },
     {
         type: 'article',
@@ -144,7 +144,7 @@ export const articles: Article[] = [
         description: '坐标系、矢量、矩阵、变换与坐标空间。从模型空间到屏幕空间的完整变换流程。',
         date: 'Jan 15, 2021',
         readTime: '15 Min Read',
-        image: '/Articles/MathFoundation/Untitled 2.png'
+        image: '/Articles/math-foundation/Untitled 2.png'
     },
     {
         type: 'article',
@@ -155,7 +155,7 @@ export const articles: Article[] = [
         description: 'Lumen光线追踪与Surface Cache详解，软件光追与硬件光追的区别与应用。',
         date: 'Aug 20, 2021',
         readTime: '8 Min Read',
-        image: '/Articles/LumenRendering/Untitled 7.png'
+        image: '/Articles/lumen-rendering/Untitled 7.png'
     },
     {
         type: 'article',
@@ -210,7 +210,7 @@ export const articles: Article[] = [
         description: '从 TortoiseSVN 安装到 UE 源码控制配置，为团队协作构建稳固的版本控制基石。',
         date: 'Dec 15, 2022',
         readTime: '5 Min Read',
-        image: '/Articles/UnrealSVN/images/Untitled_7.png'
+        image: '/Articles/unreal-svn/Untitled_7.png'
     },
     {
         type: 'article',

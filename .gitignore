@@ -9,7 +9,10 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+build.log
 build_error.log
+stderr.txt
+stdout.txt
 check_full.txt
 check_final.txt
 check_last.txt
@@ -21,7 +24,18 @@ check_last.txt
 .DS_Store
 Thumbs.db
 
+# Original article sources (Notion exports) - already migrated to public/Articles/
+Articles/
+
+# Legacy backup (pre-Astro HTML pages)
+_legacy_backup/
+
+# Agent config
+.agent/
+
+# One-time migration scripts (already completed)
+scripts/
+
 # Temp
 src/pages/articles_bak/
-
 notions/

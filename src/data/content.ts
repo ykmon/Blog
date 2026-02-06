@@ -65,7 +65,7 @@ export const articles: Article[] = [
         category: 'Houdini',
         tags: ['Houdini', 'Automation', 'Code'],
         description: '在 Houdini 自动化或 Headless 环境中，如何绕过 Qt Dialog 直接执行核心 Python 业务逻辑。',
-        date: 'Jan 21, 2026',
+        date: 'Jan 21, 2025',
         readTime: '10 Min Read',
         placeholder: 'Houdini'
     },
@@ -76,7 +76,7 @@ export const articles: Article[] = [
         category: 'Unreal Engine',
         tags: ['UE', 'Code', 'Plugin Development'],
         description: '深入解析如何在 C++ 中正确修改 SkeletalMesh 的 Section 数据，重点讲解 UE5 引入的 UserSectionsData 陷阱。',
-        date: 'Jan 14, 2026',
+        date: 'Jan 14, 2025',
         readTime: '8 Min Read',
         placeholder: 'CPP'
     },
@@ -87,7 +87,7 @@ export const articles: Article[] = [
         category: 'InsideUE4',
         tags: ['UE', 'Code', 'Basic'],
         description: '深入 UE4 GamePlay 架构源码，从 Actor/Component 到 Level/World。包含2篇笔记，持续更新中。',
-        date: 'Jan 4, 2026',
+        date: 'Jan 4, 2025',
         readTime: 'Series',
         image: '/Articles/InsideUE4/Chapter01-ActorComponent/image.png'
     },
@@ -98,7 +98,7 @@ export const articles: Article[] = [
         category: 'Unreal Engine',
         tags: ['UE', 'Code', 'Automation'],
         description: '深入理解UE反射系统如何自动生成Python绑定，以及从Native代码到Scripting的映射规则。',
-        date: 'Jan 12, 2026',
+        date: 'Jan 12, 2025',
         readTime: '6 Min Read',
         placeholder: 'UE5'
     },

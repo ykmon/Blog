@@ -8,13 +8,19 @@ export interface Props {
   title: string;
   description?: string;
   canonical?: string;
+  image?: string;
+  keywords?: string;
 }
 
 const { 
   title, 
   description = '技术美术博客 - 分享 Unreal Engine、Houdini、Shader 开发、自动化管线等技术笔记与经验。',
-  canonical = 'https://ykmon.github.io/Blog/'
+  canonical = new URL(Astro.url.pathname, Astro.site).href,
+  image = '/Resource/ykmon.jpg',
+  keywords = '技术美术, Technical Artist, Unreal Engine, Houdini, Shader, Python, 游戏开发'
 } = Astro.props;
+
+const absoluteImageUrl = new URL(image, Astro.site).href;
 ---
 
 <!DOCTYPE html>
@@ -26,9 +32,14 @@ const {
   
   <!-- SEO Meta Tags -->
   <meta name="description" content={description}>
-  <meta name="keywords" content="技术美术, Technical Artist, Unreal Engine, Houdini, Shader, Python, 游戏开发">
+  <meta name="keywords" content={keywords}>
   <meta name="author" content="YKMON">
   <link rel="canonical" href={canonical}>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="website">
@@ -36,6 +47,14 @@ const {
   <meta property="og:description" content={description}>
   <meta property="og:url" content={canonical}>
   <meta property="og:site_name" content="TechArt Chronicle">
+  <meta property="og:image" content={absoluteImageUrl}>
+  <meta property="og:locale" content="zh_CN">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={absoluteImageUrl}>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

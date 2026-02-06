@@ -9,6 +9,8 @@ export interface Props {
   categoryLink?: string;
   date?: string;
   description?: string;
+  image?: string;
+  keywords?: string;
 }
 
 const { 
@@ -16,11 +18,13 @@ const {
   category, 
   categoryLink = '/articles/',
   date,
-  description
+  description,
+  image,
+  keywords
 } = Astro.props;
 ---
 
-<BaseLayout title={`${title} - TechArt Chronicle`} description={description}>
+<BaseLayout title={`${title} - TechArt Chronicle`} description={description} image={image} keywords={keywords}>
   <!-- Header -->
   <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
     <div class="container mx-auto px-6">

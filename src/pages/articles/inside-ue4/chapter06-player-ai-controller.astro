@@ -15,7 +15,7 @@ const content = `<h2>GamePlay架构6：PlayerController和AIController</h2>
 <li>Voice，也是为了方便网络中语音聊天的一些控制函数。</li>
 </ul>
 <p>简单来说，PlayerController作为玩家直接控制的实体，很多的跟玩家直接相关的操作也都得委托它来完成</p>
-<img src="/Articles/InsideUE4/Chapter06-PlayerAIController/image.png" alt="image.png">
+<img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter06-PlayerAIController/image.png" alt="image.png">
 <p><strong>思考：哪些逻辑应该放在PlayerController中？</strong></p>
 <ul>
 <li>如果是按照MVC的视角，那么View对应的是Pawn的表现，而PlayerController对应的是Controller的部分，那Model就是游戏业务逻辑的数据了。</li>
@@ -33,7 +33,7 @@ const content = `<h2>GamePlay架构6：PlayerController和AIController</h2>
 </ul>
 <p><strong><em>思考：哪些逻辑应该放在AIController中？</strong></em>我们推荐尽量利用UE提供的行为树黑板等组件实现，而不是直接在AIController硬编码再度实现。</p>
 <h2>总结</h2>
-<img src="/Articles/InsideUE4/Chapter06-PlayerAIController/image 1.png" alt="image.png">
+<img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter06-PlayerAIController/image 1.png" alt="image.png">
 <p>到此，我们也算讨论完了Actor（Pawn）层次的控制，在这个层次上，我们关注的焦点在于如何更好的控制游戏世界里各种Actor交互和逻辑。UE采用了分化Actor的思维创建出AController来控制APawn们，因为玩家玩游戏也全都是控制着游戏里的一个化身来行动，所以UE抽象总结分化了一个APlayerController来上接Player的输入，下承Pawn的控制。对于那些自治的AI实体，UE给予了同样的尊重，创建出AIController，包含了一些方便的AI组件来实现游戏逻辑。并利用PlayerState来存储状态数据，支持在网络间同步。</p>`;
 ---
 

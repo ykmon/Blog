@@ -1,21 +1,34 @@
 ---
-// Header.astro - Vogue 风格的网站头部
+// Header.astro - 网站头部（支持首页和子页面两种模式）
 export interface Props {
   title?: string;
   subtitle?: string;
+  /** 子页面模式：显示较小的标题，带返回首页链接 */
+  subPage?: boolean;
 }
 
-const { title = 'TechArt Chronicle.', subtitle } = Astro.props;
+const { title = 'TechArt Chronicle.', subtitle, subPage = false } = Astro.props;
 ---
 
-<header class="py-16 md:py-20 text-center border-b border-gray-300 relative bg-paper z-10">
-  <div class="container mx-auto px-6">
-    <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-4 font-serif">Est. 2025</div>
-    <h1 class="font-serif text-5xl md:text-7xl font-bold tracking-tight text-ink mb-4">{title}</h1>
-    {subtitle && (
-      <p class="font-body text-gray-500 max-w-lg mx-auto leading-relaxed text-sm md:text-base">
-        <Fragment set:html={subtitle} />
-      </p>
-    )}
-  </div>
-</header>
+{subPage ? (
+  <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
+    <div class="container mx-auto px-6">
+      <a href="/" class="inline-block">
+        <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle</div>
+        <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">{title}</h1>
+      </a>
+    </div>
+  </header>
+) : (
+  <header class="py-16 md:py-20 text-center border-b border-gray-300 relative bg-paper z-10">
+    <div class="container mx-auto px-6">
+      <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-4 font-serif">Est. 2025</div>
+      <h1 class="font-serif text-5xl md:text-7xl font-bold tracking-tight text-ink mb-4">{title}</h1>
+      {subtitle && (
+        <p class="font-body text-gray-500 max-w-lg mx-auto leading-relaxed text-sm md:text-base">
+          <Fragment set:html={subtitle} />
+        </p>
+      )}
+    </div>
+  </header>
+)}

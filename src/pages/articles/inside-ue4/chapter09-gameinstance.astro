@@ -5,7 +5,7 @@ const content = `<h2>GamePlay架构9：GameInstance</h2>
 <h2>引言</h2>
 <p>一路向上，依照设计里一个最朴素的原理：自己是无法创建管理自身的，所以Player也需要一个创建管理和存储的地方。另一方面，上文提到Player固然可以负责一些跟玩家相关的业务逻辑，但是对于World之上协调管理的逻辑却也仍然无处安放。</p>
 <h2>GameInstance</h2>
-<img src="/Articles/InsideUE4/Chapter09-GameInstance/image.png" alt="image.png">
+<img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter09-GameInstance/image.png" alt="image.png">
 <p>UGameInstance里的接口大概有4类：</p>
 <p>1. 引擎的初始化加载，Init和ShutDown等（在引擎流程章节会详细叙述）</p>
 <p>2. Player的创建，如CreateLocalPlayer，GetLocalPlayers之类的。</p>

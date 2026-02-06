@@ -1,6 +1,8 @@
 ---
 // ArticleLayout.astro - 文章页面布局模板
 import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import SubPageSidebar from '../components/SubPageSidebar.astro';
 import Footer from '../components/Footer.astro';
 
 export interface Props {
@@ -25,34 +27,12 @@ const {
 ---
 
 <BaseLayout title={`${title} - TechArt Chronicle`} description={description} image={image} keywords={keywords}>
-  <!-- Header -->
-  <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
-    <div class="container mx-auto px-6">
-      <a href="/" class="inline-block">
-        <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle</div>
-        <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">{category}</h1>
-      </a>
-    </div>
-  </header>
+  <Header title={category} subPage />
 
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-      <!-- SIDEBAR -->
-      <aside class="hidden lg:block lg:col-span-3 relative">
-        <div class="sidebar-sticky space-y-12">
-          <nav class="space-y-4">
-            <a href="/" class="block text-ink hover:text-ochre transition-colors group">
-              <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to Home
-            </a>
-            <div class="h-px bg-gray-300 my-4"></div>
-            <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
-            <a href="/articles/" class="block text-ink hover:text-ochre transition-colors">Articles</a>
-            <a href="/videos/" class="block text-ink hover:text-ochre transition-colors">Videos</a>
-            <a href="/tools/" class="block text-ink hover:text-ochre transition-colors">Tools</a>
-          </nav>
-        </div>
-      </aside>
+      <SubPageSidebar currentSection="articles" />
 
       <!-- MAIN CONTENT -->
       <main class="lg:col-span-8 lg:col-start-5 relative">

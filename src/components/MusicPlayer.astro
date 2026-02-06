@@ -22,8 +22,7 @@ const {
 } = Astro.props;
 ---
 
-<!-- Import APlayer and MetingJS Styles & Scripts -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<!-- APlayer/MetingJS 样式和脚本将在用户交互时延迟加载 -->
 
 <div class="music-player-container" id="music-player-container">
   <!-- Float Button (Side Tab Style) -->
@@ -44,61 +43,91 @@ const {
       <button class="close-btn" id="music-close" aria-label="Close">×</button>
     </div>
     
-    <!-- MetingJS Component -->
-    <!-- 
-      Refer to: https://github.com/metowolf/MetingJS 
-      id: Song/Playlist ID
-      server: music platform (netease, tencent, etc.)
-      type: song, playlist, album, search, artist
-      fixed: fixed mode
-      mini: mini mode
-      autoplay: auto play
-      theme: theme color
-      order: random / list
-      loop: all / one / none
-      preload: auto / metadata / none
-      mutex: pause other players when this one plays
-    -->
-    <meting-js
-      id={playlistId}
-      server={server}
-      type={type}
-      fixed={fixed ? 'true' : 'false'}
-      mini={mini ? 'true' : 'false'}
-      autoplay={autoplay ? 'true' : 'false'}
-      theme={theme}
-      loop="all"
-      order="list"
-      preload="auto"
-      list-folded="true"
-      list-max-height="400px"
-      lrc-type="0"
-      volume={volume.toString()}
-    ></meting-js>
+    <!-- MetingJS 占位容器，脚本加载后自动初始化 -->
+    <div id="meting-container"
+      data-id={playlistId}
+      data-server={server}
+      data-type={type}
+      data-fixed={fixed ? 'true' : 'false'}
+      data-mini={mini ? 'true' : 'false'}
+      data-autoplay={autoplay ? 'true' : 'false'}
+      data-theme={theme}
+      data-loop="all"
+      data-order="list"
+      data-preload="auto"
+      data-list-folded="true"
+      data-list-max-height="400px"
+      data-lrc-type="0"
+      data-volume={volume.toString()}
+    ></div>
   </div>
 </div>
 
 <script>
-  // Dynamic import for MetingJS and APlayer to ensure they run client-side
-  // We use CDN in script tags to ensure they load in order
-</script>
+  let playerLoaded = false;
 
-<!-- Scripts must be loaded in the body or defer -->
-<script is:inline src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
-<script is:inline src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+  function loadScript(src: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error(`Failed to load ${src}`));
+      document.body.appendChild(s);
+    });
+  }
 
-<script>
+  async function loadMusicPlayer() {
+    if (playerLoaded) return;
+    playerLoaded = true;
+
+    // 加载 APlayer CSS
+    if (!document.querySelector('link[href*="APlayer"]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css';
+      document.head.appendChild(link);
+    }
+
+    // 按顺序加载 APlayer → MetingJS（MetingJS 依赖 APlayer）
+    await loadScript('https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js');
+
+    // 将占位容器转换为 meting-js 元素
+    const container = document.getElementById('meting-container');
+    if (container) {
+      const meting = document.createElement('meting-js');
+      // 从 data-* 属性复制到 meting-js 属性
+      const attrMap: Record<string, string> = {
+        'data-id': 'id', 'data-server': 'server', 'data-type': 'type',
+        'data-fixed': 'fixed', 'data-mini': 'mini', 'data-autoplay': 'autoplay',
+        'data-theme': 'theme', 'data-loop': 'loop', 'data-order': 'order',
+        'data-preload': 'preload', 'data-list-folded': 'list-folded',
+        'data-list-max-height': 'list-max-height', 'data-lrc-type': 'lrc-type',
+        'data-volume': 'volume'
+      };
+      for (const [dataAttr, metingAttr] of Object.entries(attrMap)) {
+        const val = container.getAttribute(dataAttr);
+        if (val) meting.setAttribute(metingAttr, val);
+      }
+      container.replaceWith(meting);
+    }
+  }
+
   const playerContainer = document.getElementById('music-player-container');
   const toggleBtn = document.getElementById('music-toggle');
   const closeBtn = document.getElementById('music-close');
 
-  // Load state from localStorage
+  // 从 localStorage 恢复状态
   const savedState = localStorage.getItem('musicPanelOpen');
   if (savedState === 'true') {
     playerContainer?.classList.add('open');
+    // 面板之前是打开的，静默加载播放器
+    loadMusicPlayer();
   }
 
-  function togglePanel() {
+  async function togglePanel() {
+    await loadMusicPlayer(); // 首次点击时加载
     const isOpen = playerContainer?.classList.toggle('open');
     localStorage.setItem('musicPanelOpen', isOpen ? 'true' : 'false');
   }
@@ -108,9 +137,6 @@ const {
     playerContainer?.classList.remove('open');
     localStorage.setItem('musicPanelOpen', 'false');
   });
-
-  // Optional: Listen for APlayer events if needed
-  // Note: APlayer instance is created by MetingJS automatically
 </script>
 
 <style>

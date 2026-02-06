@@ -5,7 +5,7 @@ const content = `<h2>GamePlay架构7：GameMode和GameState</h2>
 <h2>GameMode</h2>
 <p>cocos2dx会认为游戏就是由不同的Scene切换组成的，每个Scene又由Layer组成；Unity也认为游戏就是一个个Scene；而UE的视角的是，游戏是由一个个World组成的，World又是由Level组成的。</p>
 <p>玩法就是“逻辑”，场景就是“表示”。因此UE的世界观是，World更多是逻辑的概念，而Level是资源场景表示。</p>
-<img src="/Articles/InsideUE4/Chapter07-GameModeGameState/image.png" alt="image.png">
+<img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter07-GameModeGameState/image.png" alt="image.png">
 <p>在功能实现上有许多的接口，但主要可以分为以下几大块：</p>
 <p>1. Class登记，GameMode里登记了游戏里基本需要的类型信息，在需要的时候通过UClass的反射可以自动Spawn出相应的对象来添加进关卡中。</p>
 <p>2. 游戏内实体的Spawn，不光登记，GameMode既然作为一场游戏的主要负责人，那么游戏的加载释放过程中涉及到的实体的产生。</p>
@@ -24,7 +24,7 @@ const content = `<h2>GamePlay架构7：GameMode和GameState</h2>
 <p>5. 跟上层的GameInstance比较，GameInstance关注的是更高层的不同World之间的逻辑，虽然有时候他也把手伸下来做些UI的管理工作，不过严谨来说，在UE里UI是独立于World的一个结构</p>
 <h2>GameState</h2>
 <p>对于一场游戏，也需要一个State来保存当前游戏的状态数据，比如任务数据等。</p>
-<img src="/Articles/InsideUE4/Chapter07-GameModeGameState/image 1.png" alt="image.png">
+<img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter07-GameModeGameState/image 1.png" alt="image.png">
 <h2>GameSession</h2>
 <p>是在网络联机游戏中针对Session使用的一个方便的管理类，并不存储数据</p>
 <h2>总结</h2>

@@ -1,0 +1,37 @@
+---
+// SubPageSidebar.astro - 子页面简化侧边栏（用于 tools、videos、article 详情页）
+export interface Props {
+  currentSection?: 'articles' | 'videos' | 'tools';
+}
+
+const { currentSection } = Astro.props;
+
+const sections = [
+  { id: 'articles', label: 'Articles', href: '/articles/' },
+  { id: 'videos', label: 'Videos', href: '/videos/' },
+  { id: 'tools', label: 'Tools', href: '/tools/' },
+];
+---
+
+<aside class="hidden lg:block lg:col-span-3 relative">
+  <div class="sidebar-sticky space-y-12">
+    <nav class="space-y-4">
+      <a href="/" class="block text-ink hover:text-ochre transition-colors group">
+        <span class="text-xs font-bold text-gray-400 mr-2 group-hover:text-ochre">←</span> Back to Home
+      </a>
+      <div class="h-px bg-gray-300 my-4"></div>
+      <h4 class="font-serif text-lg pb-2 mb-2 italic text-gray-400">Sections</h4>
+      {sections.map((section) => (
+        <a
+          href={section.href}
+          class:list={[
+            'block transition-colors',
+            currentSection === section.id ? 'text-ochre font-bold' : 'text-ink hover:text-ochre'
+          ]}
+        >
+          {section.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</aside>

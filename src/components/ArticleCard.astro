@@ -31,7 +31,7 @@ const {
   <div class="md:col-span-1 aspect-[4/3] bg-gray-200 overflow-hidden rounded-sm">
     {image ? (
       <img 
-        src={image} 
+        loading="lazy" decoding="async" src={image} 
         class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 grayscale-[0.2]" 
         alt={imageAlt}
       />

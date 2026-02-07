@@ -34,7 +34,7 @@ _legacy_backup/
 .agent/
 
 # One-time migration scripts (already completed)
-scripts/
+/scripts/
 
 # Temp
 src/pages/articles_bak/

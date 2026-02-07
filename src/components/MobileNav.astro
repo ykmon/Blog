@@ -63,7 +63,7 @@ const sections = [
     <!-- 个人简介 -->
     <div class="text-center p-4 border border-gray-200 bg-white/50 backdrop-blur-sm rounded-sm">
       <div class="w-16 h-16 mx-auto bg-gray-300 rounded-full mb-3 overflow-hidden">
-        <img loading="lazy" decoding="async" src="/Resource/ykmon.jpg" alt="Avatar" class="object-cover w-full h-full">
+        <img loading="lazy" decoding="async" src="/Resource/ykmon.jpg" alt="Avatar" width="64" height="64" class="object-cover w-full h-full">
       </div>
       <h3 class="font-serif text-lg font-bold mb-1">YKMON</h3>
       <p class="text-xs text-gray-500 uppercase tracking-widest">Technical Artist</p>
@@ -92,8 +92,17 @@ const sections = [
 </aside>
 
 <script>
-  // 移动端导航控制脚本
+  // 移动端导航控制脚本（幂等化：使用 AbortController 管理事件生命周期）
+  let mobileNavAbort: AbortController | null = null;
+
   function initMobileNav() {
+    // 销毁旧的事件绑定
+    if (mobileNavAbort) {
+      mobileNavAbort.abort();
+    }
+    mobileNavAbort = new AbortController();
+    const { signal } = mobileNavAbort;
+
     const toggle = document.getElementById('mobile-nav-toggle');
     const overlay = document.getElementById('mobile-nav-overlay');
     const drawer = document.getElementById('mobile-nav-drawer');
@@ -139,23 +148,23 @@ const sections = [
       }
     }
 
-    // 事件绑定
-    toggle.addEventListener('click', toggleDrawer);
-    overlay.addEventListener('click', closeDrawer);
-    closeBtn.addEventListener('click', closeDrawer);
+    // 事件绑定（全部挂载到 signal，方便统一销毁）
+    toggle.addEventListener('click', toggleDrawer, { signal });
+    overlay.addEventListener('click', closeDrawer, { signal });
+    closeBtn.addEventListener('click', closeDrawer, { signal });
 
     // ESC 键关闭
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && isOpen) {
         closeDrawer();
       }
-    });
+    }, { signal });
 
     // 导航链接点击后自动关闭抽屉
     drawer.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
         setTimeout(closeDrawer, 150);
-      });
+      }, { signal });
     });
 
     // 窗口调整大小时，如果超过 lg 断点则自动关闭
@@ -163,14 +172,18 @@ const sections = [
       if (window.innerWidth >= 1024 && isOpen) {
         closeDrawer();
       }
-    });
+    }, { signal });
   }
 
-  // 支持初始加载和 Astro View Transitions
+  // 支持初始加载和 Astro View Transitions（单次注册保护）
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMobileNav);
   } else {
     initMobileNav();
   }
-  document.addEventListener('astro:page-load', initMobileNav);
+
+  if (!(window as any).__mobileNavBound) {
+    document.addEventListener('astro:page-load', initMobileNav);
+    (window as any).__mobileNavBound = true;
+  }
 </script>

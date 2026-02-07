@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import SubPageSidebar from '../../components/SubPageSidebar.astro';
 import Footer from '../../components/Footer.astro';
+import { formatDateEN } from '../../utils/date';
 
 const pageTitle = 'Videos - TechArt Chronicle';
 const description = '技术美术视频教程 - Houdini 程序化、Unreal Engine PCG、布料解算等技术演示。';
@@ -33,9 +34,11 @@ import { videos } from '../../data/content';
                 <iframe
                   src={`https://player.bilibili.com/player.html?isOutside=true&aid=${video.aid}&bvid=${video.bvid}&cid=${video.cid}&p=1&autoplay=0`}
                   title={video.title}
+                  loading="lazy"
                   class="absolute top-0 left-0 w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen
+                  style="border:0;"
                 ></iframe>
               </div>
               <div class="p-6 md:flex justify-between items-end">
@@ -43,7 +46,7 @@ import { videos } from '../../data/content';
                   <h3 class="font-serif text-2xl font-bold italic mb-1">{video.title}</h3>
                   <p class="text-xs text-gray-500 uppercase tracking-widest">{video.category}</p>
                 </div>
-                <div class="text-ochre mt-4 md:mt-0 text-sm">{video.date} • Bilibili</div>
+                <div class="text-ochre mt-4 md:mt-0 text-sm">{formatDateEN(video.date)} &bull; Bilibili</div>
               </div>
             </article>
           ))}

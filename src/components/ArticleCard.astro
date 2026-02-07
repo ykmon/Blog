@@ -1,5 +1,7 @@
 ---
 // ArticleCard.astro - 文章卡片组件
+import { formatDateEN } from '../utils/date';
+
 export interface Props {
   href: string;
   title: string;
@@ -45,6 +47,6 @@ const {
     <div class="text-xs text-ochre font-bold uppercase tracking-wider mb-2">{category}</div>
     <h2 class="font-serif text-2xl font-bold mb-2 group-hover:text-ochre transition-colors">{title}</h2>
     <p class="text-sm text-gray-600 line-clamp-2 mb-4">{description}</p>
-    <span class="text-xs text-gray-400 italic font-serif">{date} • {readTime}</span>
+    <span class="text-xs text-gray-400 italic font-serif">{formatDateEN(date)} &bull; {readTime}</span>
   </div>
 </a>

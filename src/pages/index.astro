@@ -6,19 +6,15 @@ import Sidebar from '../components/Sidebar.astro';
 import Footer from '../components/Footer.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { articles, tools, videos, type ContentItem } from '../data/content';
+import { formatDateEN, formatDateCN, parseISODate } from '../utils/date';
 
 const pageTitle = 'TechArt Chronicle | 技术美术志';
 const description = '技术美术博客 - 分享 Unreal Engine、Houdini、Shader 开发、自动化管线等技术笔记与经验。';
 
-// Merge and Sort
+// Merge and Sort（使用安全的 ISO 日期解析）
 const allContent: ContentItem[] = [...articles, ...tools, ...videos].sort((a, b) => {
-  return new Date(b.date).getTime() - new Date(a.date).getTime();
+  return parseISODate(b.date) - parseISODate(a.date);
 });
-
-function getMonthDay(dateStr: string) {
-  const d = new Date(dateStr);
-  return `${d.getMonth() + 1}月${d.getDate()}日`;
-}
 ---
 
 <BaseLayout title={pageTitle} description={description}>
@@ -40,7 +36,7 @@ function getMonthDay(dateStr: string) {
               {item.type === 'article' && (
                 <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-start blur-load group scroll-mt-24" data-tags={item.tags?.join(',')}>
                   <div class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
-                    {getMonthDay(item.date)}
+                    {formatDateCN(item.date)}
                   </div>
                   <div class="md:col-span-12 lg:col-span-12">
                     <div class="flex flex-col mb-4">
@@ -68,7 +64,7 @@ function getMonthDay(dateStr: string) {
                           )}
                         </a>
                         <div class="mt-4 flex justify-between items-center border-t border-gray-300 pt-3">
-                          <span class="text-xs text-gray-500 uppercase tracking-widest">{item.date} • {item.readTime}</span>
+                          <span class="text-xs text-gray-500 uppercase tracking-widest">{formatDateEN(item.date)} • {item.readTime}</span>
                           <a href={item.href} class="text-sm text-ochre italic font-serif hover:underline">Read Full Article ⟶</a>
                         </div>
                       </div>
@@ -80,7 +76,7 @@ function getMonthDay(dateStr: string) {
               {item.type === 'video' && (
                 <article class="relative mb-20 blur-load scroll-mt-24" data-tags={item.tags?.join(',')}>
                   <div class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
-                    {getMonthDay(item.date)}
+                    {formatDateCN(item.date)}
                   </div>
                   <div class="max-w-4xl mx-auto">
                     <div class="bg-white p-3 retro-frame transform hover:-translate-y-1 transition-transform duration-500 shadow-[10px_10px_20px_rgba(0,0,0,0.05)] border-8 border-[#e5e5e0] outline outline-1 outline-[#d1d1cc] rounded-sm">
@@ -88,8 +84,11 @@ function getMonthDay(dateStr: string) {
                         <iframe
                           src={`https://player.bilibili.com/player.html?isOutside=true&aid=${item.aid}&bvid=${item.bvid}&cid=${item.cid}&p=1&autoplay=0`}
                           title={item.title}
-                          scrolling="no" border="0" frameborder="0" framespacing="0"
-                          allowfullscreen="true" class="w-full h-full absolute inset-0"></iframe>
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
+                          class="w-full h-full absolute inset-0"
+                          style="border:0;"></iframe>
                       </div>
                       <div class="p-6 flex justify-between items-end">
                         <div>
@@ -106,7 +105,7 @@ function getMonthDay(dateStr: string) {
               {item.type === 'tool' && (
                 <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-center blur-load group scroll-mt-24" data-tags={item.tags?.join(',')}>
                   <div class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
-                    {getMonthDay(item.date)}
+                    {formatDateCN(item.date)}
                   </div>
                   <div class="col-span-12 max-w-3xl mx-auto w-full">
                     <a href={item.href} class="block bg-white border border-gray-200 p-8 hover:border-ochre transition-all hover:shadow-lg group-hover:-translate-y-1">

@@ -6,13 +6,14 @@ import Sidebar from '../../components/Sidebar.astro';
 import Footer from '../../components/Footer.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import { articles } from '../../data/content';
+import { parseISODate } from '../../utils/date';
 
 const pageTitle = 'Articles - TechArt Chronicle';
 const description = '技术美术文章合集 - Unreal Engine、Unity Shader、Houdini、GAMES 系列课程笔记等。';
 
-// 按日期排序（最新优先）
+// 按日期排序（最新优先，使用安全的 ISO 日期解析）
 const sortedArticles = [...articles].sort((a, b) => 
-  new Date(b.date).getTime() - new Date(a.date).getTime()
+  parseISODate(b.date) - parseISODate(a.date)
 );
 ---
 

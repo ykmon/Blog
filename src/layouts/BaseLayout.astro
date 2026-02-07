@@ -77,11 +77,16 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
   <MobileNav />
   <MusicPlayer playlistId="348612884" type="album" />
   
+  <!-- 统一过滤控制器（搜索 + 标签） -->
+  <script>
+    import '../scripts/init-filter';
+  </script>
+
   <script>
     // Highlight.js — 异步按需加载
     async function loadHighlightJS() {
-      const codeBlocks = document.querySelectorAll('pre code');
-      if (codeBlocks.length === 0) return; // 无代码块则跳过
+      const codeBlocks = document.querySelectorAll('pre code:not([data-highlighted])');
+      if (codeBlocks.length === 0) return; // 无未高亮的代码块则跳过
 
       // 加载 CSS
       if (!document.querySelector('link[href*="highlight.js"]')) {
@@ -117,6 +122,7 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
               block.classList.add('language-python');
             }
             hljs.highlightElement(block);
+            block.setAttribute('data-highlighted', 'true');
           });
         }
       } catch (e) {
@@ -175,14 +181,22 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
       }
     }
 
-    // Lazy Load Effect with Intersection Observer
+    // Lazy Load Effect with Intersection Observer（幂等：先断开旧 observer）
+    let blurObserver: IntersectionObserver | null = null;
+
     function initObserver() {
+      // 断开旧的 observer，避免堆积
+      if (blurObserver) {
+        blurObserver.disconnect();
+        blurObserver = null;
+      }
+
       const observerOptions = {
         threshold: 0.1,
         rootMargin: "0px 0px -50px 0px"
       };
 
-      const observer = new IntersectionObserver((entries) => {
+      blurObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('loaded');
@@ -190,8 +204,8 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
         });
       }, observerOptions);
 
-      document.querySelectorAll('.blur-load').forEach(el => {
-        observer.observe(el);
+      document.querySelectorAll('.blur-load:not(.loaded)').forEach(el => {
+        blurObserver!.observe(el);
       });
     }
 
@@ -202,12 +216,17 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
     }
     
     // Support both static sites and View Transitions
+    // 使用单次注册保护，避免 astro:page-load 重复绑定
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initPage);
     } else {
       initPage();
     }
-    document.addEventListener('astro:page-load', initPage);
+
+    if (!(window as any).__pageInitBound) {
+      document.addEventListener('astro:page-load', initPage);
+      (window as any).__pageInitBound = true;
+    }
   </script>
 </body>
 </html>

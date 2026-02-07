@@ -65,7 +65,7 @@ export const articles: Article[] = [
         category: 'Houdini',
         tags: ['Houdini', 'Automation', 'Code'],
         description: '在 Houdini 自动化或 Headless 环境中，如何绕过 Qt Dialog 直接执行核心 Python 业务逻辑。',
-        date: 'Jan 21, 2025',
+        date: 'Jan 21, 2026',
         readTime: '10 Min Read',
         placeholder: 'Houdini'
     },
@@ -86,7 +86,7 @@ export const articles: Article[] = [
         title: 'InsideUE4 源码分析系列',
         category: 'InsideUE4',
         tags: ['UE', 'Code', 'Basic'],
-        description: '深入 UE4 GamePlay 架构源码，从 Actor/Component 到 Level/World。包含2篇笔记，持续更新中。',
+        description: '深入 UE4 GamePlay 架构源码，从 Actor/Component 到 Level/World。包含10篇笔记，持续更新中。',
         date: 'Jan 4, 2025',
         readTime: 'Series',
         image: '/Articles/InsideUE4/Chapter01-ActorComponent/image.png'
@@ -214,7 +214,7 @@ export const articles: Article[] = [
     },
     {
         type: 'article',
-        href: '/articles/shaderlab-structure/',
+        href: '/articles/shader-lab-structure/',
         title: 'ShaderLab 结构详解',
         category: 'Shader',
         tags: ['Unity', 'Code'],

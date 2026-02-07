@@ -39,3 +39,6 @@ scripts/
 # Temp
 src/pages/articles_bak/
 notions/
+
+# Windows virtual device name artifact
+nul

@@ -1,51 +1,16 @@
 ---
+import { getEntryBySlug } from 'astro:content';
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
 
-const content = `                    <h2>0 引入——辐射度量学概述</h2>
-                    <p>在之前讲Blinn-Phong着色模型时，会设置一个数当做光照强度，但是这个数真实的物理意义我们并不甚清楚。辐射度量学给出了一系列度量方法和单位去定义光照，它定义了光照在空间中的属性，这在物理上是完全正确的。
-                    </p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled.png" alt="辐射度量学概述">
-                    <h2>1 相关概念</h2>
-                    <h3>1.1 Radiant Energy and Flux (Power)</h3>
-                    <p><strong>Radiant energy</strong>：辐射能量，单位焦耳J。<strong>Radiant
-                            Flux(Power)</strong>：单位时间内辐射出的能量，可以表示光的亮度。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 1.png" alt="Radiant Energy">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 2.png" alt="物理量定义">
-                    <h3>1.2 Radiant Intensity</h3>
-                    <p>Radiant Intensity：在单位时间内，往每个<strong>立体角（Solid Angle）</strong>上辐射出的能量。</p>
-                    <h3>1.3 Irradiance</h3>
-                    <p>Irradiance 定义：在单位时间内，每个单位面积上接受到的光照的能量，即 power per unit area。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 3.png" alt="Irradiance衰减">
-                    <h3>1.4 Radiance</h3>
-                    <p>Radiance是描述环境中光的分布的基本场量。定义：某个单位面，往某个单位立体角方向上的发出的能量。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 4.png" alt="Radiance定义">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 5.png" alt="Radiance和Irradiance">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 6.png" alt="积分关系">
-                    <h2>2 双向反射分布函数（BRDF）</h2>
-                    <p>BRDF定义了<strong>如何把表面上收集到的能量以某种比例放射到其他的方向上去</strong>。它描述了物体和光线之间的相互作用，正是由于BRDF的这种概念，决定了物体不同的材质到底是怎么一回事。
-                    </p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 7.png" alt="BRDF定义">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 8.png" alt="BRDF公式">
-                    <h2>3 反射方程→渲染方程</h2>
-                    <p>渲染效果 = 反射光 + 自身发光。渲染方程如下（注意我们默认所有方向都是朝外的）：</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 9.png" alt="反射方程">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 10.png" alt="递归">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 11.png" alt="渲染方程">
-                    <h2>4 全局光照 Global Illumination</h2>
-                    <p>把光线弹射的次数的项都加起来，也就是得到了全局光照。光栅化做的只有自发光以及直接光照。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 12.png" alt="弹射次数对比1">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L14-16/Untitled 13.png" alt="弹射次数对比2">
-                    <h2>5 概率论回顾</h2>
-                    <p>离散型随机变量及其分布、期望、连续型随机变量的概率密度函数（PDF）与期望等基础知识。</p>
-                    <h2>6 蒙特卡洛积分</h2>
-                    <p>蒙特卡洛积分是渲染方程的实现基础，通过随机采样来近似求解积分。</p>
-                `;
+const entry = await getEntryBySlug('articles', 'games101/l14-16');
+if (!entry) throw new Error('Missing article content: games101/l14-16');
+const { Content } = await entry.render();
 ---
 
-<ArticleLayout 
-  title="L14~16 Ray Tracing (2)" 
-  category="games101"
-  description="BRDF、渲染方程、全局光照、路径追踪"
+<ArticleLayout
+  title={entry.data.title}
+  category={entry.data.category}
+  description={entry.data.description}
 >
-  <div set:html={content} />
+  <Content />
 </ArticleLayout>

@@ -1,18 +1,38 @@
 ---
 // articles/index.astro - 文章列表页
+import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Sidebar from '../../components/Sidebar.astro';
 import Footer from '../../components/Footer.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
-import { articles } from '../../data/content';
+import type { Article } from '../../data/content';
 import { parseISODate } from '../../utils/date';
 
 const pageTitle = 'Articles - TechArt Chronicle';
 const description = '技术美术文章合集 - Unreal Engine、Unity Shader、Houdini、GAMES 系列课程笔记等。';
 
+const collectionArticles: Article[] = (await getCollection('articles'))
+  .filter((entry: CollectionEntry<'articles'>) => entry.data.listed !== false)
+  .map((entry: CollectionEntry<'articles'>) => {
+  const href = entry.data.href ?? `/articles/${entry.slug}/`;
+  return {
+    type: 'article',
+    href,
+    title: entry.data.title,
+    category: entry.data.category,
+    tags: entry.data.tags ?? [],
+    description: entry.data.description,
+    date: entry.data.date ?? '1970-01-01',
+    readTime: entry.data.readTime,
+    image: entry.data.image,
+    imageAlt: entry.data.imageAlt,
+    placeholder: entry.data.placeholder,
+  };
+  });
+
 // 按日期排序（最新优先，使用安全的 ISO 日期解析）
-const sortedArticles = [...articles].sort((a, b) => 
+const sortedArticles = [...collectionArticles].sort((a, b) => 
   parseISODate(b.date) - parseISODate(a.date)
 );
 ---
@@ -41,7 +61,7 @@ const sortedArticles = [...articles].sort((a, b) =>
 
         <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
           <span>Page 1 of 1</span>
-          <a href="#" class="text-ochre hover:underline">Back to Top ↑</a>
+          <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
         </div>
       </main>
     </div>

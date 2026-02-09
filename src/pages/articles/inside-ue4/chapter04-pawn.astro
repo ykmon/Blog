@@ -1,13 +1,16 @@
 ---
+import { getEntryBySlug } from 'astro:content';
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
 
-const content = `                    <h2>Component</h2>                    <p>在UE里，<strong>Component表达的是"功能"的概念</strong>。比如说你要实现一个可以响应的WASD移动的功能，或者是VR里抓取的功能，甚至是嵌套另一个Actor的功能，这些都是一个个组件。                    </p>                    <p>正确理解<strong>"功能"和"游戏业务逻辑"的区分</strong>是理解Component的关键要点。实现一个个"与特定游戏无关"的功能。理想情况下，等你的一个游戏完成，你那些已经实现完成的Components是可以无痛迁移到下一个游戏中用的。                    </p>                    <h2>Actor</h2>                    <p>不要因为 Actor 好用就往里塞满一切，真正需要理解的是<strong>表现（Actor）与逻辑控制（Controller）的分离</strong>。</p>                    <img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter04-Pawn/image.png" alt="Actor与Controller分离">                    <h2>Pawn</h2>                    <p>哪些Actor需要附加逻辑？并不是所有的Actor都需要和玩家互动，而我们所谓的游戏业务逻辑，实际上编写的就是该如何对玩家的输入提供反馈。这样的类别划作<strong>Pawn</strong>。                    </p>                    <p><strong>Pawn表达的最关键点是可被玩家操纵的能力。</strong></p>                    <blockquote>                        <p><strong>为何Actor也能接受Input事件？</strong></p>                        <ul>                            <li><strong>灵活性与普适性</strong>：输入种类（按键、摇杆、陀螺仪等）极其多样，官方无法预判哪些 Actor 子类一定不需要输入。</li>                            <li><strong>组件化原则</strong>：为了保持架构的一致性，UE 将输入功能封装为 <code>InputComponent</code>。由于 Actor                                是组件的载体，在基类中集成该组件能保证最大的灵活性。</li>                        </ul>                    </blockquote>                    <h2>DefaultPawn，SpectatorPawn，Character</h2>                    <p><strong>DefaultPawn</strong>：提供了一个默认的Pawn，默认带了一个DefaultPawnMovementComponent、spherical                        CollisionComponent和StaticMeshComponent。</p>                    <p><strong>SpectatorPawn</strong>：派生于DefaultPawn，提供了一个基本的USpectatorPawnMovement（不带重力漫游），并关闭了StaticMesh的显示，碰撞也设置到了"Spectator"通道。给它们一些摄像机"漫游"的能力。                    </p>                    <p><strong>Character</strong>：UE为我们直接提供了一个人形的Pawn来让我们操纵。像人一样行走的CharacterMovementComponent，尽量贴合的CapsuleComponent，再加上骨骼上蒙皮的网格。同样的三件套，不一样的配方。                    </p>                `;
+const entry = await getEntryBySlug('articles', 'inside-ue4/chapter04-pawn');
+if (!entry) throw new Error('Missing article content: inside-ue4/chapter04-pawn');
+const { Content } = await entry.render();
 ---
 
-<ArticleLayout 
-  title="GamePlay架构(4)：Pawn" 
-  category="inside-ue4"
-  description="2026年1月7日 · UE4 GamePlay 架构学习笔记"
+<ArticleLayout
+  title={entry.data.title}
+  category={entry.data.category}
+  description={entry.data.description}
 >
-  <div set:html={content} />
+  <Content />
 </ArticleLayout>

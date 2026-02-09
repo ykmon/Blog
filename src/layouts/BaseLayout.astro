@@ -66,7 +66,7 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
   <!-- KaTeX - 异步按需加载，仅在有数学公式时才加载 -->
 </head>
 
-<body class="antialiased min-h-screen font-body">
+<body id="top" class="antialiased min-h-screen font-body">
   <!-- Skip to content — 无障碍快捷跳转 -->
   <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-forest focus:text-white focus:rounded-sm focus:text-sm">
     跳转到主要内容

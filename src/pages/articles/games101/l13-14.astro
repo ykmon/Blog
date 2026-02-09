@@ -1,88 +1,16 @@
 ---
+import { getEntryBySlug } from 'astro:content';
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
 
-const content = `                    <h2>1 引入——Shadow Mapping 阴影贴图</h2>
-                    <p>之前提到光栅化的着色，我们知道这是一种局部的现象。着色的过程中，我们只会考虑着色点自己，光源，以及摄像机。我们不考虑其他物体，甚至不考虑物资自身的其他部分对着色点的影响。而事实上是会有遮挡的关系的，是会有阴影的。
-                    </p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled.png" alt="Shadow Mapping">
-                    <p>Shadow Mapping这个方法是一种图像空间的做法。关键思想在于——<strong>如果有点不在阴影里，那么这个点可以被摄像机和光源都看到</strong>。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 1.png" alt="阴影思想">
-                    <h3>1.1 阴影贴图原理</h3>
-                    <ol>
-                        <li>从光源看向场景，做一遍光栅化，得到光源能看到什么</li>
-                        <li>把这个图的深度记下来</li>
-                        <li>从摄像机出发，再次看向这个场景</li>
-                        <li>把现在看到的点，投影回光源刚才看到的投影平面上进行深度比较</li>
-                    </ol>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 2.png" alt="从光源看">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 3.png" alt="深度图">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 4.png" alt="从相机看">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 5.png" alt="深度一致">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 6.png" alt="深度不一致">
-                    <h3>1.2 存在的问题</h3>
-                    <ul>
-                        <li>硬阴影（点光源）</li>
-                        <li>阴影图的分辨率</li>
-                        <li>浮点数的比较</li>
-                    </ul>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 11.png" alt="软硬阴影">
-                    <h2>2 Why Ray Tracing?</h2>
-                    <p>光栅化不好做全局的效果，比如软阴影，光泽反射，间接光照。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 12.png" alt="全局效果">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 13.png" alt="光线追踪示例">
-                    <h2>3 基本光线跟踪算法</h2>
-                    <h3>3.1 光线定义</h3>
-                    <ul>
-                        <li>光沿直线传播</li>
-                        <li>不发生碰撞</li>
-                        <li>是从光源到人眼的（根据光路可逆性，应用时会采取从人眼到光源的方法）</li>
-                    </ul>
-                    <h3>3.2 Ray Casting 光线投射</h3>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 14.png" alt="光线投射">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 15.png" alt="Eye Ray">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 16.png" alt="Shadow Ray">
-                    <h3>3.3 递归(Whitted风格)光线追踪</h3>
-                    <p>光线可以弹射很多次，在每一个弹射点都会去计算着色的值，然后把它们都加回这个像素的值里面去。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 17.png" alt="Whitted开始">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 18.png" alt="反射折射">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 19.png" alt="多次弹射">
-                    <h2>4 光线与物体相交</h2>
-                    <h3>4.1 光线与隐式表面相交</h3>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 20.png" alt="光线与球">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 21.png" alt="求解">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 22.png" alt="一般隐式表面">
-                    <h3>4.2 光线与显式表面求交</h3>
-                    <p>三角形肯定在一个平面内，所以问题可以被分成两部分：光线是否和平面有交点；这个交点在不在三角形内部。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 23.png" alt="三角形求交">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 24.png" alt="分两步">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 25.png" alt="平面定义">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 26.png" alt="平面求交">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 27.png" alt="Moller-Trumbore">
-                    <h2>5 轴对齐包围盒（AABB）</h2>
-                    <p>包围盒的思想是，将一个复杂的物体，用简单的形状围起来，保证物体一定在这个简单的形状之内。如果光线连包围盒都碰不到，那肯定碰不到包围盒里的物体。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 28.png" alt="AABB求交">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 29.png" alt="AABB条件">
-                    <h2>6 加速结构</h2>
-                    <h3>6.1 均匀空间划分</h3>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 30.png" alt="均匀划分">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 31.png" alt="光线遍历">
-                    <h3>6.2 KD树</h3>
-                    <p>KD树每次沿着某一个轴砍开，并且只砍一刀。空间被划分成类似二叉树的结果。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 32.png" alt="KD树结构">
-                    <h3>6.3 物体划分 & BVH</h3>
-                    <p>BVH不从空间划分，而是从物体开始划分。一个物体只会出现在一个节点里，并且不用算三角形和包围盒求交了。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 33.png" alt="BVH划分1">
-                    <img loading="lazy" decoding="async" src="/Articles/GAMES101/L13-14/Untitled 34.png" alt="BVH划分2">
-                    <blockquote>
-                        <p>到这里我们算是讲完了Whitted风格的光线追踪。</p>
-                    </blockquote>
-                `;
+const entry = await getEntryBySlug('articles', 'games101/l13-14');
+if (!entry) throw new Error('Missing article content: games101/l13-14');
+const { Content } = await entry.render();
 ---
 
-<ArticleLayout 
-  title="L13~14 Ray Tracing (1)" 
-  category="games101"
-  description="Whitted风格光线追踪"
+<ArticleLayout
+  title={entry.data.title}
+  category={entry.data.category}
+  description={entry.data.description}
 >
-  <div set:html={content} />
+  <Content />
 </ArticleLayout>

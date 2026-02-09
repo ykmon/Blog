@@ -24,8 +24,13 @@ check_last.txt
 .DS_Store
 Thumbs.db
 
-# Original article sources (Notion exports) - already migrated to public/Articles/
-Articles/
+# Original article sources (Notion exports)
+/Articles/
+
+# Notion export HTML/MD files inside public (images are tracked, source files are not)
+public/Articles/**/*.html
+public/Articles/**/*.md
+public/Articles/**/*.mp4
 
 # Legacy backup (pre-Astro HTML pages)
 _legacy_backup/

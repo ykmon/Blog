@@ -1,22 +1,29 @@
-# 技术美术笔记
+# TechArt Chronicle. | 技术美术志
 
-你好！我是一名技术美术（Technical Artist），这里记录了我在工作和学习中的技术笔记与经验分享。
+> *"不要温和地走入那良夜。Do not go gentle into that good night."*
 
-## 文章目录
+技术美术博客 — 分享 Unreal Engine、Houdini、Shader 开发、自动化管线等技术笔记与经验。
 
-- [Groom物理参数解释](./Groom物理参数解释/) - Unreal Engine 中 Groom 毛发系统的物理参数详解
-- [Unreal SVN仓库搭建指北](./Unreal%20SVN仓库搭建指北/) - Unreal 项目使用 SVN 进行版本控制的搭建指南、
-- [ShaderLab结构详解](./ShaderLab结构详解/)
-- [Tools](./Tools/) - Houdini项目中使用的部分Python脚本
-
-## 关于我
-
-专注于游戏开发中的技术美术领域，涉及：
-- 渲染管线与 Shader 开发
-- 程序化内容生成
-- 工具开发与工作流优化
-- 引擎技术研究
+🌐 **在线访问**：[www.ykmon.top](https://www.ykmon.top)  
+📺 **Bilibili**：[space.bilibili.com/18272055](https://space.bilibili.com/18272055)
 
 ---
 
-如有问题或建议，欢迎交流！
+## 内容概览
+
+- **技术文章** — 涵盖 Unreal Engine、Houdini、Unity Shader、DevOps 等方向的原创笔记
+- **系列笔记** — InsideUE4 源码分析（10 章）、GAMES104 游戏引擎（6 讲）、GAMES101 图形学入门（7 讲）
+- **Houdini 工具** — 日常积累的 Houdini Python 实用脚本合集
+- **视频作品** — PCG 程序化场景生成、自动化布料解算等项目演示
+
+---
+
+## 关于我
+
+**YKMON** — Technical Artist
+
+致力于自动化管线开发，非传统技术美术，从项目管理到技术落地。专注于引擎技术、程序化内容生成、Shader 开发、自动化工具与工作流优化。
+
+---
+
+© 2025 TechArt Chronicle. All rights reserved.

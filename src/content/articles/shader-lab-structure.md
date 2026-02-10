@@ -105,7 +105,7 @@ fixed4 _Color;
 - **struct a2v**: Application to Vertex (应用到顶点)。我们需要定义输入什么数据，如 POSITION, NORMAL, TEXCOORD0。
 - **struct v2f**: Vertex to Fragment (顶点到片元)。这是两者的桥梁，必须包含 SV_POSITION。
 
-<img loading="lazy" decoding="async" src="/Articles/shader-lab-structure/Untitled.png" alt="Structure 4" class="rounded-sm shadow-md">
+<img loading="lazy" decoding="async" src="/Articles/ShaderLabStructure/Untitled.png" alt="Structure 4" class="rounded-sm shadow-md">
 
 ## 4. 顶点着色器 (Vertex Shader)
 

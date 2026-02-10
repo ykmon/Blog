@@ -9,36 +9,31 @@ tags:
 ---
 
 <h2>UObject</h2>
-                    <p>藉着UObject提供的元数据、反射生成、GC垃圾回收、序列化、编辑器可见、Class Default Object等，UE可以构建一个Object运行的世界。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter01-ActorComponent/image.png" alt="UObject继承体系">
-                    <h2>Actor</h2>
-                    <p>UE取一些UObject的泥巴，派生出了Actor。在UE眼中，整个世界从此了有了一个个生动的"演员"，众多的"演员"们，一起齐心协力为观众上演一场精彩的游戏。</p>
-                    <img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter01-ActorComponent/image 1.png" alt="Actor体系">
-                    <p>脱胎自Object的Actor也多了一些本事：<strong>Replication</strong>（网络复制）,<strong>Spawn</strong>（生生死死），<strong>Tick</strong>(有了心跳)。
-                    </p>
-                    <blockquote>
-                        <p><strong>为何Actor不像GameObject一样自带Transform？</strong></p>
-                        <p>关键在于，在UE看来，Actor并不只是3D中的"表示"，一些不在世界里展示的"不可见对象"也可以是Actor，如AInfo(派生类AWorldSetting,AGameMode,AGameSession,APlayerState,AGameState等)，AHUD,APlayerCameraManager等，代表了这个世界的某种信息、状态、规则。你可以把这些看作都是一个个默默工作的灵体Actor。
-                        </p>
-                    </blockquote>
-                    <p>经过了UE的权衡和考虑，把Transform封装进了<strong>SceneComponent</strong>,当作RootComponent。</p>
-                    <h2>Component</h2>
-                    <p>在早期，每个Actor拥有的技能都是与生俱有，只能父传子一代代的传下去。随着游戏世界的越来越绚丽，需要的技能变得越来越多和频繁改变，这样一组合，Actor数量们就开始爆炸了，难以管理，UE下定决心让Actor轻装上阵，只提供一些通用的基本生存能力，而把众多的"技能"抽象成了一个个"Component"并提供组装的接口，让Actor随用随组装。
-                    </p>
-                    <p>ActorComponent下面最重要的一个Component就非<strong>SceneComponent</strong>莫属了。SceneComponent提供了两大能力：一是Transform，二是SceneComponent的互相嵌套。
-                    </p>
-                    <img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter01-ActorComponent/image 2.png" alt="Component体系">
-                    <img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter01-ActorComponent/image 3.png" alt="SceneComponent嵌套">
-                    <blockquote>
-                        <p><strong>为何ActorComponent不能互相嵌套？而在SceneComponent一级才提供嵌套？</strong></p>
-                        <p>UE 的组件体系是<strong>刻意分层设计</strong>的，而不是能力递增式"随意嵌套"。</p>
-                        <ul>
-                            <li>ActorComponent = 行为组合，不是结构节点</li>
-                            <li>SceneComponent = 空间节点，必须构成树</li>
-                        </ul>
-                    </blockquote>
-                    <blockquote>
-                        <p><strong>Actor的SceneComponent哲学</strong></p>
-                        <p>采用<strong>容器 + 组件</strong>结构。车是一个 Actor（容器），车身是 RootComponent，轮子是挂载在下的子
-                            Component。为了<strong>聚合管理和逻辑封装</strong>，体现了从"控制每一个像素"到"控制每一个对象"的工程化思维转变。</p>
-                    </blockquote>
+<p>藉着UObject提供的元数据、反射生成、GC垃圾回收、序列化、编辑器可见、Class Default Object等，UE可以构建一个Object运行的世界。</p>
+<img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter01-ActorComponent/image.png" alt="UObject继承体系">
+<h2>Actor</h2>
+<p>UE取一些UObject的泥巴，派生出了Actor。在UE眼中，整个世界从此了有了一个个生动的"演员"，众多的"演员"们，一起齐心协力为观众上演一场精彩的游戏。</p>
+<img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter01-ActorComponent/image 1.png" alt="Actor体系">
+<p>脱胎自Object的Actor也多了一些本事：<strong>Replication</strong>（网络复制）,<strong>Spawn</strong>（生生死死），<strong>Tick</strong>(有了心跳)。</p>
+<blockquote>
+<p><strong>为何Actor不像GameObject一样自带Transform？</strong></p>
+<p>关键在于，在UE看来，Actor并不只是3D中的"表示"，一些不在世界里展示的"不可见对象"也可以是Actor，如AInfo(派生类AWorldSetting,AGameMode,AGameSession,APlayerState,AGameState等)，AHUD,APlayerCameraManager等，代表了这个世界的某种信息、状态、规则。你可以把这些看作都是一个个默默工作的灵体Actor。</p>
+</blockquote>
+<p>经过了UE的权衡和考虑，把Transform封装进了<strong>SceneComponent</strong>,当作RootComponent。</p>
+<h2>Component</h2>
+<p>在早期，每个Actor拥有的技能都是与生俱有，只能父传子一代代的传下去。随着游戏世界的越来越绚丽，需要的技能变得越来越多和频繁改变，这样一组合，Actor数量们就开始爆炸了，难以管理，UE下定决心让Actor轻装上阵，只提供一些通用的基本生存能力，而把众多的"技能"抽象成了一个个"Component"并提供组装的接口，让Actor随用随组装。</p>
+<p>ActorComponent下面最重要的一个Component就非<strong>SceneComponent</strong>莫属了。SceneComponent提供了两大能力：一是Transform，二是SceneComponent的互相嵌套。</p>
+<img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter01-ActorComponent/image 2.png" alt="Component体系">
+<img loading="lazy" decoding="async" src="/Articles/InsideUE4/Chapter01-ActorComponent/image 3.png" alt="SceneComponent嵌套">
+<blockquote>
+<p><strong>为何ActorComponent不能互相嵌套？而在SceneComponent一级才提供嵌套？</strong></p>
+<p>UE 的组件体系是<strong>刻意分层设计</strong>的，而不是能力递增式"随意嵌套"。</p>
+<ul>
+<li>ActorComponent = 行为组合，不是结构节点</li>
+<li>SceneComponent = 空间节点，必须构成树</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>Actor的SceneComponent哲学</strong></p>
+<p>采用<strong>容器 + 组件</strong>结构。车是一个 Actor（容器），车身是 RootComponent，轮子是挂载在下的子 Component。为了<strong>聚合管理和逻辑封装</strong>，体现了从"控制每一个像素"到"控制每一个对象"的工程化思维转变。</p>
+</blockquote>

@@ -17,6 +17,18 @@ const articles = defineCollection({
   }),
 });
 
+const tools = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    category: z.string().default('Houdini / Tool'),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+  }),
+});
+
 export const collections = {
   articles,
+  tools,
 };

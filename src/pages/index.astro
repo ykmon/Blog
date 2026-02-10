@@ -35,6 +35,10 @@ const collectionArticles: Article[] = (await getCollection('articles'))
 const allContent: ContentItem[] = [...collectionArticles, ...tools, ...videos].sort((a, b) => {
   return parseISODate(b.date) - parseISODate(a.date);
 });
+
+// 分离：第一篇文章作为 Hero，其余进入网格
+const firstArticle = allContent.find(item => item.type === 'article') as Article | undefined;
+const restContent = firstArticle ? allContent.filter(item => item !== firstArticle) : allContent;
 ---
 
 <BaseLayout title={pageTitle} description={description}>
@@ -51,117 +55,176 @@ const allContent: ContentItem[] = [...collectionArticles, ...tools, ...videos].s
         <div class="timeline-line hidden lg:block absolute left-12 top-0 bottom-0 width-px bg-gray-200" style="left: 2rem; width: 1px; z-index: 0;"></div>
 
         <div id="timeline-container">
-          {allContent.map((item, index) => (
-            <>
-              {item.type === 'article' && (
-                <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-start blur-load group scroll-mt-24" data-tags={item.tags?.join(',')}>
-                  <div class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
-                    {formatDateCN(item.date)}
-                  </div>
-                  <div class="md:col-span-12 lg:col-span-12">
-                    <div class="flex flex-col mb-4">
-                      <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2">No. {String(allContent.length - index).padStart(3, '0')} — {item.category}</span>
-                      <a href={item.href} class="block">
-                        <h2 class="font-serif text-3xl md:text-5xl font-bold leading-tight text-ink group-hover:text-forest transition-colors cursor-pointer">
-                          {item.title}
-                        </h2>
-                      </a>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-8 relative z-20">
-                      <div class="font-body text-gray-700 leading-relaxed text-lg text-justify">
-                        <a href={item.href} class="block hover:text-ink transition-colors">
-                          <p class="drop-cap">{item.description}</p>
-                        </a>
-                      </div>
-                      <div class="relative pt-2">
-                        <a href={item.href} class="block aspect-[4/3] bg-gray-200 overflow-hidden rounded-sm shadow-md">
-                          {item.image ? (
-                            <img loading="lazy" decoding="async" src={item.image} class="object-cover w-full h-full hover:scale-105 transition-transform duration-700 grayscale-[0.2]" alt={item.title} />
-                          ) : (
-                            <div class="w-full h-full bg-forest flex items-center justify-center text-paper font-serif italic text-2xl">
-                              {item.category}
-                            </div>
-                          )}
-                        </a>
-                        <div class="mt-4 flex justify-between items-center border-t border-gray-300 pt-3">
-                          <span class="text-xs text-gray-500 uppercase tracking-widest">{formatDateEN(item.date)} • {item.readTime}</span>
-                          <a href={item.href} class="text-sm text-ochre italic font-serif hover:underline">Read Full Article ⟶</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              )}
 
-              {item.type === 'video' && (
-                <article class="relative mb-20 blur-load scroll-mt-24" data-tags={item.tags?.join(',')}>
-                  <div class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
-                    {formatDateCN(item.date)}
-                  </div>
-                  <div class="max-w-4xl mx-auto">
-                    <div class="bg-white p-3 retro-frame transform hover:-translate-y-1 transition-transform duration-500 shadow-[10px_10px_20px_rgba(0,0,0,0.05)] border-8 border-[#e5e5e0] outline outline-1 outline-[#d1d1cc] rounded-sm">
-                      <div class="aspect-video bg-gray-800 relative overflow-hidden group">
-                        <iframe
-                          src={`https://player.bilibili.com/player.html?isOutside=true&aid=${item.aid}&bvid=${item.bvid}&cid=${item.cid}&p=1&autoplay=0`}
-                          title={item.title}
-                          loading="lazy"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowfullscreen
-                          class="w-full h-full absolute inset-0"
-                          style="border:0;"></iframe>
-                      </div>
-                      <div class="p-6 flex justify-between items-end">
-                        <div>
-                          <h3 class="font-serif text-2xl font-bold italic mb-1">{item.title}</h3>
-                          <p class="text-xs text-gray-500 uppercase tracking-widest">{item.category}</p>
-                        </div>
-                        <div class="text-ochre">◎ Bilibili</div>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              )}
-
-              {item.type === 'tool' && (
-                <article class="relative mb-20 md:grid md:grid-cols-12 gap-8 items-center blur-load group scroll-mt-24" data-tags={item.tags?.join(',')}>
-                  <div class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
-                    {formatDateCN(item.date)}
-                  </div>
-                  <div class="col-span-12 max-w-3xl mx-auto w-full">
-                    <a href={item.href} class="block bg-white border border-gray-200 p-8 hover:border-ochre transition-all hover:shadow-lg group-hover:-translate-y-1">
-                      <div class="flex items-start gap-6">
-                        <div class="text-4xl text-ochre">{item.icon}</div>
-                        <div>
-                          <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">New Tool Released</div>
-                          <h3 class="font-serif text-2xl font-bold text-ink mb-2 group-hover:text-ochre transition-colors">
-                            {item.title}
-                          </h3>
-                          <p class="text-gray-600 italic font-serif">{item.description}</p>
-                        </div>
-                      </div>
+          {/* ═══════ HERO: 最新文章大图展示 ═══════ */}
+          {firstArticle && (
+            <article class="relative mb-12 blur-load group scroll-mt-24" data-tags={firstArticle.tags?.join(',')}>
+              <div class="hidden lg:block absolute left-8 top-0 -translate-x-[calc(50%+1px)] bg-paper py-1 text-xs font-bold text-ochre border border-gray-300 z-10 w-fit px-2">
+                {formatDateCN(firstArticle.date)}
+              </div>
+              <div>
+                <div class="flex flex-col mb-3">
+                  <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-1">No. {String(allContent.length).padStart(3, '0')} — {firstArticle.category}</span>
+                  <a href={firstArticle.href} class="block">
+                    <h2 class="font-serif text-2xl md:text-4xl font-bold leading-tight text-ink group-hover:text-forest transition-colors cursor-pointer">
+                      {firstArticle.title}
+                    </h2>
+                  </a>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 relative z-20">
+                  <div class="font-body text-gray-700 leading-relaxed text-base text-justify">
+                    <a href={firstArticle.href} class="block hover:text-ink transition-colors">
+                      <p class="drop-cap">{firstArticle.description}</p>
                     </a>
                   </div>
-                </article>
-              )}
+                  <div class="relative pt-1">
+                    <a href={firstArticle.href} class="block aspect-[4/3] bg-gray-200 overflow-hidden rounded-sm shadow-md relative">
+                      {firstArticle.image ? (
+                        <img loading="lazy" decoding="async" src={firstArticle.image} class="object-cover w-full h-full hover:scale-105 transition-transform duration-700 grayscale-[0.2]" alt={firstArticle.title} />
+                      ) : (
+                        <div class="w-full h-full bg-forest flex items-center justify-center text-paper font-serif italic text-2xl">
+                          {firstArticle.category}
+                        </div>
+                      )}
+                      {firstArticle.readTime === 'Series' && (
+                        <span class="series-badge">
+                          <svg class="inline-block w-3 h-3 mr-1 -mt-px" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h3.879a1.5 1.5 0 0 1 1.06.44l1.122 1.12A1.5 1.5 0 0 0 9.62 4H13.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5v-9z"/></svg>
+                          SERIES
+                        </span>
+                      )}
+                    </a>
+                    <div class="mt-3 flex justify-between items-center border-t border-gray-300 pt-2">
+                      <span class="text-xs text-gray-500 uppercase tracking-widest">{formatDateEN(firstArticle.date)} • {firstArticle.readTime}</span>
+                      <a href={firstArticle.href} class="text-sm text-ochre italic font-serif hover:underline">Read Full Article ⟶</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          )}
 
-              {index < allContent.length - 1 && (
-                <hr class="border-gray-200 mb-20 w-1/2 mx-auto" />
-              )}
-            </>
-          ))}
+          <hr class="border-gray-200 mb-10 w-2/3 mx-auto" />
+
+          {/* ═══════ 网格区域：其余内容双列紧凑卡片 ═══════ */}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {restContent.map((item, index) => (
+              <>
+                {item.type === 'article' && (
+                  <a href={item.href}
+                     class="group block bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-ochre hover:shadow-lg transition-all duration-300 hover:-translate-y-1 blur-load scroll-mt-24"
+                     data-tags={item.tags?.join(',')}>
+                    {/* 缩略图 */}
+                    <div class="aspect-[16/9] bg-gray-200 overflow-hidden relative">
+                      {item.image ? (
+                        <img loading="lazy" decoding="async" src={item.image}
+                             class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 grayscale-[0.2]"
+                             alt={item.title} />
+                      ) : (
+                        <div class="w-full h-full bg-forest flex items-center justify-center text-paper font-serif italic text-xl">
+                          {item.category}
+                        </div>
+                      )}
+                      {item.readTime === 'Series' && (
+                        <span class="series-badge">
+                          <svg class="inline-block w-3 h-3 mr-1 -mt-px" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h3.879a1.5 1.5 0 0 1 1.06.44l1.122 1.12A1.5 1.5 0 0 0 9.62 4H13.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5v-9z"/></svg>
+                          SERIES
+                        </span>
+                      )}
+                    </div>
+                    {/* 内容 */}
+                    <div class="p-5">
+                      <div class="flex items-center gap-2 mb-2">
+                        <span class="text-ochre font-bold text-[10px] tracking-wider uppercase">No. {String(allContent.length - allContent.indexOf(item)).padStart(3, '0')}</span>
+                        <span class="text-gray-300">|</span>
+                        <span class="text-[10px] text-gray-500 uppercase tracking-wider">{item.category}</span>
+                      </div>
+                      <h3 class="font-serif text-lg font-bold leading-snug text-ink group-hover:text-forest transition-colors mb-2 line-clamp-2">
+                        {item.title}
+                      </h3>
+                      <p class="text-sm text-gray-600 leading-relaxed line-clamp-2 mb-3">
+                        {item.description}
+                      </p>
+                      <div class="flex justify-between items-center border-t border-gray-100 pt-3">
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest">{formatDateEN(item.date)} • {item.readTime}</span>
+                        <span class="text-xs text-ochre italic font-serif group-hover:underline">Read ⟶</span>
+                      </div>
+                    </div>
+                  </a>
+                )}
+
+                {item.type === 'video' && (
+                  <article class="bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-ochre hover:shadow-lg transition-all duration-300 hover:-translate-y-1 blur-load scroll-mt-24"
+                           data-tags={item.tags?.join(',')}>
+                    <div class="aspect-video bg-gray-800 relative overflow-hidden">
+                      <iframe
+                        src={`https://player.bilibili.com/player.html?isOutside=true&aid=${item.aid}&bvid=${item.bvid}&cid=${item.cid}&p=1&autoplay=0`}
+                        title={item.title}
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        class="w-full h-full absolute inset-0"
+                        style="border:0;"></iframe>
+                    </div>
+                    <div class="p-5">
+                      <div class="flex items-center gap-2 mb-2">
+                        <span class="text-ochre font-bold text-[10px] tracking-wider uppercase">▶ Video</span>
+                        <span class="text-gray-300">|</span>
+                        <span class="text-[10px] text-gray-500 uppercase tracking-wider">{item.category}</span>
+                      </div>
+                      <h3 class="font-serif text-lg font-bold leading-snug text-ink mb-1 line-clamp-2">
+                        {item.title}
+                      </h3>
+                      <div class="flex justify-between items-center border-t border-gray-100 pt-3 mt-2">
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest">{formatDateEN(item.date)}</span>
+                        <span class="text-xs text-ochre italic font-serif">◎ Bilibili</span>
+                      </div>
+                    </div>
+                  </article>
+                )}
+
+                {item.type === 'tool' && (
+                  <a href={item.href}
+                     class="group block bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-ochre hover:shadow-lg transition-all duration-300 hover:-translate-y-1 blur-load scroll-mt-24"
+                     data-tags={item.tags?.join(',')}>
+                    <div class="p-5 flex items-start gap-4">
+                      <div class="text-3xl text-ochre flex-shrink-0 mt-1">{item.icon}</div>
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-2">
+                          <span class="text-ochre font-bold text-[10px] tracking-wider uppercase">⚙ Tool</span>
+                          <span class="text-gray-300">|</span>
+                          <span class="text-[10px] text-gray-500 uppercase tracking-wider">New Release</span>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold leading-snug text-ink group-hover:text-forest transition-colors mb-2 line-clamp-2">
+                          {item.title}
+                        </h3>
+                        <p class="text-sm text-gray-600 italic font-serif line-clamp-2 mb-3">
+                          {item.description}
+                        </p>
+                        <div class="flex justify-between items-center border-t border-gray-100 pt-3">
+                          <span class="text-[10px] text-gray-400 uppercase tracking-widest">{formatDateEN(item.date)}</span>
+                          <span class="text-xs text-ochre italic font-serif group-hover:underline">View ⟶</span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                )}
+              </>
+            ))}
+          </div>
+
         </div>
 
-        <hr class="border-gray-200 mb-20 w-1/2 mx-auto">
+        <hr class="border-gray-200 my-10 w-2/3 mx-auto">
 
         <!-- Entry: Quote -->
-        <article id="about" class="relative mb-20 blur-load scroll-mt-24">
-            <div class="bg-ink text-paper p-12 md:p-16 text-center rounded-sm shadow-retro max-w-3xl mx-auto relative overflow-hidden">
+        <article id="about" class="relative mb-12 blur-load scroll-mt-24">
+            <div class="bg-ink text-paper p-10 md:p-14 text-center rounded-sm shadow-retro max-w-3xl mx-auto relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-forest via-ochre to-forest"></div>
-                <div class="absolute top-6 left-6 text-6xl text-gray-700 opacity-30 font-serif">“</div>
-                <blockquote class="font-serif text-2xl md:text-3xl italic leading-loose z-10 relative">
+                <div class="absolute top-6 left-6 text-6xl text-gray-700 opacity-30 font-serif">"</div>
+                <blockquote class="font-serif text-xl md:text-2xl italic leading-loose z-10 relative">
                     "Shader 代码不只是数学公式的堆砌，<br>它是光线在物体表面起舞的编排。"
                 </blockquote>
-                <cite class="block mt-8 font-body text-xs tracking-[0.2em] uppercase text-ochre">— TechArt Notes</cite>
+                <cite class="block mt-6 font-body text-xs tracking-[0.2em] uppercase text-ochre">— TechArt Notes</cite>
             </div>
         </article>
 
@@ -171,5 +234,3 @@ const allContent: ContentItem[] = [...collectionArticles, ...tools, ...videos].s
 
   <Footer />
 </BaseLayout>
-
-

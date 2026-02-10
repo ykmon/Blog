@@ -51,6 +51,26 @@ body {
     10px 10px 20px rgba(0, 0, 0, 0.05);
 }
 
+/* Series Badge — 系列文章标记 */
+.series-badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem 0.2rem 0.4rem;
+  background: theme('colors.forest');
+  color: #fff;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+  pointer-events: none;
+}
+
 /* Retro Card */
 .retro-card {
   border: 1px solid rgba(0, 0, 0, 0.05);
@@ -126,4 +146,64 @@ body.drawer-open {
 .katex-display::-webkit-scrollbar-thumb {
   background: rgba(138, 98, 64, 0.3);
   border-radius: 2px;
+}
+
+/* ===== Shiki 代码块样式（构建时高亮，零运行时 JS） ===== */
+
+/* Shiki 生成的 pre 标签 — 代码块容器 */
+.prose pre {
+  position: relative;
+  margin: 1.5em 0;
+  padding: 1.25em 1.5em;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+  font-size: 0.875em;
+  line-height: 1.7;
+  tab-size: 2;
+}
+
+/* 代码块内的 code 标签 — 重置 Tailwind Typography 的默认样式 */
+.prose pre code {
+  background: transparent !important;
+  color: inherit !important;
+  border-radius: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: normal;
+  border: none;
+}
+
+/* 行内 code — 保持 Tailwind Typography 的样式 */
+.prose :not(pre) > code {
+  background: #f1f5f9;
+  color: #b91c1c;
+  border-radius: 0.25rem;
+  padding: 0.15em 0.35em;
+  font-size: 0.875em;
+  font-weight: normal;
+}
+
+/* 行内 code 去掉 Tailwind Typography 默认的反引号伪元素 */
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+/* 代码块滚动条 — 与复古主题一致 */
+.prose pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.prose pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.prose pre::-webkit-scrollbar-thumb {
+  background: rgba(138, 98, 64, 0.25);
+  border-radius: 3px;
+}
+
+.prose pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(138, 98, 64, 0.4);
 }

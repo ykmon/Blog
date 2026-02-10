@@ -30,7 +30,7 @@ const {
 ---
 
 <a href={href} class="retro-card p-8 md:grid md:grid-cols-3 gap-6 items-center text-ink group block" data-tags={tags.join(',')}>
-  <div class="md:col-span-1 aspect-[4/3] bg-gray-200 overflow-hidden rounded-sm">
+  <div class="md:col-span-1 aspect-[4/3] bg-gray-200 overflow-hidden rounded-sm relative">
     {image ? (
       <img 
         loading="lazy" decoding="async" src={image} 
@@ -41,6 +41,12 @@ const {
       <div class="w-full h-full bg-forest flex items-center justify-center">
         <span class="text-paper font-serif text-4xl italic">{placeholder || category.slice(0, 3).toUpperCase()}</span>
       </div>
+    )}
+    {readTime === 'Series' && (
+      <span class="series-badge">
+        <svg class="inline-block w-3 h-3 mr-1 -mt-px" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h3.879a1.5 1.5 0 0 1 1.06.44l1.122 1.12A1.5 1.5 0 0 0 9.62 4H13.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5v-9z"/></svg>
+        SERIES
+      </span>
     )}
   </div>
   <div class="md:col-span-2 mt-4 md:mt-0">

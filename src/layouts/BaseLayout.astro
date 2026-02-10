@@ -1,5 +1,6 @@
 ---
 // BaseLayout.astro - 基础布局模板
+import '../styles/fonts.css';
 import '../styles/global.css';
 import MobileNav from '../components/MobileNav.astro';
 import MusicPlayer from '../components/MusicPlayer.astro';
@@ -56,14 +57,10 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
   <meta name="twitter:description" content={description}>
   <meta name="twitter:image" content={absoluteImageUrl}>
   
-  <!-- Fonts — 异步预加载，避免阻塞渲染 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"></noscript>
+  <!-- Fonts — 自托管字体，通过 fonts.css 中的 @font-face + unicode-range 按需加载 -->
   
-  <!-- Highlight.js - 异步按需加载，仅在有代码块时才加载 -->
   <!-- KaTeX - 异步按需加载，仅在有数学公式时才加载 -->
+  <!-- 代码高亮已由 Astro 内置 Shiki 在构建时完成，无需运行时 JS -->
 </head>
 
 <body id="top" class="antialiased min-h-screen font-body">
@@ -83,53 +80,6 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
   </script>
 
   <script>
-    // Highlight.js — 异步按需加载
-    async function loadHighlightJS() {
-      const codeBlocks = document.querySelectorAll('pre code:not([data-highlighted])');
-      if (codeBlocks.length === 0) return; // 无未高亮的代码块则跳过
-
-      // 加载 CSS
-      if (!document.querySelector('link[href*="highlight.js"]')) {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css';
-        document.head.appendChild(link);
-      }
-
-      // 动态加载 highlight.js 核心 + 语言包
-      const loadScript = (src: string): Promise<void> => new Promise((resolve, reject) => {
-        if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
-        const s = document.createElement('script');
-        s.src = src;
-        s.onload = () => resolve();
-        s.onerror = () => reject(new Error(`Failed to load ${src}`));
-        document.head.appendChild(s);
-      });
-
-      try {
-        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js');
-        await Promise.all([
-          loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js'),
-          loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js'),
-          loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/glsl.min.js'),
-        ]);
-
-        // 高亮所有代码块
-        const hljs = (window as any).hljs;
-        if (hljs) {
-          codeBlocks.forEach((block) => {
-            if (!block.className.includes('language-')) {
-              block.classList.add('language-python');
-            }
-            hljs.highlightElement(block);
-            block.setAttribute('data-highlighted', 'true');
-          });
-        }
-      } catch (e) {
-        console.warn('Highlight.js load failed:', e);
-      }
-    }
-    
     // KaTeX — 异步按需加载数学公式渲染
     async function loadKaTeX() {
       // 检测页面中是否包含 LaTeX 数学公式分隔符 \(...\) 或 \[...\] 或 $$...$$
@@ -210,7 +160,6 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
     }
 
     function initPage() {
-      loadHighlightJS();
       loadKaTeX();
       initObserver();
     }

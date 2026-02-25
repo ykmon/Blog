@@ -1,0 +1,82 @@
+---
+// RelatedArticles.astro - 相关文章推荐组件
+import { getCollection, type CollectionEntry } from 'astro:content';
+import type { Article } from '../data/content';
+
+export interface Props {
+  currentSlug: string;
+  tags: string[];
+  category: string;
+  limit?: number;
+}
+
+const { currentSlug, tags, category, limit = 3 } = Astro.props;
+
+// 获取所有文章
+const allArticles: Article[] = (await getCollection('articles'))
+  .filter((entry: CollectionEntry<'articles'>) => entry.data.listed !== false)
+  .map((entry: CollectionEntry<'articles'>) => {
+    const href = entry.data.href ?? `/articles/${entry.slug}/`;
+    return {
+      type: 'article',
+      href,
+      title: entry.data.title,
+      category: entry.data.category,
+      tags: entry.data.tags ?? [],
+      description: entry.data.description,
+      date: entry.data.date ?? '1970-01-01',
+      readTime: entry.data.readTime,
+      image: entry.data.image,
+    };
+  });
+
+// 计算相关度分数
+function calculateRelevance(article: Article): number {
+  if (article.href === `/articles/${currentSlug}/`) return -1; // 排除当前文章
+  
+  let score = 0;
+  
+  // 标签匹配
+  const matchedTags = article.tags.filter(t => tags.includes(t));
+  score += matchedTags.length * 2;
+  
+  // 分类匹配
+  if (article.category === category) score += 1;
+  
+  return score;
+}
+
+// 排序并取前 N 篇
+const relatedArticles = allArticles
+  .map(article => ({ ...article, score: calculateRelevance(article) }))
+  .filter(article => article.score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, limit);
+
+// 如果没有相关文章，不显示组件
+if (relatedArticles.length === 0) {
+  return null;
+}
+---
+
+<section class="mt-16 pt-8 border-t border-gray-200">
+  <h3 class="font-serif text-lg font-bold text-ink mb-6 italic">Related Articles</h3>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {relatedArticles.map((article) => (
+      <a 
+        href={article.href}
+        class="group block p-4 bg-white border border-gray-200 rounded-sm hover:border-ochre hover:shadow-md transition-all"
+      >
+        <span class="text-ochre font-bold text-[10px] tracking-wider uppercase mb-2 block">
+          {article.category}
+        </span>
+        <h4 class="font-serif text-sm font-bold text-ink group-hover:text-forest transition-colors line-clamp-2 mb-2">
+          {article.title}
+        </h4>
+        <p class="text-xs text-gray-500 line-clamp-2">
+          {article.description}
+        </p>
+      </a>
+    ))}
+  </div>
+</section>

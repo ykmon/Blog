@@ -2,6 +2,9 @@
 title: "按照组拆分模型"
 description: "自动按照Point/Prim/Edge组拆分几何体"
 category: "Houdini / Tool"
+tags:
+  - Houdini
+  - Code
 ---
 
 自动遍历选中节点的所有 Point/Prim/Edge 组，使用 Blast 节点拆分并输出每个组的几何体。

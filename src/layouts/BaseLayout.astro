@@ -3,8 +3,6 @@
 import '../styles/fonts.css';
 import '../styles/global.css';
 import MobileNav from '../components/MobileNav.astro';
-import MusicPlayer from '../components/MusicPlayer.astro';
-
 export interface Props {
   title: string;
   description?: string;
@@ -72,7 +70,6 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
     <slot />
   </div>
   <MobileNav />
-  <MusicPlayer playlistId="348612884" type="album" />
   
   <!-- 统一过滤控制器（搜索 + 标签） -->
   <script>

@@ -2,7 +2,7 @@
 // tools/index.astro - 工具列表页
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
-import SubPageSidebar from '../../components/SubPageSidebar.astro';
+import UnifiedSidebar from '../../components/UnifiedSidebar.astro';
 import Footer from '../../components/Footer.astro';
 
 const pageTitle = 'Houdini Tools - TechArt Chronicle';
@@ -17,10 +17,10 @@ import { tools } from '../../data/content';
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-      <SubPageSidebar currentSection="tools" />
+      <UnifiedSidebar currentSection="tools" showProfile={false} showFilter={false} />
 
       <!-- MAIN CONTENT -->
-      <main class="lg:col-span-8 lg:col-start-5 relative">
+      <main class="lg:col-span-9 relative pl-0 lg:pl-12">
         <article class="prose prose-lg prose-slate max-w-none mb-12">
           <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">Houdini / Python</span>
           <h1 class="font-serif text-4xl mb-4 leading-tight">Procedural Toolset</h1>

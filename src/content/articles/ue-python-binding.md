@@ -2,7 +2,7 @@
 title: "UE 学习笔记：从 C++ 到 Python 的函数暴露机制"
 description: "深入理解UE反射系统如何自动生成Python绑定"
 category: "Unreal Engine"
-date: "2025-01-12"
+date: "2026-01-12"
 readTime: "6 Min Read"
 placeholder: "UE5"
 tags:

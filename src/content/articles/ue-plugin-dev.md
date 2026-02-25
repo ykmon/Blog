@@ -2,7 +2,7 @@
 title: "UE 插件开发笔记：深入剖析 SetSkeletalMeshSectionSettings"
 description: "关于 UE5 中修改 SkeletalMesh Section 数据的关键陷阱与解决方案"
 category: "Unreal Engine"
-date: "2025-01-14"
+date: "2026-01-14"
 readTime: "8 Min Read"
 placeholder: "CPP"
 tags:

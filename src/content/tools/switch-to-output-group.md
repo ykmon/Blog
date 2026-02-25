@@ -2,6 +2,9 @@
 title: "从switch创建输出组"
 description: "自动从Houdini Switch节点创建ROP和File缓存输出组"
 category: "Houdini / Tool"
+tags:
+  - Houdini
+  - Code
 image: "/Tools/Untitled.png"
 imageAlt: "工具效果预览"
 ---

@@ -1,9 +1,11 @@
 ---
-// ArticleLayout.astro - 文章页面布局模板
+// ArticleLayout.astro - 文章页面布局模板 (优化版)
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
-import SubPageSidebar from '../components/SubPageSidebar.astro';
+import UnifiedSidebar from '../components/UnifiedSidebar.astro';
 import Footer from '../components/Footer.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import RelatedArticles from '../components/RelatedArticles.astro';
 
 export interface Props {
   title: string;
@@ -13,6 +15,8 @@ export interface Props {
   description?: string;
   image?: string;
   keywords?: string;
+  tags?: string[];
+  slug?: string;
 }
 
 const { 
@@ -22,8 +26,17 @@ const {
   date,
   description,
   image,
-  keywords
+  keywords,
+  tags = [],
+  slug = ''
 } = Astro.props;
+
+// 面包屑项
+const breadcrumbItems = [
+  { label: 'Articles', href: '/articles/' },
+  { label: category, href: categoryLink },
+  { label: title }
+];
 ---
 
 <BaseLayout title={`${title} - TechArt Chronicle`} description={description} image={image} keywords={keywords}>
@@ -32,10 +45,14 @@ const {
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-      <SubPageSidebar currentSection="articles" />
+      <UnifiedSidebar currentSection="articles" showProfile={false} />
 
       <!-- MAIN CONTENT -->
-      <main class="lg:col-span-8 lg:col-start-5 relative">
+      <main class="lg:col-span-9 relative pl-0 lg:pl-12">
+        
+        <!-- 面包屑导航 -->
+        <Breadcrumb items={breadcrumbItems} />
+
         <article class="prose prose-lg prose-slate max-w-none">
           <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">{category}</span>
           <h1 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">{title}</h1>
@@ -43,6 +60,16 @@ const {
           
           <slot />
         </article>
+
+        <!-- 相关文章推荐 -->
+        {slug && tags.length > 0 && (
+          <RelatedArticles 
+            currentSlug={slug} 
+            tags={tags} 
+            category={category}
+            limit={3}
+          />
+        )}
 
         <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
           <a href={categoryLink} class="text-ochre hover:underline">← Back to Articles</a>

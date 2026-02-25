@@ -1,7 +1,8 @@
 ---
 title: "GamePlay架构(2)：Level和World"
-description: "2026年1月4日 · UE4 GamePlay 架构学习笔记"
+description: "UE4 GamePlay 架构学习笔记"
 category: "inside-ue4"
+date: "2026-01-04"
 listed: false
 tags:
   - UE

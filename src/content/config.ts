@@ -23,6 +23,7 @@ const tools = defineCollection({
     title: z.string(),
     description: z.string(),
     category: z.string().default('Houdini / Tool'),
+    tags: z.array(z.string()).optional(),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
   }),

@@ -2,6 +2,9 @@
 title: "如何为HDA添加Handle"
 description: "学习如何为Houdini Digital Asset添加自定义Handle"
 category: "Houdini / Tool"
+tags:
+  - Houdini
+  - Code
 ---
 
 教程视频链接：

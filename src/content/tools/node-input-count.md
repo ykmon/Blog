@@ -2,6 +2,9 @@
 title: "节点输入数量"
 description: "为Houdini节点添加显示输入连接数量的参数"
 category: "Houdini / Tool"
+tags:
+  - Houdini
+  - Code
 ---
 
 为选中的节点添加一个 "Number of Inputs" 参数，自动计算并显示当前节点的输入连接数量。

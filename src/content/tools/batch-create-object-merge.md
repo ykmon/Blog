@@ -2,6 +2,9 @@
 title: "批量创建选中的ObjectMerge"
 description: "批量为选中节点创建Object Merge节点"
 category: "Houdini / Tool"
+tags:
+  - Houdini
+  - Code
 ---
 
 选中多个节点后运行此脚本，自动在指定位置创建对应的 Object Merge 节点，方便跨网络引用几何体。

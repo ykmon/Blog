@@ -1,15 +1,15 @@
 ---
 // MobileNav.astro - 移动端导航抽屉组件
 // 仅在小于 lg (1024px) 断点时显示
-import TagFilter from './TagFilter.astro';
 import SearchBox from './SearchBox.astro';
 
 const sections = [
   { id: 'home', num: '00', label: '首页', labelEn: 'Home', href: '/' },
   { id: 'articles', num: '01', label: '文章列表', labelEn: 'Articles', href: '/articles/' },
-  { id: 'videos', num: '02', label: '视频教程', labelEn: 'Videos', href: '/videos/' },
+  { id: 'series', num: '02', label: '系列笔记', labelEn: 'Series', href: '/series/' },
   { id: 'tools', num: '03', label: '工具库', labelEn: 'Tools', href: '/tools/' },
-  { id: 'about', num: '04', label: '关于', labelEn: 'About', href: '#about' },
+  { id: 'videos', num: '04', label: '视频教程', labelEn: 'Videos', href: '/videos/' },
+  { id: 'about', num: '05', label: '关于', labelEn: 'About', href: '/about/' },
 ];
 ---
 
@@ -85,9 +85,6 @@ const sections = [
         </a>
       ))}
     </nav>
-
-    <!-- 标签过滤 -->
-    <TagFilter />
   </div>
 </aside>
 

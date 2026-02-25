@@ -1,0 +1,134 @@
+---
+// src/pages/about.astro - 关于我页面
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import UnifiedSidebar from '../components/UnifiedSidebar.astro';
+import Footer from '../components/Footer.astro';
+
+const pageTitle = 'About - TechArt Chronicle';
+const description = '关于 YKMON - Technical Artist，专注于游戏引擎技术、程序化内容生成、Shader开发与自动化工具。';
+
+// 技术栈
+const techStack = {
+  engines: ['Unreal Engine', 'Unity'],
+  dcc: ['Houdini', 'Maya', 'Blender', 'Substance Painter'],
+  languages: ['Python', 'C++', 'GLSL/HLSL', 'VEX'],
+  tools: ['Git', 'Jenkins', 'Docker', 'Perforce']
+};
+
+// 专业领域
+const expertise = [
+  { icon: '🎮', title: 'Game Engine', desc: '引擎架构、渲染管线、性能优化' },
+  { icon: ' procedural', title: 'PCG', desc: '程序化内容生成、Houdini工具开发' },
+  { icon: '✨', title: 'Shader', desc: '着色器开发、材质系统、视觉效果' },
+  { icon: '⚙️', title: 'Automation', desc: '工作流自动化、CI/CD、工具链开发' },
+];
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <Header title="About" subPage />
+
+  <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+      <!-- SIDEBAR -->
+      <UnifiedSidebar currentSection="about" showSearch={false} showProfile={false} showFilter={false} />
+
+      <!-- MAIN CONTENT -->
+      <main class="lg:col-span-9 relative pl-0 lg:pl-12">
+        
+        <!-- 个人简介 -->
+        <section class="mb-16 blur-load">
+          <div class="flex flex-col md:flex-row items-center md:items-start gap-8 mb-8">
+            <div class="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 border-4 border-gray-200">
+              <img loading="lazy" decoding="async" src="/Resource/ykmon.jpg" alt="YKMON" class="w-full h-full object-cover">
+            </div>
+            <div class="text-center md:text-left">
+              <h1 class="font-serif text-3xl md:text-4xl font-bold text-ink mb-2">YKMON</h1>
+              <p class="text-ochre font-bold text-sm tracking-widest uppercase mb-4">Technical Artist</p>
+              <p class="text-gray-600 leading-relaxed max-w-xl">
+                非传统技术美术，从项目管理到技术落地。致力于自动化管线开发，专注于引擎技术、程序化内容生成、Shader开发与工作流优化。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 专业领域 -->
+        <section class="mb-16 blur-load">
+          <h2 class="font-serif text-2xl font-bold text-ink mb-6 border-b border-gray-200 pb-2">专业领域</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {expertise.map((item) => (
+              <div class="p-4 bg-white border border-gray-200 rounded-sm hover:border-ochre transition-colors">
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">{item.icon}</span>
+                  <div>
+                    <h3 class="font-bold text-ink">{item.title}</h3>
+                    <p class="text-sm text-gray-500">{item.desc}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- 技术栈 -->
+        <section class="mb-16 blur-load">
+          <h2 class="font-serif text-2xl font-bold text-ink mb-6 border-b border-gray-200 pb-2">技术栈</h2>
+          <div class="space-y-6">
+            <div>
+              <h3 class="text-sm font-bold text-ochre uppercase tracking-wider mb-3">游戏引擎</h3>
+              <div class="flex flex-wrap gap-2">
+                {techStack.engines.map((tech) => (
+                  <span class="px-3 py-1 bg-forest/10 text-forest text-sm rounded-full">{tech}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-ochre uppercase tracking-wider mb-3">DCC 工具</h3>
+              <div class="flex flex-wrap gap-2">
+                {techStack.dcc.map((tech) => (
+                  <span class="px-3 py-1 bg-ochre/10 text-ochre text-sm rounded-full">{tech}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-ochre uppercase tracking-wider mb-3">编程语言</h3>
+              <div class="flex flex-wrap gap-2">
+                {techStack.languages.map((tech) => (
+                  <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">{tech}</span>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 联系方式 -->
+        <section class="blur-load">
+          <h2 class="font-serif text-2xl font-bold text-ink mb-6 border-b border-gray-200 pb-2">联系方式</h2>
+          <div class="flex flex-wrap gap-4">
+            <a 
+              href="https://space.bilibili.com/18272055" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 px-4 py-2 bg-ink text-paper rounded-sm hover:bg-ochre transition-colors"
+            >
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/>
+              </svg>
+              <span>Bilibili</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- 底部导航 -->
+        <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
+          <a href="/" class="text-ochre hover:underline">← Back to Home</a>
+          <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <Footer />
+</BaseLayout>

@@ -2,6 +2,9 @@
 title: "快速添加自定义Parameter"
 description: "通过Python脚本快速为Houdini节点添加自定义参数"
 category: "Houdini / Tool"
+tags:
+  - Houdini
+  - Code
 ---
 
 通过对话框快速为选中的 Houdini 节点添加 float、int 或 string 类型的自定义参数。

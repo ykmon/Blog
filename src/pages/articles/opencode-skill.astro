@@ -1,0 +1,16 @@
+---
+import { getEntryBySlug } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+const entry = await getEntryBySlug('articles', 'opencode-skill');
+if (!entry) throw new Error('Missing article content: opencode-skill');
+const { Content } = await entry.render();
+---
+
+<ArticleLayout
+  title={entry.data.title}
+  category={entry.data.category}
+  description={entry.data.description}
+>
+  <Content />
+</ArticleLayout>

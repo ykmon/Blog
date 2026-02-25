@@ -1,7 +1,7 @@
 ---
 title: "OpenCode+Skill：从使用到原理"
 description: "深入理解 OpenCode 与 Skill 插件系统的使用方法与底层原理"
-category: "DevTools"
+category: "AI Tools"
 date: "2026-02-25"
 readTime: "5 Min Read"
 image: "/Articles/opencode-skill/image.png"

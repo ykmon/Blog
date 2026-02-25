@@ -4,7 +4,7 @@ export const tagCategories = {
     languages: ['Code'],
     domains: ['PCG', 'Animation', 'Automation', 'Simulation'],
     foundations: ['Basic'],
-    practices: ['Plugin Development', 'DevOps']
+    practices: ['Plugin Development', 'DevOps', 'AI']
 } as const;
 
 // 所有可用标签的扁平列表

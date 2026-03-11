@@ -136,3 +136,52 @@ MVP矩阵分别是模型（Model），观察（View），投影（Projection）�
 最大的区别在于在观察空间中我们使用的是右手坐标系，而这个是符合OpenGL的，在观察空间中我们需要把世界空间的顶点转换到观察空间，为此我们需要求的观察空间的变换矩阵，因为坐标系的不同，所以我们需要对z轴取反，并求得逆变换，
 
 在观察空间还有一项就是需要将观察空间的顶点转换到裁剪空间（也被称为齐次裁剪空间），这个用于变换的矩阵叫做裁剪矩阵，也被称为投影矩阵，在观察空间中并不是真正的投影，而是准备投影的数据，即那些顶点需要保留，那些需要剔除，这是由投影方式决定的
+
+---
+
+## 相关图示
+
+![图示 1](/Articles/23mvp矩阵/0a2fc42c.png)
+
+![图示 2](/Articles/23mvp矩阵/16604b4f.jpg)
+
+![图示 3](/Articles/23mvp矩阵/23295901.png)
+
+![图示 4](/Articles/23mvp矩阵/267f9ab2.png)
+
+![图示 5](/Articles/23mvp矩阵/28308a0f.png)
+
+![图示 6](/Articles/23mvp矩阵/2a6e79b7.png)
+
+![图示 7](/Articles/23mvp矩阵/3416ac1e.png)
+
+![图示 8](/Articles/23mvp矩阵/53babcc8.png)
+
+![图示 9](/Articles/23mvp矩阵/5c3ae1fe.png)
+
+![图示 10](/Articles/23mvp矩阵/9d1dab93.png)
+
+![图示 11](/Articles/23mvp矩阵/c4f71aab.png)
+
+![图示 12](/Articles/23mvp矩阵/cc2e3e87.jpg)
+
+![图示 13](/Articles/23mvp矩阵/e092284b.png)
+
+![图示 14](/Articles/23mvp矩阵/e5627dea.png)
+
+![图示 15](/Articles/23mvp矩阵/eda12480.png)
+
+![图示 16](/Articles/23mvp矩阵/eef63238.png)
+
+![图示 17](/Articles/23mvp矩阵/ef6099fd.jpg)
+
+![图示 18](/Articles/23mvp矩阵/eff89039.png)
+
+![图示 19](/Articles/23mvp矩阵/f08c391b.png)
+
+![图示 20](/Articles/23mvp矩阵/fa031969.png)
+
+![图示 21](/Articles/23mvp矩阵/fbd6f9f7.png)
+
+![图示 22](/Articles/23mvp矩阵/fe2d0899.png)
+

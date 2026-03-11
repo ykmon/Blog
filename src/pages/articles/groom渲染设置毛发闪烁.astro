@@ -1,0 +1,20 @@
+---
+import { getEntryBySlug } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+const entry = await getEntryBySlug('articles', 'groom渲染设置毛发闪烁');
+if (!entry) throw new Error('Missing article content: groom渲染设置毛发闪烁');
+const { Content } = await entry.render();
+---
+
+<ArticleLayout
+  title={entry.data.title}
+  category={entry.data.category}
+  description={entry.data.description}
+  date={entry.data.date}
+  image={entry.data.image}
+  tags={entry.data.tags}
+  slug="groom渲染设置毛发闪烁"
+>
+  <Content />
+</ArticleLayout>

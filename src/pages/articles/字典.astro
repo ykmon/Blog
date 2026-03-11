@@ -1,0 +1,20 @@
+---
+import { getEntryBySlug } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+const entry = await getEntryBySlug('articles', '字典');
+if (!entry) throw new Error('Missing article content: 字典');
+const { Content } = await entry.render();
+---
+
+<ArticleLayout
+  title={entry.data.title}
+  category={entry.data.category}
+  description={entry.data.description}
+  date={entry.data.date}
+  image={entry.data.image}
+  tags={entry.data.tags}
+  slug="字典"
+>
+  <Content />
+</ArticleLayout>

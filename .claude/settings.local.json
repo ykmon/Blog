@@ -9,7 +9,8 @@
       "Bash(python3 -c \"print\\(''hello''\\)\")",
       "Bash(echo \"exit: $?\")",
       "Bash(node:*)",
-      "Bash(ls \"D:/YRJ/Blog/Pictures/\"*.jpg)"
+      "Bash(ls \"D:/YRJ/Blog/Pictures/\"*.jpg)",
+      "Bash(grep -l \"OpenCode\" src/content/articles/*.md)"
     ]
   }
 }

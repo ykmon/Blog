@@ -11,6 +11,8 @@ tags:
   - AI
 ---
 
+![cover](/Articles/opencode-skill/cover.jpg)
+
 # 引言
 
 最近 Claude Code 通过增加空格的方式来降低缓存命中率，今天正好学习一下 OpenCode 以及 Skill 的使用和原理。

@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-06-26"
 tags:
   - Article
+image: "/Articles/对pbr的理解/cover.jpg"
 ---
+![cover](/Articles/对pbr的理解/cover.jpg)
+
 
 ## PBR是什么
 

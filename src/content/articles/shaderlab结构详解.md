@@ -5,7 +5,10 @@ category: "Shader"
 date: "2022-10-24"
 tags:
   - Shader
+image: "/Articles/shaderlab结构详解/cover.jpg"
 ---
+![cover](/Articles/shaderlab结构详解/cover.jpg)
+
 
 *文中内容主要参考书籍《unity shader入门精要》，作者为冯乐乐。*
 

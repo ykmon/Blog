@@ -10,7 +10,10 @@ tags:
   - Houdini
   - Automation
   - Code
+image: "/Articles/houdini-bypass-qt-ui/cover.jpg"
 ---
+![cover](/Articles/houdini-bypass-qt-ui/cover.jpg)
+
 
 在 Houdini 的实际生产中，尤其是 **KineFX**、**Rig**、**Animation** 相关节点，大量参数按钮在点击后会弹出 Qt Dialog。这些交互式操作在手动编辑时非常直观，但在 Pipeline 自动化、批量资产处理或 Headless 环境中却成了不小的阻碍。
 

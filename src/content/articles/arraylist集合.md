@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-08-06"
 tags:
   - Article
+image: "/Articles/arraylist集合/cover.jpg"
 ---
+![cover](/Articles/arraylist集合/cover.jpg)
+
 
 概念：很多数据的一个集合
 

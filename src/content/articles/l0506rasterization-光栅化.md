@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-07-26"
 tags:
   - Article
+image: "/Articles/l0506rasterization-光栅化/cover.jpg"
 ---
+![cover](/Articles/l0506rasterization-光栅化/cover.jpg)
+
 
 1 从标准化设备坐标NDC到屏幕 
 

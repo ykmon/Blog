@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-10-19"
 tags:
   - Article
+image: "/Articles/static静态变量/cover.jpg"
 ---
+![cover](/Articles/static静态变量/cover.jpg)
+
 
 ```c++
 void AddToCount();

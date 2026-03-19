@@ -5,7 +5,10 @@ category: "Unreal Engine"
 date: "2024-08-31"
 tags:
   - Article
+image: "/Articles/groom/cover.jpg"
 ---
+![cover](/Articles/groom/cover.jpg)
+
 
 # **工程**
 

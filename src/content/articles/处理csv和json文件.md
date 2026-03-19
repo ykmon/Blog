@@ -5,7 +5,10 @@ category: "Article"
 date: "2024-03-10"
 tags:
   - Article
+image: "/Articles/处理csv和json文件/cover.jpg"
 ---
+![cover](/Articles/处理csv和json文件/cover.jpg)
+
 
 # Reader对象
 

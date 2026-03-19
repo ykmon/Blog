@@ -5,7 +5,10 @@ category: "Article"
 date: "2023-07-23"
 tags:
   - Article
+image: "/Articles/intro/cover.jpg"
 ---
+![cover](/Articles/intro/cover.jpg)
+
 
 USD起初和maya文件、3dmax文件、或其他格式的数据文件没有什么本质的区别，但它的不同之处在于它存储场景信息的方式，这里的场景熟悉maya的同事可能很快就能get到，
 

@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-07-23"
 tags:
   - Article
+image: "/Articles/l03-transformation/cover.jpg"
 ---
+![cover](/Articles/l03-transformation/cover.jpg)
+
 
 # 1 矩阵与变换
 

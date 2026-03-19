@@ -9,7 +9,10 @@ tags:
   - UE
   - Code
   - Automation
+image: "/Articles/ue-python-binding/cover.jpg"
 ---
+![cover](/Articles/ue-python-binding/cover.jpg)
+
 
 ## 0. 工程版本
 

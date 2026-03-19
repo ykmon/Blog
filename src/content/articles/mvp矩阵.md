@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-07-22"
 tags:
   - Article
+image: "/Articles/mvp矩阵/cover.jpg"
 ---
+![cover](/Articles/mvp矩阵/cover.jpg)
+
 
 **(Vertex Shader) =>  (MVP矩阵)=> Clip Space => (透视除法) => NDC => (视口变换) => Screen Space => (Fragment Shader)**
 

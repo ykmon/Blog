@@ -8,7 +8,10 @@ placeholder: "UE5"
 tags:
   - UE
   - Plugin Development
+image: "/Articles/ue-plugin-compile/cover.jpg"
 ---
+![cover](/Articles/ue-plugin-compile/cover.jpg)
+
 <p>在使用各种插件的时候，很多插件可以即插即用，但有一部分插件会提醒你：</p>
 <blockquote>
 <p><em>The following modules are missing or built with a different engine version.</em></p>

@@ -5,7 +5,10 @@ category: "Article"
 date: "2024-04-21"
 tags:
   - Article
+image: "/Articles/connectsender/cover.jpg"
 ---
+![cover](/Articles/connectsender/cover.jpg)
+
 
 # Connect()
 

@@ -5,7 +5,10 @@ category: "Article"
 date: "2026-02-24"
 tags:
   - Code
+image: "/Articles/opencodeskill从使用到原理/cover.jpg"
 ---
+![cover](/Articles/opencodeskill从使用到原理/cover.jpg)
+
 
 # 引言
 

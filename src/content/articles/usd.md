@@ -5,7 +5,10 @@ category: "Article"
 date: "2023-01-12"
 tags:
   - Article
+image: "/Articles/usd/cover.jpg"
 ---
+![cover](/Articles/usd/cover.jpg)
+
 
 USD交换格式是由皮克斯（Pixar）开发的一种开源格式，用于稳健且可扩展地交换及增强任意3D场景，而这些场景可能包含众多的基本资产。
 

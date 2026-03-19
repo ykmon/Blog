@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-05-31"
 tags:
   - Article
+image: "/Articles/p10-oldschoolpro/cover.jpg"
 ---
+![cover](/Articles/p10-oldschoolpro/cover.jpg)
+
 
 创建Shader首先分析光照构成
 

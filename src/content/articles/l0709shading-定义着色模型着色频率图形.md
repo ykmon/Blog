@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-07-27"
 tags:
   - Article
+image: "/Articles/l0709shading-定义着色模型着色频率图形/cover.jpg"
 ---
+![cover](/Articles/l0709shading-定义着色模型着色频率图形/cover.jpg)
+
 
 # **0 回顾**
 

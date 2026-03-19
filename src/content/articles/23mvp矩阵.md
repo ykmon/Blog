@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-09-06"
 tags:
   - Article
+image: "/Articles/23mvp矩阵/cover.jpg"
 ---
+![cover](/Articles/23mvp矩阵/cover.jpg)
+
 
 # 什么是MVP矩阵？
 

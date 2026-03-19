@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-07-30"
 tags:
   - Article
+image: "/Articles/l17materials-and-appearances-材质和外观/cover.jpg"
 ---
+![cover](/Articles/l17materials-and-appearances-材质和外观/cover.jpg)
+
 
 # **0 前言**
 

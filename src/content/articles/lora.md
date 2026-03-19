@@ -5,7 +5,10 @@ category: "Article"
 date: "2023-04-05"
 tags:
   - Article
+image: "/Articles/lora/cover.jpg"
 ---
+![cover](/Articles/lora/cover.jpg)
+
 
 # 什么是Lora？
 

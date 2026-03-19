@@ -5,7 +5,10 @@ category: "Article"
 date: "2023-04-05"
 tags:
   - Article
+image: "/Articles/prompt咒语指北/cover.jpg"
 ---
+![cover](/Articles/prompt咒语指北/cover.jpg)
+
 
 # 基本构成
 

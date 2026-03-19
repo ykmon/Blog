@@ -5,7 +5,10 @@ category: "Unreal Engine"
 date: "2023-01-12"
 tags:
   - Article
+image: "/Articles/头发_groom物理参数解释/cover.jpg"
 ---
+![cover](/Articles/头发_groom物理参数解释/cover.jpg)
+
 
 # 解算器设置Solver Settings
 

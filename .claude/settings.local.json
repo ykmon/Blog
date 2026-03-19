@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/YRJ/Blog/$APPDATA/Claude/**)",
+      "Read(//d/YRJ/Blog/$HOME/.claude/**)",
+      "Bash(npx -y mcp-duojie-image --help)",
+      "Bash(curl -s --max-time 30 \"https://api.duojie.games/v1/models\" -H \"Authorization: Bearer sk-2AWIIfAgP83Auf7Rq3BcYrh4GQPqeh0TAVtrhveoz2XjhoTF\")",
+      "Bash(python3:*)",
+      "Bash(python3 -c \"print\\(''hello''\\)\")",
+      "Bash(echo \"exit: $?\")",
+      "Bash(node:*)",
+      "Bash(ls \"D:/YRJ/Blog/Pictures/\"*.jpg)"
+    ]
+  }
+}

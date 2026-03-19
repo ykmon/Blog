@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-09-06"
 tags:
   - Article
+image: "/Articles/pc-手机图形-api-介绍/cover.jpg"
 ---
+![cover](/Articles/pc-手机图形-api-介绍/cover.jpg)
+
 
 # 前言
 

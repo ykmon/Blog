@@ -5,7 +5,10 @@ category: "Article"
 date: "2022-10-18"
 tags:
   - Article
+image: "/Articles/栈stack堆heap/cover.jpg"
 ---
+![cover](/Articles/栈stack堆heap/cover.jpg)
+
 
 了解动态内存在 C++ 中是如何工作的是成为一名合格的 C++ 程序员必不可少的。C++ 程序中的内存分为两个部分：
 

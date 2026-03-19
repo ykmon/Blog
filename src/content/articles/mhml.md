@@ -5,7 +5,10 @@ category: "Article"
 date: "2023-07-03"
 tags:
   - Article
+image: "/Articles/mhml/cover.jpg"
 ---
+![cover](/Articles/mhml/cover.jpg)
+
 
 metahuman dna calib
 

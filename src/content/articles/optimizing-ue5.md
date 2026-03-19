@@ -5,7 +5,10 @@ category: "Unreal Engine"
 date: "2024-09-01"
 tags:
   - UE
+image: "/Articles/optimizing-ue5/cover.jpg"
 ---
+![cover](/Articles/optimizing-ue5/cover.jpg)
+
 
 # 什么是Virtual
 

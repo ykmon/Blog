@@ -7,7 +7,10 @@ listed: false
 tags:
   - UE
   - Basic
+image: "/Articles/inside-ue4-chapter02-levelworld/cover.jpg"
 ---
+![cover](/Articles/inside-ue4-chapter02-levelworld/cover.jpg)
+
 
 <p>上文谈到Actor和Component的关系，UE利用Actor的概念组成一片游戏对象森林，并利用Component组装扩展Actor的能力，让世界里拥有了形形色色的Actor们，拥有了自由表达3D世界的能力。</p>
 <p>那么，这些Actor们，到底是怎么组织起来的呢？</p>

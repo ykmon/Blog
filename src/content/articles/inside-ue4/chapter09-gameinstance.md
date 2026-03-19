@@ -8,7 +8,10 @@ tags:
   - UE
   - Code
   - Basic
+image: "/Articles/inside-ue4-chapter09-gameinstance/cover.jpg"
 ---
+![cover](/Articles/inside-ue4-chapter09-gameinstance/cover.jpg)
+
 
 ## GamePlay架构9：GameInstance
 

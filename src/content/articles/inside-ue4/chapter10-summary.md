@@ -8,7 +8,10 @@ tags:
   - UE
   - Code
   - Basic
+image: "/Articles/inside-ue4-chapter10-summary/cover.jpg"
 ---
+![cover](/Articles/inside-ue4-chapter10-summary/cover.jpg)
+
 
 ## GamePlay架构10：总结
 

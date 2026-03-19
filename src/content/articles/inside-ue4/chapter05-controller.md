@@ -7,7 +7,10 @@ listed: false
 tags:
   - UE
   - Basic
+image: "/Articles/inside-ue4-chapter05-controller/cover.jpg"
 ---
+![cover](/Articles/inside-ue4-chapter05-controller/cover.jpg)
+
 
 <h2>GamePlay架构5：Controller</h2>
 

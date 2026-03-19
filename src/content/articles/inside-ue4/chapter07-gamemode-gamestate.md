@@ -7,7 +7,10 @@ listed: false
 tags:
   - UE
   - Basic
+image: "/Articles/inside-ue4-chapter07-gamemode-gamestate/cover.jpg"
 ---
+![cover](/Articles/inside-ue4-chapter07-gamemode-gamestate/cover.jpg)
+
 
 <h2>GamePlay架构7：GameMode和GameState</h2>
 

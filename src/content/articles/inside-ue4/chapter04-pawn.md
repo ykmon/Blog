@@ -7,7 +7,10 @@ listed: false
 tags:
   - UE
   - Basic
+image: "/Articles/inside-ue4-chapter04-pawn/cover.jpg"
 ---
+![cover](/Articles/inside-ue4-chapter04-pawn/cover.jpg)
+
 
 <h2>Component</h2>
 <p>在UE里，<strong>Component表达的是"功能"的概念</strong>。比如说你要实现一个可以响应的WASD移动的功能，或者是VR里抓取的功能，甚至是嵌套另一个Actor的功能，这些都是一个个组件。</p>

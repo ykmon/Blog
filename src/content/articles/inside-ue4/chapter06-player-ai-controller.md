@@ -7,7 +7,10 @@ listed: false
 tags:
   - UE
   - Basic
+image: "/Articles/inside-ue4-chapter06-player-ai-controller/cover.jpg"
 ---
+![cover](/Articles/inside-ue4-chapter06-player-ai-controller/cover.jpg)
+
 
 <h2>GamePlay架构6：PlayerController和AIController</h2>
 

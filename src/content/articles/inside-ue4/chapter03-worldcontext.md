@@ -7,7 +7,10 @@ listed: false
 tags:
   - UE
   - Basic
+image: "/Articles/inside-ue4-chapter03-worldcontext/cover.jpg"
 ---
+![cover](/Articles/inside-ue4-chapter03-worldcontext/cover.jpg)
+
 
 ## WorldContext
 

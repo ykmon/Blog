@@ -8,7 +8,10 @@ tags:
   - UE
   - Code
   - Basic
+image: "/Articles/inside-ue4-chapter08-player/cover.jpg"
 ---
+![cover](/Articles/inside-ue4-chapter08-player/cover.jpg)
+
 
 ## GamePlay架构8：Player
 

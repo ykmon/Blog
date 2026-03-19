@@ -7,7 +7,10 @@ listed: false
 tags:
   - UE
   - Basic
+image: "/Articles/inside-ue4-chapter01-actorcomponent/cover.jpg"
 ---
+![cover](/Articles/inside-ue4-chapter01-actorcomponent/cover.jpg)
+
 
 <h2>UObject</h2>
 <p>藉着UObject提供的元数据、反射生成、GC垃圾回收、序列化、编辑器可见、Class Default Object等，UE可以构建一个Object运行的世界。</p>

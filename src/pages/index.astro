@@ -398,19 +398,32 @@ const latestUpdate = latestArticles[0]?.date ? formatDateCN(latestArticles[0].da
               </div>
             </div>
 
-            <div class="space-y-3">
+            <div class="grid gap-4 xl:grid-cols-2">
               {latestArticles.map((article, index) => (
                 <a
                   href={article.href}
-                  class="group flex flex-col gap-4 rounded-[1.35rem] border border-ink/10 bg-white/85 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_14px_32px_rgba(138,98,64,0.12)] md:flex-row md:items-center"
+                  class="group grid gap-4 rounded-[1.35rem] border border-ink/10 bg-white/85 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_14px_32px_rgba(138,98,64,0.12)] md:grid-cols-[140px,minmax(0,1fr),auto] md:items-center md:p-5"
                 >
-                  <div class="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] md:w-32 md:flex-shrink-0">
-                    <span class="text-ochre">{String(index + 1).padStart(2, '0')}</span>
-                    <span class="hidden h-4 w-px bg-gray-200 md:block"></span>
+                  <div class="overflow-hidden rounded-[1.15rem] border border-ink/10 bg-forest">
+                    {article.image ? (
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        src={article.image}
+                        alt={article.imageAlt ?? article.title}
+                        class="h-40 w-full object-cover transition-transform duration-700 group-hover:scale-105 md:h-full"
+                      />
+                    ) : (
+                      <div class="flex h-40 w-full items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_35%),linear-gradient(135deg,#2d4a3e,#1a1a1a)] px-4 text-center font-serif text-2xl text-paper md:h-full">
+                        {article.placeholder ?? article.category}
+                      </div>
+                    )}
                   </div>
 
                   <div class="min-w-0 flex-1">
                     <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em]">
+                      <span class="text-ochre">{String(index + 1).padStart(2, '0')}</span>
+                      <span class="hidden h-4 w-px bg-gray-200 md:block"></span>
                       <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{article.category}</span>
                       {article.readTime && <span class="text-gray-400">{article.readTime}</span>}
                     </div>

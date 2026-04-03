@@ -4,10 +4,11 @@ description: "从线性代数到光线追踪，系统学习计算机图形学基
 category: "GAMES101"
 href: "/articles/games101/"
 date: "2021-03-05"
+tags:
+  - Shader
+  - Code
+  - Basic
 readTime: "Series"
 image: "/Articles/GAMES101/L02/Untitled.png"
-tags:
-  - Basic
 ---
-
 系列索引页，内容位于 `src/pages/articles/games101/index.astro`。

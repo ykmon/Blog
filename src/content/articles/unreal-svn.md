@@ -3,13 +3,15 @@ title: "Unreal SVN 仓库搭建指北"
 description: "从 TortoiseSVN 安装到 UE 源码控制配置，为团队协作构建稳固的版本控制基石。"
 category: "DevOps"
 date: "2022-12-15"
-readTime: "5 Min Read"
-image: "/Articles/unreal-svn/Untitled_7.png"
 tags:
   - UE
+  - UnrealEngine
   - DevOps
+  - Devops
+  - Automation
+readTime: "5 Min Read"
+image: "/Articles/unreal-svn/Untitled_7.png"
 ---
-
 <p class="lead">本教程介绍如何为 Unreal Engine 项目搭建 SVN 版本控制仓库，从 TortoiseSVN 安装到 UE 内部 Source Control 配置。</p>
 
 ## 1. 下载安装 TortoiseSVN

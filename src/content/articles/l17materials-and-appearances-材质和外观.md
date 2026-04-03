@@ -1,10 +1,11 @@
 ---
 title: "L17：Materials and Appearances 材质和外观"
 description: "L17：Materials and Appearances 材质和外观"
-category: "Article"
+category: "Computer Graphics"
 date: "2022-07-30"
 tags:
-  - Article
+  - Shader
+  - Code
 image: "/Articles/l17materials-and-appearances-材质和外观/cover.jpg"
 ---
 ![cover](/Articles/l17materials-and-appearances-材质和外观/cover.jpg)

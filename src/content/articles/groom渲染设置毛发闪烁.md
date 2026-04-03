@@ -4,7 +4,10 @@ description: "Groom渲染设置（毛发闪烁）"
 category: "Unreal Engine"
 date: "2023-01-12"
 tags:
-  - Article
+  - UE
+  - UnrealEngine
+  - Shader
+  - Code
 image: "/Articles/groom渲染设置毛发闪烁/cover.jpg"
 ---
 ![cover](/Articles/groom渲染设置毛发闪烁/cover.jpg)

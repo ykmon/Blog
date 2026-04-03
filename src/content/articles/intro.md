@@ -1,10 +1,10 @@
 ---
 title: "INTRO"
 description: "INTRO"
-category: "Article"
+category: "Game Engine"
 date: "2023-07-23"
 tags:
-  - Article
+  - Code
 image: "/Articles/intro/cover.jpg"
 ---
 ![cover](/Articles/intro/cover.jpg)

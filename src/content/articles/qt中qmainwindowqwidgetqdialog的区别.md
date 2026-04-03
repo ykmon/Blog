@@ -1,10 +1,13 @@
 ---
 title: "Qt中QMainWindow、QWidget、QDialog的区别"
 description: "Qt中QMainWindow、QWidget、QDialog的区别"
-category: "Article"
+category: "Houdini"
 date: "2024-04-14"
 tags:
-  - Article
+  - Automation
+  - AI
+  - Houdini
+  - Others DCC
 image: "/Articles/qt中qmainwindowqwidgetqdialog的区别/cover.jpg"
 ---
 ![cover](/Articles/qt中qmainwindowqwidgetqdialog的区别/cover.jpg)

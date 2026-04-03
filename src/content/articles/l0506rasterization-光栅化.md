@@ -1,10 +1,11 @@
 ---
 title: "L05~06：Rasterization 光栅化("
 description: "L05~06：Rasterization 光栅化("
-category: "Article"
+category: "Computer Graphics"
 date: "2022-07-26"
 tags:
-  - Article
+  - Shader
+  - Code
 image: "/Articles/l0506rasterization-光栅化/cover.jpg"
 ---
 ![cover](/Articles/l0506rasterization-光栅化/cover.jpg)

@@ -1,10 +1,12 @@
 ---
 title: "Lora"
 description: "Lora"
-category: "Article"
+category: "AI"
 date: "2023-04-05"
 tags:
-  - Article
+  - Code
+  - Automation
+  - AI
 image: "/Articles/lora/cover.jpg"
 ---
 ![cover](/Articles/lora/cover.jpg)

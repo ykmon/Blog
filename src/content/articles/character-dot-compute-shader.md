@@ -3,15 +3,19 @@ title: "UE5 Compute Shader：基于 CharacterDot 从 0 到 1"
 description: "结合 Plugins/CharacterDot 真实代码，走一遍完整链路：Shader 注册、参数绑定、RDG 调度、游戏线程与渲染线程协作、帧间资源持久化"
 category: "图形学"
 date: "2026-04-03"
+tags:
+  - UE
+  - UnrealEngine
+  - Shader
+  - Devops
+  - Plugin Development
+  - ComputeShader
+  - Plugin
+  - RDG
+  - UE5
 readTime: "12 Min Read"
 image: "/Articles/character-dot-compute-shader/cover.png"
-tags:
-  - UE5
-  - ComputeShader
-  - RDG
-  - Plugin
 ---
-
 ![CharacterDot Compute Shader](/Articles/character-dot-compute-shader/cover.png)
 
 # UE5 Compute Shader：基于 `Plugins/CharacterDot` 从 0 到 1

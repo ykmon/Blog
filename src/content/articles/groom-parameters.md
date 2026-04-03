@@ -3,13 +3,14 @@ title: "头发 Groom 物理参数解释"
 description: "详细解析 Unreal Engine 5 中 Groom 头发模拟的物理参数"
 category: "Unreal Engine"
 date: "2022-12-20"
-readTime: "3 Min Read"
-image: "/Articles/GroomParameters/images/Untitled.png"
 tags:
   - UE
+  - UnrealEngine
+  - Code
   - Simulation
+readTime: "3 Min Read"
+image: "/Articles/GroomParameters/images/Untitled.png"
 ---
-
 <h1>头发 Groom 物理参数解释</h1>
 
 

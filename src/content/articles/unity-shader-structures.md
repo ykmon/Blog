@@ -3,13 +3,13 @@ title: "Unity Shader 结构体类型"
 description: "详解 Unity Shader 中 a2v、v2f 等常用结构体的定义与作用"
 category: "Unity Shader"
 date: "2022-12-22"
+tags:
+  - Shader
+  - Code
+  - Unity
 readTime: "3 Min Read"
 image: "/Articles/UnityShaderStructures/images/cover.png"
-tags:
-  - Unity
-  - Code
 ---
-
 **a2v、v2f、f2a、appdata_base、appdata_tan、appdata_full**
 
 初学shader，看到别人的代码，肯定会看到a2f、v2f等结构体，这里来详细解释一下。

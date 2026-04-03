@@ -3,13 +3,14 @@ title: "第4章 数学基础"
 description: "坐标系、矢量、矩阵、变换与坐标空间"
 category: "Unity Shader"
 date: "2021-01-15"
+tags:
+  - Shader
+  - Code
+  - Unity
+  - Basic
 readTime: "15 Min Read"
 image: "/Articles/math-foundation/Untitled 2.png"
-tags:
-  - Basic
-  - Code
 ---
-
 <!-- TODO: 视频文件缺失，待补充资源后恢复 -->                    <!-- <video controls><source src="/Articles/math-foundation/旋转矩阵的几何意义解释_x264.mp4" type="video/mp4">您的浏览器不支持视频播放。</video><p class="img-caption">旋转矩阵的几何意义解释</p> -->
 <h2>左手坐标系和右手坐标系</h2>
 <p>在二维笛卡儿坐标系中，我们总可以通过一些旋转操作来使坐标轴指向相同。从这种意义上来说，所有的二维笛卡儿坐标系都是等价的。</p>

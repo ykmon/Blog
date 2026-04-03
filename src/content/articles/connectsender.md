@@ -1,10 +1,10 @@
 ---
 title: "connect()、sender()"
 description: "connect()、sender()"
-category: "Article"
+category: "Game Engine"
 date: "2024-04-21"
 tags:
-  - Article
+  - Code
 image: "/Articles/connectsender/cover.jpg"
 ---
 ![cover](/Articles/connectsender/cover.jpg)

@@ -1,10 +1,11 @@
 ---
 title: "L07~09：Shading 定义、着色模型、着色频率、图形"
 description: "L07~09：Shading 定义、着色模型、着色频率、图形"
-category: "Article"
+category: "Computer Graphics"
 date: "2022-07-27"
 tags:
-  - Article
+  - Shader
+  - Code
 image: "/Articles/l0709shading-定义着色模型着色频率图形/cover.jpg"
 ---
 ![cover](/Articles/l0709shading-定义着色模型着色频率图形/cover.jpg)

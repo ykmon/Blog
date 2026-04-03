@@ -37,41 +37,6 @@ const sortedArticles = [...collectionArticles].sort((a, b) =>
 );
 const featuredArticles = sortedArticles.slice(0, 2);
 
-// 快速入口配置
-const quickLinks = [
-  {
-    href: '/articles/',
-    icon: '📚',
-    title: '文章列表',
-    titleEn: 'Articles',
-    description: '技术文章合集',
-    color: 'hover:border-ochre'
-  },
-  {
-    href: '/series/',
-    icon: '📖',
-    title: '系列笔记',
-    titleEn: 'Series',
-    description: 'GAMES101/104, InsideUE4',
-    color: 'hover:border-forest'
-  },
-  {
-    href: '/tools/',
-    icon: '🔧',
-    title: '开发工具',
-    titleEn: 'Tools',
-    description: 'Houdini Python 脚本',
-    color: 'hover:border-ochre'
-  },
-  {
-    href: '/videos/',
-    icon: '🎬',
-    title: '视频作品',
-    titleEn: 'Videos',
-    description: 'PCG、布料解算演示',
-    color: 'hover:border-forest'
-  },
-];
 ---
 
 <BaseLayout title={pageTitle} description={description}>
@@ -87,28 +52,6 @@ const quickLinks = [
       <main class="lg:col-span-9 relative pl-0 lg:pl-12">
         
 
-
-        {/* ═══════ QUICK LINKS: 快速入口 ═══════ */}
-        <section class="mb-16 blur-load">
-          <h3 class="font-serif text-lg border-b border-gray-300 pb-2 mb-6 italic text-gray-500">
-            Quick Links
-          </h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {quickLinks.map((link) => (
-              <a 
-                href={link.href}
-                class={`group block p-6 bg-white border border-gray-200 rounded-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${link.color}`}
-              >
-                <div class="text-3xl mb-3">{link.icon}</div>
-                <h4 class="font-serif text-lg font-bold text-ink group-hover:text-forest transition-colors mb-1">
-                  {link.title}
-                </h4>
-                <p class="text-xs text-gray-400 uppercase tracking-widest mb-2">{link.titleEn}</p>
-                <p class="text-sm text-gray-600">{link.description}</p>
-              </a>
-            ))}
-          </div>
-        </section>
 
         {/* ═══════ FEATURED: 精选文章 (2篇) ═══════ */}
         <section class="mb-16 blur-load">

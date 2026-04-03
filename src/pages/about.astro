@@ -1,127 +1,172 @@
 ---
-// src/pages/about.astro - 关于我页面
+// src/pages/about.astro - 关于我页面（编辑部风格）
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import UnifiedSidebar from '../components/UnifiedSidebar.astro';
 import Footer from '../components/Footer.astro';
 
 const pageTitle = 'About - TechArt Chronicle';
-const description = '关于 YKMON - Technical Artist，专注于游戏引擎技术、程序化内容生成、Shader开发与自动化工具。';
+const description = '关于 YKMON - Technical Artist，专注于游戏引擎技术、程序化内容生成、Shader 开发与自动化工具。';
 
-// 技术栈
+const focusAreas = [
+  { title: 'Game Engine', desc: '引擎架构、渲染管线、性能优化' },
+  { title: 'PCG', desc: '程序化内容生成、Houdini 工具开发' },
+  { title: 'Shader', desc: '着色器开发、材质系统、视觉效果' },
+  { title: 'Automation', desc: '工作流自动化、CI/CD、工具链开发' },
+];
+
 const techStack = {
   engines: ['Unreal Engine', 'Unity'],
   dcc: ['Houdini', 'Maya', 'Blender', 'Substance Painter'],
   languages: ['Python', 'C++', 'GLSL/HLSL', 'VEX'],
-  tools: ['Git', 'Jenkins', 'Docker', 'Perforce']
+  tools: ['Git', 'Jenkins', 'Docker', 'Perforce'],
 };
-
-// 专业领域
-const expertise = [
-  { icon: '🎮', title: 'Game Engine', desc: '引擎架构、渲染管线、性能优化' },
-  { icon: ' procedural', title: 'PCG', desc: '程序化内容生成、Houdini工具开发' },
-  { icon: '✨', title: 'Shader', desc: '着色器开发、材质系统、视觉效果' },
-  { icon: '⚙️', title: 'Automation', desc: '工作流自动化、CI/CD、工具链开发' },
-];
 ---
 
 <BaseLayout title={pageTitle} description={description}>
-  <Header title="About" subPage />
+  <Header title="About" subPage subtitle="我是 YKMON，一个更偏工程向的 Technical Artist。这里记录我在引擎、Shader、PCG 和工具链上的实践与整理。" />
 
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <UnifiedSidebar currentSection="about" showSearch={false} showProfile={false} />
 
-      <!-- SIDEBAR -->
-      <UnifiedSidebar currentSection="about" showSearch={false} showProfile={false} showFilter={false} />
-
-      <!-- MAIN CONTENT -->
-      <main class="lg:col-span-9 relative pl-0 lg:pl-12">
-        
-        <!-- 个人简介 -->
-        <section class="mb-16 blur-load">
-          <div class="flex flex-col md:flex-row items-center md:items-start gap-8 mb-8">
-            <div class="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 border-4 border-gray-200">
-              <img loading="lazy" decoding="async" src="/Resource/ykmon.jpg" alt="YKMON" class="w-full h-full object-cover">
+      <main class="lg:col-span-9 relative pl-0 lg:pl-12 space-y-12">
+        <section class="blur-load rounded-[2rem] border border-ink/10 bg-white/80 p-6 md:p-8 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
+          <div class="grid gap-8 lg:grid-cols-[auto,1fr] lg:items-center">
+            <div class="flex justify-center lg:justify-start">
+              <div class="h-32 w-32 overflow-hidden rounded-full border border-ink/10 shadow-[0_12px_30px_rgba(26,26,26,0.12)]">
+                <img loading="lazy" decoding="async" src="/Resource/ykmon.jpg" alt="YKMON" class="h-full w-full object-cover" />
+              </div>
             </div>
-            <div class="text-center md:text-left">
-              <h1 class="font-serif text-3xl md:text-4xl font-bold text-ink mb-2">YKMON</h1>
-              <p class="text-ochre font-bold text-sm tracking-widest uppercase mb-4">Technical Artist</p>
-              <p class="text-gray-600 leading-relaxed max-w-xl">
-                非传统技术美术，从项目管理到技术落地。致力于自动化管线开发，专注于引擎技术、程序化内容生成、Shader开发与工作流优化。
+
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Technical Artist / Builder</p>
+              <h1 class="mt-3 font-serif text-4xl md:text-5xl leading-tight text-ink">
+                YKMON
+              </h1>
+              <p class="mt-4 max-w-3xl text-sm md:text-base leading-7 text-gray-600">
+                非传统技术美术，更偏向把项目里的复杂问题整理成可执行的流程。
+                我关注引擎技术、程序化内容生成、Shader 设计、工具开发和自动化管线，
+                也会把这些实践不断沉淀到博客里。
               </p>
+
+              <div class="mt-6 flex flex-wrap gap-3">
+                <a href="/articles/" class="inline-flex items-center justify-center rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-forest/90">
+                  读文章
+                </a>
+                <a href="/series/" class="inline-flex items-center justify-center rounded-full border border-ink/15 bg-white px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:border-ochre hover:text-ochre">
+                  看系列
+                </a>
+                <a href="https://space.bilibili.com/18272055" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-gray-500 transition-colors hover:text-ochre">
+                  Bilibili →
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-3">
+              <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Focus</div>
+              <div class="mt-2 font-serif text-xl text-ink">Engine</div>
+            </div>
+            <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-3">
+              <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Format</div>
+              <div class="mt-2 font-serif text-xl text-ink">Notes</div>
+            </div>
+            <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-3">
+              <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Stack</div>
+              <div class="mt-2 font-serif text-xl text-ink">Pipeline</div>
+            </div>
+            <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-3">
+              <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Mode</div>
+              <div class="mt-2 font-serif text-xl text-ink">Long-term</div>
             </div>
           </div>
         </section>
 
-        <!-- 专业领域 -->
-        <section class="mb-16 blur-load">
-          <h2 class="font-serif text-2xl font-bold text-ink mb-6 border-b border-gray-200 pb-2">专业领域</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {expertise.map((item) => (
-              <div class="p-4 bg-white border border-gray-200 rounded-sm hover:border-ochre transition-colors">
-                <div class="flex items-center gap-3">
-                  <span class="text-2xl">{item.icon}</span>
+        <section class="blur-load space-y-5">
+          <div>
+            <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">专业领域</p>
+            <h2 class="mt-2 font-serif text-3xl text-ink">我主要做什么</h2>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            {focusAreas.map((item, index) => (
+              <article class="rounded-[1.5rem] border border-ink/10 bg-white/80 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_14px_30px_rgba(138,98,64,0.12)]">
+                <div class="flex items-start gap-4">
+                  <span class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-forest/10 font-serif text-lg text-forest">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
                   <div>
-                    <h3 class="font-bold text-ink">{item.title}</h3>
-                    <p class="text-sm text-gray-500">{item.desc}</p>
+                    <h3 class="font-serif text-xl text-ink">{item.title}</h3>
+                    <p class="mt-2 text-sm leading-7 text-gray-600">{item.desc}</p>
                   </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>
 
-        <!-- 技术栈 -->
-        <section class="mb-16 blur-load">
-          <h2 class="font-serif text-2xl font-bold text-ink mb-6 border-b border-gray-200 pb-2">技术栈</h2>
-          <div class="space-y-6">
-            <div>
-              <h3 class="text-sm font-bold text-ochre uppercase tracking-wider mb-3">游戏引擎</h3>
-              <div class="flex flex-wrap gap-2">
-                {techStack.engines.map((tech) => (
-                  <span class="px-3 py-1 bg-forest/10 text-forest text-sm rounded-full">{tech}</span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h3 class="text-sm font-bold text-ochre uppercase tracking-wider mb-3">DCC 工具</h3>
-              <div class="flex flex-wrap gap-2">
-                {techStack.dcc.map((tech) => (
-                  <span class="px-3 py-1 bg-ochre/10 text-ochre text-sm rounded-full">{tech}</span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h3 class="text-sm font-bold text-ochre uppercase tracking-wider mb-3">编程语言</h3>
-              <div class="flex flex-wrap gap-2">
-                {techStack.languages.map((tech) => (
-                  <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">{tech}</span>
-                ))}
-              </div>
-            </div>
+        <section class="blur-load space-y-5">
+          <div>
+            <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">技术栈</p>
+            <h2 class="mt-2 font-serif text-3xl text-ink">常用工具与语言</h2>
+          </div>
 
+          <div class="grid gap-4 lg:grid-cols-2">
+            <div class="rounded-[1.5rem] border border-ink/10 bg-white/80 p-5">
+              <h3 class="font-serif text-xl text-ink">游戏引擎</h3>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {techStack.engines.map((tech) => (
+                  <span class="rounded-full bg-forest/10 px-3 py-1 text-sm text-forest">{tech}</span>
+                ))}
+              </div>
+            </div>
+            <div class="rounded-[1.5rem] border border-ink/10 bg-white/80 p-5">
+              <h3 class="font-serif text-xl text-ink">DCC 工具</h3>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {techStack.dcc.map((tech) => (
+                  <span class="rounded-full bg-ochre/10 px-3 py-1 text-sm text-ochre">{tech}</span>
+                ))}
+              </div>
+            </div>
+            <div class="rounded-[1.5rem] border border-ink/10 bg-white/80 p-5">
+              <h3 class="font-serif text-xl text-ink">编程语言</h3>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {techStack.languages.map((tech) => (
+                  <span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">{tech}</span>
+                ))}
+              </div>
+            </div>
+            <div class="rounded-[1.5rem] border border-ink/10 bg-white/80 p-5">
+              <h3 class="font-serif text-xl text-ink">工程化</h3>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {techStack.tools.map((tech) => (
+                  <span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">{tech}</span>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        <!-- 联系方式 -->
-        <section class="blur-load">
-          <h2 class="font-serif text-2xl font-bold text-ink mb-6 border-b border-gray-200 pb-2">联系方式</h2>
-          <div class="flex flex-wrap gap-4">
-            <a 
-              href="https://space.bilibili.com/18272055" 
-              target="_blank" 
+        <section class="blur-load rounded-[2rem] border border-ink/10 bg-[linear-gradient(180deg,rgba(26,26,26,0.98),rgba(45,74,62,0.92))] p-6 md:p-8 text-paper shadow-[0_18px_48px_rgba(26,26,26,0.12)]">
+          <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-paper/55">联系我</p>
+          <h2 class="mt-3 font-serif text-3xl">如果你也在做类似的事情</h2>
+          <p class="mt-4 max-w-2xl text-sm leading-7 text-paper/75">
+            可以通过 Bilibili 找到我。这里的内容更像一份长期整理的工作日志，
+            不是碎片化动态。
+          </p>
+          <div class="mt-6">
+            <a
+              href="https://space.bilibili.com/18272055"
+              target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center gap-2 px-4 py-2 bg-ink text-paper rounded-sm hover:bg-ochre transition-colors"
+              class="inline-flex items-center justify-center rounded-full bg-paper px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-paper/90"
             >
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/>
-              </svg>
-              <span>Bilibili</span>
+              打开 Bilibili
             </a>
           </div>
         </section>
 
-        <!-- 底部导航 -->
         <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
           <a href="/" class="text-ochre hover:underline">← Back to Home</a>
           <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>

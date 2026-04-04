@@ -1,5 +1,5 @@
 ---
-// articles/index.astro - 文章列表页（重构版）
+// articles/index.astro - 文章列表页（筛选重构版）
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
@@ -32,18 +32,16 @@ const collectionArticles: Article[] = (await getCollection('articles'))
   });
 
 // 按日期排序
-const sortedArticles = [...collectionArticles].sort((a, b) => 
-  parseISODate(b.date) - parseISODate(a.date)
-);
+const sortedArticles = [...collectionArticles].sort((a, b) => parseISODate(b.date) - parseISODate(a.date));
 
 // 精选文章（最新2篇）
 const featuredArticles = sortedArticles.slice(0, 2);
 const restArticles = sortedArticles.slice(2);
 
 // 按分类分组
-const categories = [...new Set(sortedArticles.map(a => a.category))];
+const categories = [...new Set(sortedArticles.map((a) => a.category))];
 const articlesByCategory = categories.reduce((acc, cat) => {
-  acc[cat] = sortedArticles.filter(a => a.category === cat);
+  acc[cat] = sortedArticles.filter((a) => a.category === cat);
   return acc;
 }, {} as Record<string, Article[]>);
 
@@ -56,15 +54,16 @@ const articlesByYear = restArticles.reduce((acc, article) => {
 }, {} as Record<string, Article[]>);
 
 const years = Object.keys(articlesByYear).sort((a, b) => Number(b) - Number(a));
+const allTags = [...new Set(sortedArticles.flatMap((a) => a.tags))].sort((a, b) => a.localeCompare(b));
 
 // 分类颜色映射
 const categoryColors: Record<string, string> = {
   'Unreal Engine': 'bg-blue-100 text-blue-700 border-blue-200',
-  'Unity': 'bg-green-100 text-green-700 border-green-200',
-  'Houdini': 'bg-orange-100 text-orange-700 border-orange-200',
+  Unity: 'bg-green-100 text-green-700 border-green-200',
+  Houdini: 'bg-orange-100 text-orange-700 border-orange-200',
   'Computer Graphics': 'bg-purple-100 text-purple-700 border-purple-200',
   'Game Engine': 'bg-red-100 text-red-700 border-red-200',
-  'DevOps': 'bg-gray-100 text-gray-700 border-gray-200',
+  DevOps: 'bg-gray-100 text-gray-700 border-gray-200',
 };
 
 const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 text-gray-700 border-gray-200';
@@ -75,13 +74,11 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
 
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-
       <!-- SIDEBAR -->
       <UnifiedSidebar currentSection="articles" />
 
       <!-- MAIN CONTENT -->
-      <main class="lg:col-span-9 relative pl-0 lg:pl-12">
-        
+      <main class="lg:col-span-9 relative pl-0 lg:pl-12" data-articles-filter="enhanced">
         <!-- 页面标题 -->
         <div class="mb-8">
           <span class="text-ochre font-bold text-xs tracking-wider uppercase mb-2 block">All Posts</span>
@@ -89,22 +86,60 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
         </div>
 
         <!-- 分类快速筛选 -->
-        <div class="mb-10 flex flex-wrap gap-2">
-          <button 
+        <div class="mb-6 flex flex-wrap gap-2">
+          <button
+            type="button"
             class="category-btn active px-3 py-1.5 text-xs font-bold rounded-full border transition-all"
+            data-role="article-category-btn"
             data-category="all"
+            aria-pressed="true"
           >
             全部 ({sortedArticles.length})
           </button>
           {categories.map((cat) => (
-            <button 
+            <button
+              type="button"
               class={`category-btn px-3 py-1.5 text-xs font-bold rounded-full border transition-all ${getCategoryColor(cat)}`}
+              data-role="article-category-btn"
               data-category={cat}
+              aria-pressed="false"
             >
               {cat} ({articlesByCategory[cat].length})
             </button>
           ))}
         </div>
+
+        <!-- 标签筛选 -->
+        <section class="mb-10 border border-gray-200 bg-white/70 rounded-sm p-4 md:p-5">
+          <div class="flex flex-wrap items-center gap-3 justify-between">
+            <h2 class="font-serif text-lg text-ink">标签筛选（多选 AND）</h2>
+            <button
+              type="button"
+              data-role="article-clear-tags"
+              class="hidden text-sm text-ochre hover:underline"
+            >
+              清空标签
+            </button>
+          </div>
+
+          <p data-role="article-selected-tags" class="hidden mt-3 text-xs text-gray-500 italic"></p>
+
+          <div class="mt-4 flex flex-wrap gap-2" data-role="article-tag-list">
+            {allTags.map((tag) => (
+              <button
+                type="button"
+                class="article-tag-btn px-2.5 py-1 text-xs bg-gray-100 border border-gray-200 rounded-full text-gray-700 hover:border-forest hover:text-forest transition-colors"
+                data-role="article-tag-btn"
+                data-tag={tag}
+                aria-pressed="false"
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+
+          <p data-role="article-filter-count" class="mt-4 text-xs text-gray-500 italic"></p>
+        </section>
 
         <!-- 精选文章 -->
         <section class="mb-12 blur-load" data-section="featured">
@@ -113,16 +148,20 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {featuredArticles.map((article) => (
-              <a 
+              <a
                 href={article.href}
                 class="article-card group block bg-white border border-gray-200 rounded-sm overflow-hidden hover:border-ochre hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                data-filter-item
                 data-category={article.category}
+                data-tags={article.tags.join(',')}
+                data-title={article.title}
+                data-description={article.description}
               >
                 <div class="aspect-[16/9] bg-gray-200 overflow-hidden relative">
                   {article.image ? (
-                    <img 
-                      loading="lazy" 
-                      decoding="async" 
+                    <img
+                      loading="lazy"
+                      decoding="async"
                       src={article.image}
                       class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 grayscale-[0.2]"
                       alt={article.title}
@@ -135,7 +174,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
                   {article.readTime === 'Series' && (
                     <span class="series-badge">
                       <svg class="inline-block w-3 h-3 mr-1 -mt-px" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h3.879a1.5 1.5 0 0 1 1.06.44l1.122 1.12A1.5 1.5 0 0 0 9.62 4H13.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5v-9z"/>
+                        <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h3.879a1.5 1.5 0 0 1 1.06.44l1.122 1.12A1.5 1.5 0 0 0 9.62 4H13.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5v-9z" />
                       </svg>
                       SERIES
                     </span>
@@ -167,7 +206,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
         <!-- 时间线文章列表 -->
         <section id="articles-container">
           {years.map((year) => (
-            <div class="mb-12 year-section" data-year={year}>
+            <div class="mb-12 year-section" data-year-section data-year={year}>
               <h2 class="font-serif text-2xl font-bold text-ink mb-6 flex items-center gap-3 sticky top-4 bg-paper py-2 z-10">
                 <span class="text-ochre">{year}</span>
                 <span class="flex-1 h-px bg-gray-200"></span>
@@ -175,14 +214,18 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
               </h2>
               <div class="space-y-4 pl-4 border-l-2 border-gray-200">
                 {articlesByYear[year].map((article) => (
-                  <a 
+                  <a
                     href={article.href}
                     class="article-card group block p-4 bg-white border border-gray-200 rounded-sm hover:border-ochre hover:shadow-md transition-all relative"
+                    data-filter-item
                     data-category={article.category}
+                    data-tags={article.tags.join(',')}
+                    data-title={article.title}
+                    data-description={article.description}
                   >
                     <!-- 时间线圆点 -->
                     <div class="absolute -left-[25px] top-6 w-3 h-3 bg-gray-300 rounded-full group-hover:bg-ochre transition-colors"></div>
-                    
+
                     <div class="flex flex-col md:flex-row md:items-stretch gap-4">
                       <!-- 日期 -->
                       <div class="md:w-20 flex-shrink-0 flex items-center">
@@ -193,7 +236,9 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
                       <div class="w-28 flex-shrink-0 rounded-sm overflow-hidden bg-gray-200">
                         {article.image ? (
                           <img
-                            loading="lazy" decoding="async" src={article.image}
+                            loading="lazy"
+                            decoding="async"
+                            src={article.image}
                             class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500 grayscale-[0.2]"
                             alt={article.title}
                           />
@@ -211,7 +256,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
                             {article.category}
                           </span>
                           {article.readTime === 'Series' && (
-                            <span class="text-[10px] text-forest font-bold">📁 SERIES</span>
+                            <span class="text-[10px] text-forest font-bold">SERIES</span>
                           )}
                         </div>
                         <h3 class="font-serif text-base font-bold text-ink group-hover:text-forest transition-colors line-clamp-1 mb-1">
@@ -234,9 +279,22 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
           ))}
         </section>
 
+        <!-- 空状态 -->
+        <section data-role="article-empty-state" class="hidden py-10 px-6 border border-dashed border-gray-300 bg-white/60 rounded-sm text-center mb-10">
+          <h3 class="font-serif text-xl text-ink mb-2">没有找到匹配文章</h3>
+          <p class="text-sm text-gray-500 mb-4">试试减少标签、切换分类或清空关键词。</p>
+          <button
+            type="button"
+            data-role="article-clear-all"
+            class="px-4 py-2 text-sm bg-forest text-white rounded-sm hover:bg-ochre transition-colors"
+          >
+            重置筛选
+          </button>
+        </section>
+
         <!-- 底部 -->
         <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
-          <span>共 {sortedArticles.length} 篇文章</span>
+          <span data-role="article-total-count">共 {sortedArticles.length} 篇文章</span>
           <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
         </div>
       </main>
@@ -250,84 +308,416 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
   .category-btn {
     cursor: pointer;
   }
+
   .category-btn.active {
     background-color: #2d4a3e;
     color: white;
     border-color: #2d4a3e;
   }
+
   .category-btn:not(.active):hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+
+  .article-tag-btn {
+    cursor: pointer;
+  }
+
+  .article-tag-btn.active {
+    background-color: #2d4a3e;
+    border-color: #2d4a3e;
+    color: white;
+  }
+
   .article-card.hidden {
     display: none;
   }
+
   .year-section.hidden {
     display: none;
   }
 </style>
 
 <script>
-  function initCategoryFilter() {
-    const buttons = document.querySelectorAll('.category-btn');
-    const articles = document.querySelectorAll('.article-card');
-    const yearSections = document.querySelectorAll('.year-section');
-    const featuredSection = document.querySelector('[data-section="featured"]');
+  let articleFilterAbort = null;
+  let searchDebounceTimer = null;
 
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const category = btn.getAttribute('data-category');
-        
-        // 更新按钮状态
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        // 过滤文章
-        if (category === 'all') {
-          articles.forEach(a => a.classList.remove('hidden'));
-          yearSections.forEach(s => s.classList.remove('hidden'));
-          if (featuredSection) featuredSection.classList.remove('hidden');
-        } else {
-          // 过滤所有文章（包括精选区域）
-          articles.forEach(article => {
-            const articleCat = article.getAttribute('data-category');
-            if (articleCat === category) {
-              article.classList.remove('hidden');
-            } else {
-              article.classList.add('hidden');
-            }
-          });
-          
-          // 检查精选区域是否有可见文章
-          if (featuredSection) {
-            const visibleFeatured = featuredSection.querySelectorAll('.article-card:not(.hidden)');
-            if (visibleFeatured.length === 0) {
-              featuredSection.classList.add('hidden');
-            } else {
-              featuredSection.classList.remove('hidden');
-            }
-          }
-          
-          // 检查每个年份区域是否有可见文章
-          yearSections.forEach(section => {
-            const visibleArticles = section.querySelectorAll('.article-card:not(.hidden)');
-            if (visibleArticles.length === 0) {
-              section.classList.add('hidden');
-            } else {
-              section.classList.remove('hidden');
-            }
-          });
-        }
+  function initArticlesFilter() {
+    if (articleFilterAbort) {
+      articleFilterAbort.abort();
+    }
+
+    articleFilterAbort = new AbortController();
+    const { signal } = articleFilterAbort;
+
+    const root = document.querySelector('[data-articles-filter="enhanced"]');
+    if (!root) return;
+
+    const itemElements = Array.from(root.querySelectorAll('[data-filter-item]'));
+    if (itemElements.length === 0) return;
+
+    const items = itemElements.map((element) => {
+      const category = (element.getAttribute('data-category') || '').trim();
+      const tags = new Set(
+        (element.getAttribute('data-tags') || '')
+          .split(',')
+          .map((tag) => tag.trim())
+          .filter(Boolean)
+      );
+      const title = (element.getAttribute('data-title') || '').trim();
+      const description = (element.getAttribute('data-description') || '').trim();
+      const searchBlob = `${title} ${description} ${category} ${Array.from(tags).join(' ')}`.toLowerCase();
+
+      return {
+        element,
+        category,
+        tags,
+        searchBlob,
+      };
+    });
+
+    const categoryButtons = Array.from(root.querySelectorAll('[data-role="article-category-btn"]'));
+    const tagButtons = Array.from(root.querySelectorAll('[data-role="article-tag-btn"]'));
+    const clearTagButtons = Array.from(root.querySelectorAll('[data-role="article-clear-tags"]'));
+    const clearAllButtons = Array.from(root.querySelectorAll('[data-role="article-clear-all"]'));
+    const countElements = Array.from(root.querySelectorAll('[data-role="article-filter-count"]'));
+    const selectedTagElements = Array.from(root.querySelectorAll('[data-role="article-selected-tags"]'));
+    const totalCountElements = Array.from(root.querySelectorAll('[data-role="article-total-count"]'));
+    const emptyState = root.querySelector('[data-role="article-empty-state"]');
+    const yearSections = Array.from(root.querySelectorAll('[data-year-section]'));
+    const featuredSection = root.querySelector('[data-section="featured"]');
+
+    const searchInputs = Array.from(document.querySelectorAll('[data-role="search-input"]'));
+    const searchClears = Array.from(document.querySelectorAll('[data-role="search-clear"]'));
+    const searchStatuses = Array.from(document.querySelectorAll('[data-role="search-status"]'));
+
+    const knownCategories = new Set(
+      categoryButtons
+        .map((btn) => btn.getAttribute('data-category'))
+        .filter(Boolean)
+    );
+
+    const knownTags = new Set(
+      tagButtons
+        .map((btn) => btn.getAttribute('data-tag'))
+        .filter(Boolean)
+    );
+
+    const tagsByCategory = new Map();
+    const allAvailableTags = new Set();
+    items.forEach((item) => {
+      if (!tagsByCategory.has(item.category)) {
+        tagsByCategory.set(item.category, new Set());
+      }
+      item.tags.forEach((tag) => {
+        tagsByCategory.get(item.category).add(tag);
+        allAvailableTags.add(tag);
       });
     });
+
+    const state = {
+      selectedCategory: 'all',
+      selectedTags: new Set(),
+      query: '',
+    };
+
+    function getAvailableTagSet() {
+      if (state.selectedCategory === 'all') return allAvailableTags;
+      return tagsByCategory.get(state.selectedCategory) || new Set();
+    }
+
+    function syncSearchInputs(value) {
+      searchInputs.forEach((input) => {
+        if (input.value !== value) {
+          input.value = value;
+        }
+      });
+    }
+
+    function syncUrl() {
+      const nextUrl = new URL(window.location.href);
+
+      if (state.query) {
+        nextUrl.searchParams.set('q', state.query);
+      } else {
+        nextUrl.searchParams.delete('q');
+      }
+
+      if (state.selectedCategory !== 'all') {
+        nextUrl.searchParams.set('category', state.selectedCategory);
+      } else {
+        nextUrl.searchParams.delete('category');
+      }
+
+      if (state.selectedTags.size > 0) {
+        nextUrl.searchParams.set('tags', Array.from(state.selectedTags).join(','));
+      } else {
+        nextUrl.searchParams.delete('tags');
+      }
+
+      window.history.replaceState({}, '', nextUrl.toString());
+    }
+
+    function updateCategoryButtons() {
+      categoryButtons.forEach((btn) => {
+        const category = btn.getAttribute('data-category') || 'all';
+        const active = category === state.selectedCategory;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', String(active));
+      });
+    }
+
+    function updateTagButtons() {
+      const availableTags = getAvailableTagSet();
+
+      tagButtons.forEach((btn) => {
+        const tag = btn.getAttribute('data-tag') || '';
+        const available = availableTags.has(tag);
+        const active = state.selectedTags.has(tag);
+
+        btn.classList.toggle('hidden', !available);
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', String(active));
+      });
+    }
+
+    function updateFilterSummary(visibleCount, totalCount) {
+      const selectedTagList = Array.from(state.selectedTags);
+      const hasTags = selectedTagList.length > 0;
+      const hasQuery = !!state.query;
+
+      const categoryLabel = state.selectedCategory === 'all' ? '全部分类' : state.selectedCategory;
+      const summary = `显示 ${visibleCount} / ${totalCount} · 分类: ${categoryLabel}${hasQuery ? ` · 搜索: ${state.query}` : ''}${hasTags ? ` · 标签(AND): ${selectedTagList.join(', ')}` : ''}`;
+
+      countElements.forEach((el) => {
+        el.textContent = summary;
+      });
+
+      selectedTagElements.forEach((el) => {
+        if (hasTags) {
+          el.textContent = `已选标签（AND）: ${selectedTagList.join(', ')}`;
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+
+      clearTagButtons.forEach((btn) => {
+        btn.classList.toggle('hidden', !hasTags);
+      });
+
+      totalCountElements.forEach((el) => {
+        el.textContent = `共 ${visibleCount} / ${totalCount} 篇文章`;
+      });
+
+      searchClears.forEach((btn) => {
+        btn.classList.toggle('hidden', !hasQuery);
+      });
+
+      searchStatuses.forEach((el) => {
+        if (hasQuery) {
+          el.textContent = `找到 ${visibleCount} 个结果`;
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+    }
+
+    function applyFilters(syncHistory = true) {
+      const availableTags = getAvailableTagSet();
+      Array.from(state.selectedTags).forEach((tag) => {
+        if (!availableTags.has(tag)) {
+          state.selectedTags.delete(tag);
+        }
+      });
+
+      const normalizedQuery = state.query.toLowerCase();
+      let visibleCount = 0;
+
+      items.forEach((item) => {
+        const categoryMatched = state.selectedCategory === 'all' || item.category === state.selectedCategory;
+        const tagsMatched =
+          state.selectedTags.size === 0 ||
+          Array.from(state.selectedTags).every((tag) => item.tags.has(tag));
+        const queryMatched =
+          !normalizedQuery ||
+          item.searchBlob.includes(normalizedQuery);
+
+        const visible = categoryMatched && tagsMatched && queryMatched;
+        item.element.classList.toggle('hidden', !visible);
+
+        if (visible) {
+          visibleCount += 1;
+        }
+      });
+
+      if (featuredSection) {
+        const visibleFeaturedCount = featuredSection.querySelectorAll('[data-filter-item]:not(.hidden)').length;
+        featuredSection.classList.toggle('hidden', visibleFeaturedCount === 0);
+      }
+
+      yearSections.forEach((section) => {
+        const visibleInSection = section.querySelectorAll('[data-filter-item]:not(.hidden)').length;
+        section.classList.toggle('hidden', visibleInSection === 0);
+      });
+
+      if (emptyState) {
+        emptyState.classList.toggle('hidden', visibleCount !== 0);
+      }
+
+      updateCategoryButtons();
+      updateTagButtons();
+      updateFilterSummary(visibleCount, items.length);
+
+      if (syncHistory) {
+        syncUrl();
+      }
+    }
+
+    function restoreFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const category = params.get('category');
+      const query = params.get('q');
+      const tagCsv = params.get('tags');
+
+      if (category && knownCategories.has(category)) {
+        state.selectedCategory = category;
+      }
+
+      if (query) {
+        state.query = query.trim();
+      }
+
+      if (tagCsv) {
+        tagCsv
+          .split(',')
+          .map((tag) => tag.trim())
+          .filter(Boolean)
+          .forEach((tag) => {
+            if (knownTags.has(tag)) {
+              state.selectedTags.add(tag);
+            }
+          });
+      }
+
+      syncSearchInputs(state.query);
+    }
+
+    function clearSearch() {
+      state.query = '';
+      syncSearchInputs('');
+      applyFilters();
+
+      const visibleInput = searchInputs.find((input) => input.offsetParent !== null);
+      if (visibleInput) {
+        visibleInput.focus();
+      }
+    }
+
+    categoryButtons.forEach((btn) => {
+      btn.addEventListener(
+        'click',
+        () => {
+          const category = btn.getAttribute('data-category') || 'all';
+          state.selectedCategory = knownCategories.has(category) ? category : 'all';
+          applyFilters();
+        },
+        { signal }
+      );
+    });
+
+    tagButtons.forEach((btn) => {
+      btn.addEventListener(
+        'click',
+        () => {
+          const tag = btn.getAttribute('data-tag');
+          if (!tag || btn.classList.contains('hidden')) return;
+
+          if (state.selectedTags.has(tag)) {
+            state.selectedTags.delete(tag);
+          } else {
+            state.selectedTags.add(tag);
+          }
+
+          applyFilters();
+        },
+        { signal }
+      );
+    });
+
+    clearTagButtons.forEach((btn) => {
+      btn.addEventListener(
+        'click',
+        () => {
+          state.selectedTags.clear();
+          applyFilters();
+        },
+        { signal }
+      );
+    });
+
+    clearAllButtons.forEach((btn) => {
+      btn.addEventListener(
+        'click',
+        () => {
+          state.selectedCategory = 'all';
+          state.selectedTags.clear();
+          state.query = '';
+          syncSearchInputs('');
+          applyFilters();
+        },
+        { signal }
+      );
+    });
+
+    searchInputs.forEach((input) => {
+      input.addEventListener(
+        'input',
+        (event) => {
+          const value = (event.target.value || '').trim();
+          syncSearchInputs(value);
+
+          if (searchDebounceTimer) {
+            clearTimeout(searchDebounceTimer);
+          }
+
+          searchDebounceTimer = window.setTimeout(() => {
+            state.query = value;
+            applyFilters();
+          }, 250);
+        },
+        { signal }
+      );
+
+      input.addEventListener(
+        'keydown',
+        (event) => {
+          if (event.key === 'Escape') {
+            clearSearch();
+          }
+        },
+        { signal }
+      );
+    });
+
+    searchClears.forEach((btn) => {
+      btn.addEventListener('click', clearSearch, { signal });
+    });
+
+    restoreFromUrl();
+    applyFilters(false);
   }
 
-  // 初始化
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCategoryFilter);
+    document.addEventListener('DOMContentLoaded', initArticlesFilter);
   } else {
-    initCategoryFilter();
+    initArticlesFilter();
   }
-  
-  document.addEventListener('astro:page-load', initCategoryFilter);
+
+  if (!(window).__articlesFilterBound) {
+    document.addEventListener('astro:page-load', initArticlesFilter);
+    window.__articlesFilterBound = true;
+  }
 </script>

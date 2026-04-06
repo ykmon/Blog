@@ -1,8 +1,9 @@
 /**
  * init-filter.ts - legacy 页面级过滤初始化脚本
  *
- * 仅用于旧版 data-tags 过滤链路。
- * 当检测到新版 articles 过滤器时会自动跳过，避免双系统冲突。
+ * - 当页面存在旧版 data-tags 卡片时，启用本地搜索与标签过滤
+ * - 当页面没有可过滤卡片时，搜索框回车将跳转到 /articles/?q=...
+ * - 当页面启用增强版文章过滤器时（data-articles-filter="enhanced"），跳过本脚本
  */
 
 import FilterController from './filter-controller';
@@ -14,28 +15,81 @@ function hasEnhancedArticlesFilter(): boolean {
   return !!document.querySelector('[data-articles-filter="enhanced"]');
 }
 
-function initFilter() {
-  // 新版 /articles 页面有独立过滤逻辑，直接跳过 legacy 初始化
-  if (hasEnhancedArticlesFilter()) return;
+function hasFilterTargets(): boolean {
+  return !!document.querySelector('[data-tags]');
+}
 
-  // 幂等保护
-  if (initialized) return;
-  initialized = true;
+function toArticleSearchUrl(query: string): string {
+  const url = new URL('/articles/', window.location.origin);
+  url.searchParams.set('q', query.trim());
+  return `${url.pathname}${url.search}`;
+}
 
-  const fc = FilterController.getInstance();
-
-  // 从 URL 恢复状态
-  fc.restoreFromUrl();
-
-  // 重建索引
-  fc.rebuild();
-
-  // 搜索框绑定（支持多实例）
+function initRedirectSearchOnly() {
   const searchInputs = document.querySelectorAll<HTMLInputElement>('[data-role="search-input"]');
   const searchClears = document.querySelectorAll<HTMLElement>('[data-role="search-clear"]');
   const searchStatuses = document.querySelectorAll<HTMLElement>('[data-role="search-status"]');
 
-  // 恢复搜索框值
+  if (searchInputs.length === 0) return;
+
+  const syncQuery = (value: string) => {
+    searchInputs.forEach((input) => {
+      if (input.value !== value) input.value = value;
+    });
+    searchClears.forEach((btn) => btn.classList.toggle('hidden', !value.trim()));
+  };
+
+  const clearSearch = () => {
+    syncQuery('');
+    searchStatuses.forEach((el) => el.classList.add('hidden'));
+    const firstVisible = Array.from(searchInputs).find((input) => input.offsetParent !== null);
+    if (firstVisible) firstVisible.focus();
+  };
+
+  searchInputs.forEach((input) => {
+    input.addEventListener('input', (event) => {
+      const value = (event.target as HTMLInputElement).value;
+      syncQuery(value);
+    });
+
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        clearSearch();
+        return;
+      }
+      if (event.key === 'Enter') {
+        const q = input.value.trim();
+        if (!q) return;
+        event.preventDefault();
+        window.location.href = toArticleSearchUrl(q);
+      }
+    });
+  });
+
+  searchClears.forEach((btn) => {
+    btn.addEventListener('click', clearSearch);
+  });
+}
+
+function initFilter() {
+  if (hasEnhancedArticlesFilter()) return;
+  if (initialized) return;
+  initialized = true;
+
+  if (!hasFilterTargets()) {
+    initRedirectSearchOnly();
+    return;
+  }
+
+  const fc = FilterController.getInstance();
+  fc.restoreFromUrl();
+  fc.rebuild();
+
+  const searchInputs = document.querySelectorAll<HTMLInputElement>('[data-role="search-input"]');
+  const searchClears = document.querySelectorAll<HTMLElement>('[data-role="search-clear"]');
+  const searchStatuses = document.querySelectorAll<HTMLElement>('[data-role="search-status"]');
+
   if (fc.query) {
     searchInputs.forEach((input) => {
       input.value = fc.query;
@@ -43,13 +97,23 @@ function initFilter() {
     searchClears.forEach((btn) => btn.classList.remove('hidden'));
   }
 
-  // 输入事件 -> 防抖 -> 更新控制器 -> 同步其他实例
-  searchInputs.forEach((input) => {
-    input.addEventListener('input', (e) => {
-      const value = (e.target as HTMLInputElement).value;
+  const clearSearch = () => {
+    searchInputs.forEach((input) => {
+      input.value = '';
+    });
+    searchClears.forEach((btn) => btn.classList.add('hidden'));
+    searchStatuses.forEach((el) => el.classList.add('hidden'));
+    fc.clearQuery();
 
+    const firstVisible = Array.from(searchInputs).find((input) => input.offsetParent !== null);
+    if (firstVisible) firstVisible.focus();
+  };
+
+  searchInputs.forEach((input) => {
+    input.addEventListener('input', (event) => {
+      const value = (event.target as HTMLInputElement).value;
       searchInputs.forEach((other) => {
-        if (other !== e.target) other.value = value;
+        if (other !== event.target) other.value = value;
       });
 
       searchClears.forEach((btn) => btn.classList.toggle('hidden', !value.trim()));
@@ -60,29 +124,15 @@ function initFilter() {
       }, 300);
     });
 
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') clearSearch();
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') clearSearch();
     });
   });
 
-  // 清除按钮
   searchClears.forEach((btn) => {
     btn.addEventListener('click', clearSearch);
   });
 
-  function clearSearch() {
-    searchInputs.forEach((input) => {
-      input.value = '';
-    });
-    searchClears.forEach((btn) => btn.classList.add('hidden'));
-    searchStatuses.forEach((el) => el.classList.add('hidden'));
-    fc.clearQuery();
-
-    const firstVisible = Array.from(searchInputs).find((input) => input.offsetParent !== null);
-    if (firstVisible) firstVisible.focus();
-  }
-
-  // 标签按钮绑定（支持多实例）
   const allTagBtns = document.querySelectorAll<HTMLElement>('.tag-btn[data-tag]');
   const filterStatuses = document.querySelectorAll<HTMLElement>('[data-role="filter-status"]');
   const filterCounts = document.querySelectorAll<HTMLElement>('[data-role="filter-count"]');
@@ -120,7 +170,6 @@ function initFilter() {
     });
   });
 
-  // 状态变化回调 -> 更新 UI
   fc.onChange((visibleCount, totalCount) => {
     const hasSearch = !!fc.query;
     const hasTags = fc.selectedTags.size > 0;
@@ -141,13 +190,12 @@ function initFilter() {
     filterCounts.forEach((el) => {
       if (hasTags) {
         const tagList = Array.from(fc.selectedTags).join(', ');
-        el.textContent = `Showing ${visibleCount} of ${totalCount} items • ${tagList}`;
+        el.textContent = `Showing ${visibleCount} of ${totalCount} items - ${tagList}`;
       }
     });
   });
 }
 
-/** 销毁并重置（页面切换前） */
 function destroyFilter() {
   initialized = false;
   if (debounceTimer) clearTimeout(debounceTimer);
@@ -159,12 +207,7 @@ function destroyFilter() {
 }
 
 function safeInit() {
-  // 每次进入页面先清理旧实例，确保 View Transitions 下无残留
   destroyFilter();
-
-  // 新版 /articles 页面跳过 legacy 过滤
-  if (hasEnhancedArticlesFilter()) return;
-
   initFilter();
 }
 

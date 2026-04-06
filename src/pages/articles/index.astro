@@ -1,5 +1,5 @@
----
-// articles/index.astro - 文章列表页（编辑部档案风格）
+﻿---
+// articles/index.astro - 鏂囩珷鍒楄〃椤碉紙缂栬緫閮ㄦ。妗堥鏍硷級
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
@@ -71,24 +71,24 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
   <Header title="Archive" subPage />
 
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
-    <main class="space-y-12">
+    <main class="space-y-12" data-articles-filter="enhanced">
         <section class="blur-load rounded-[2rem] border border-ink/10 bg-white/80 p-6 md:p-8 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
           <div class="grid gap-8 lg:grid-cols-[1.2fr,0.8fr] lg:items-center">
             <div>
               <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Archive / All Posts</p>
               <h1 class="mt-3 font-serif text-4xl md:text-5xl xl:text-6xl leading-[0.95] text-ink">
-                文章索引
+                鏂囩珷绱㈠紩
               </h1>
               <p class="mt-4 max-w-3xl text-sm md:text-base leading-7 text-gray-600">
-                按分类、精选和年份浏览文章。
+                鎸夊垎绫汇€佺簿閫夊拰骞翠唤娴忚鏂囩珷銆?
               </p>
 
               <div class="mt-6 flex flex-wrap gap-3">
                 <a href="#featured" class="inline-flex items-center justify-center rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-forest/90">
-                  精选
+                  绮鹃€?
                 </a>
                 <a href="#timeline" class="inline-flex items-center justify-center rounded-full border border-ink/15 bg-white px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:border-ochre hover:text-ochre">
-                  时间线
+                  鏃堕棿绾?
                 </a>
               </div>
             </div>
@@ -97,22 +97,22 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
               <div class="rounded-[1.5rem] border border-ink/10 bg-paper p-5">
                 <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Total</div>
                 <div class="mt-2 font-serif text-3xl text-ink">{sortedArticles.length}</div>
-                <div class="mt-2 text-sm leading-6 text-gray-600">篇文章内容可浏览</div>
+                <div class="mt-2 text-sm leading-6 text-gray-600">绡囨枃绔犲唴瀹瑰彲娴忚</div>
               </div>
               <div class="rounded-[1.5rem] border border-ink/10 bg-paper p-5">
                 <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Categories</div>
                 <div class="mt-2 font-serif text-3xl text-ink">{categories.length}</div>
-                <div class="mt-2 text-sm leading-6 text-gray-600">个分类入口</div>
+                <div class="mt-2 text-sm leading-6 text-gray-600">涓垎绫诲叆鍙?/div>
               </div>
               <div class="rounded-[1.5rem] border border-ink/10 bg-paper p-5">
                 <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Featured</div>
                 <div class="mt-2 font-serif text-3xl text-ink">{featuredArticles.length}</div>
-                <div class="mt-2 text-sm leading-6 text-gray-600">篇精选内容</div>
+                <div class="mt-2 text-sm leading-6 text-gray-600">绡囩簿閫夊唴瀹?/div>
               </div>
               <div class="rounded-[1.5rem] border border-ink/10 bg-paper p-5">
                 <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Latest</div>
                 <div class="mt-2 font-serif text-3xl text-ink">{sortedArticles[0] ? formatDateEN(sortedArticles[0].date) : '--'}</div>
-                <div class="mt-2 text-sm leading-6 text-gray-600">最近一次更新</div>
+                <div class="mt-2 text-sm leading-6 text-gray-600">鏈€杩戜竴娆℃洿鏂?/div>
               </div>
             </div>
           </div>
@@ -121,10 +121,10 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
         <section class="blur-load space-y-5" data-role="article-tag-filter">
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">筛选 Filter</p>
-              <h2 class="mt-2 font-serif text-3xl text-ink">按标签筛选</h2>
+              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">绛涢€?Filter</p>
+              <h2 class="mt-2 font-serif text-3xl text-ink">鎸夋爣绛剧瓫閫?/h2>
               <p class="mt-2 max-w-2xl text-sm leading-7 text-gray-600">
-                支持多标签共选，任一标签命中即可显示文章。
+                鏀寔澶氭爣绛惧叡閫夛紝浠讳竴鏍囩鍛戒腑鍗冲彲鏄剧ず鏂囩珷銆?
               </p>
             </div>
           </div>
@@ -132,7 +132,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
           <div class="rounded-[1.5rem] border border-ink/10 bg-white/70 p-4 space-y-3">
             <div class="flex flex-wrap gap-2">
               <button class="tag-filter-btn active rounded-full border border-forest/20 bg-forest px-4 py-2 text-xs font-bold uppercase tracking-[0.3em] text-white transition-all" data-tag-filter="all">
-                全部 ({sortedArticles.length})
+                鍏ㄩ儴 ({sortedArticles.length})
               </button>
               {filterTags.map(({ tag, count }) => (
                 <button
@@ -145,8 +145,8 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
             </div>
 
             <div class="flex flex-wrap items-center gap-3 text-sm text-gray-600">
-              <span data-role="tag-filter-status">显示全部 {sortedArticles.length} 篇文章</span>
-              <button data-role="tag-filter-clear" class="hidden text-ochre hover:underline">清空标签</button>
+              <span data-role="tag-filter-status">鏄剧ず鍏ㄩ儴 {sortedArticles.length} 绡囨枃绔?/span>
+              <button data-role="tag-filter-clear" class="hidden text-ochre hover:underline">娓呯┖鏍囩</button>
             </div>
           </div>
         </section>
@@ -154,10 +154,10 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
         <section class="blur-load space-y-5" data-section="featured" id="featured">
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">精选内容 Featured</p>
-              <h2 class="mt-2 font-serif text-3xl text-ink">最新且最值得先读的文章</h2>
+              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">绮鹃€夊唴瀹?Featured</p>
+              <h2 class="mt-2 font-serif text-3xl text-ink">鏈€鏂颁笖鏈€鍊煎緱鍏堣鐨勬枃绔?/h2>
             </div>
-            <a href="/articles/" class="text-sm font-semibold text-gray-500 transition-colors hover:text-ochre">查看全部文章 →</a>
+            <a href="/articles/" class="text-sm font-semibold text-gray-500 transition-colors hover:text-ochre">鏌ョ湅鍏ㄩ儴鏂囩珷 鈫?/a>
           </div>
 
           <div class="grid gap-6 lg:grid-cols-12">
@@ -190,7 +190,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
                   <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em]">
                     <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{featuredArticles[0].category}</span>
                     {featuredArticles[0].readTime && <span class="text-gray-400">{featuredArticles[0].readTime}</span>}
-                    <span class="text-gray-300">•</span>
+                    <span class="text-gray-300">鈥?/span>
                     <span class="text-gray-400">{formatDateEN(featuredArticles[0].date)}</span>
                   </div>
                   <h3 class="mt-4 font-serif text-2xl leading-tight text-ink transition-colors group-hover:text-forest md:text-3xl">
@@ -252,8 +252,8 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
         <section class="blur-load space-y-5" id="timeline" data-blur-priority="eager">
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">时间线 Timeline</p>
-              <h2 class="mt-2 font-serif text-3xl text-ink">按年份浏览剩余文章</h2>
+              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">鏃堕棿绾?Timeline</p>
+              <h2 class="mt-2 font-serif text-3xl text-ink">鎸夊勾浠芥祻瑙堝墿浣欐枃绔?/h2>
             </div>
           </div>
 
@@ -262,7 +262,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
               <h3 class="sticky top-4 z-10 flex items-center gap-3 rounded-full border border-ink/10 bg-paper/90 px-4 py-2 font-serif text-2xl text-ink backdrop-blur-sm">
                 <span class="text-ochre">{year}</span>
                 <span class="flex-1 h-px bg-gray-200"></span>
-                <span class="text-sm font-normal text-gray-400">{articlesByYear[year].length} 篇</span>
+                <span class="text-sm font-normal text-gray-400">{articlesByYear[year].length} 绡?/span>
               </h3>
               <div class="space-y-3">
                 {articlesByYear[year].map((article) => (
@@ -296,7 +296,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
                             {article.category}
                           </span>
                           {article.readTime === 'Series' && (
-                            <span class="text-forest">📁 SERIES</span>
+                            <span class="text-forest">馃搧 SERIES</span>
                           )}
                         </div>
                         <h4 class="mt-3 font-serif text-lg leading-tight text-ink transition-colors group-hover:text-forest">
@@ -309,7 +309,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
 
                       <div class="text-right text-sm text-gray-400">
                         <span class="inline-flex items-center gap-2 font-semibold text-ochre transition-transform duration-300 group-hover:translate-x-1">
-                          →
+                          鈫?
                         </span>
                       </div>
                     </div>
@@ -321,8 +321,8 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
         </section>
 
         <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
-          <span>共 {sortedArticles.length} 篇文章</span>
-          <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
+          <span>鍏?{sortedArticles.length} 绡囨枃绔?/span>
+          <a href="#top" class="text-ochre hover:underline">Back to Top 鈫?/a>
         </div>
     </main>
   </div>
@@ -355,16 +355,28 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
 
   function parseTags(value: string | null): string[] {
     if (!value) return [];
-    return value
-      .split(',')
-      .map((tag) => tag.trim())
-      .filter(Boolean);
+    return value.split(',').map((tag) => tag.trim()).filter(Boolean);
+  }
+
+  function syncFilterUrl(query: string, selectedTags: Set<string>) {
+    const url = new URL(window.location.href);
+    if (query) {
+      url.searchParams.set('q', query);
+    } else {
+      url.searchParams.delete('q');
+    }
+
+    if (selectedTags.size > 0) {
+      url.searchParams.set('tags', Array.from(selectedTags).join(','));
+    } else {
+      url.searchParams.delete('tags');
+    }
+
+    window.history.replaceState({}, '', `${url.pathname}${url.search}`);
   }
 
   function initArticleTagFilter() {
-    if (articleFilterAbort) {
-      articleFilterAbort.abort();
-    }
+    if (articleFilterAbort) articleFilterAbort.abort();
     articleFilterAbort = new AbortController();
     const { signal } = articleFilterAbort;
 
@@ -373,20 +385,37 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
 
     const buttons = Array.from(filterRoot.querySelectorAll<HTMLButtonElement>('.tag-filter-btn[data-tag-filter]'));
     const status = filterRoot.querySelector<HTMLElement>('[data-role="tag-filter-status"]');
-    const clearButton = filterRoot.querySelector<HTMLButtonElement>('[data-role="tag-filter-clear"]');
+    const clearTagButton = filterRoot.querySelector<HTMLButtonElement>('[data-role="tag-filter-clear"]');
+    const searchInputs = Array.from(document.querySelectorAll<HTMLInputElement>('[data-role="search-input"]'));
+    const searchClears = Array.from(document.querySelectorAll<HTMLElement>('[data-role="search-clear"]'));
+    const searchStatuses = Array.from(document.querySelectorAll<HTMLElement>('[data-role="search-status"]'));
     const articles = Array.from(document.querySelectorAll<HTMLElement>('.article-card[data-filter-tags]'));
     const yearSections = Array.from(document.querySelectorAll<HTMLElement>('.year-section'));
     const featuredSection = document.querySelector<HTMLElement>('[data-section="featured"]');
     const totalCount = articles.length;
     const selectedTags = new Set<string>();
 
+    const params = new URLSearchParams(window.location.search);
+    let query = (params.get('q') ?? '').trim();
+    const urlTags = parseTags(params.get('tags'));
+    urlTags.forEach((tag) => selectedTags.add(tag));
+
+    const syncSearchUi = () => {
+      searchInputs.forEach((input) => {
+        if (input.value !== query) input.value = query;
+      });
+      searchClears.forEach((btn) => btn.classList.toggle('hidden', !query));
+    };
+
     const applyFilter = () => {
+      const lowerQuery = query.toLowerCase();
       let visibleCount = 0;
 
       articles.forEach((article) => {
         const articleTags = parseTags(article.getAttribute('data-filter-tags'));
-        const isVisible =
-          selectedTags.size === 0 || articleTags.some((tag) => selectedTags.has(tag));
+        const tagMatched = selectedTags.size === 0 || articleTags.some((tag) => selectedTags.has(tag));
+        const textMatched = !lowerQuery || (article.textContent ?? '').toLowerCase().includes(lowerQuery);
+        const isVisible = tagMatched && textMatched;
 
         article.classList.toggle('hidden', !isVisible);
         if (isVisible) visibleCount += 1;
@@ -410,17 +439,34 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
       });
 
       if (status) {
-        if (selectedTags.size === 0) {
+        if (!query && selectedTags.size === 0) {
           status.textContent = `显示全部 ${totalCount} 篇文章`;
+        } else if (query && selectedTags.size === 0) {
+          status.textContent = `搜索“${query}” · ${visibleCount} / ${totalCount} 篇`;
+        } else if (!query && selectedTags.size > 0) {
+          const labels = Array.from(selectedTags).join('、');
+          status.textContent = `标签筛选 · ${visibleCount} / ${totalCount} 篇 · ${labels}`;
         } else {
           const labels = Array.from(selectedTags).join('、');
-          status.textContent = `显示 ${visibleCount} / ${totalCount} 篇 · 已选标签：${labels}`;
+          status.textContent = `搜索 + 标签 · ${visibleCount} / ${totalCount} 篇 · ${labels}`;
         }
       }
 
-      if (clearButton) {
-        clearButton.classList.toggle('hidden', selectedTags.size === 0);
+      searchStatuses.forEach((searchStatus) => {
+        if (!query) {
+          searchStatus.classList.add('hidden');
+          return;
+        }
+        searchStatus.textContent = `找到 ${visibleCount} 篇结果`;
+        searchStatus.classList.remove('hidden');
+      });
+
+      if (clearTagButton) {
+        clearTagButton.classList.toggle('hidden', selectedTags.size === 0);
       }
+
+      syncSearchUi();
+      syncFilterUrl(query, selectedTags);
     };
 
     buttons.forEach((button) => {
@@ -432,11 +478,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
 
           if (tag === 'all') {
             selectedTags.clear();
-            applyFilter();
-            return;
-          }
-
-          if (selectedTags.has(tag)) {
+          } else if (selectedTags.has(tag)) {
             selectedTags.delete(tag);
           } else {
             selectedTags.add(tag);
@@ -448,7 +490,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
       );
     });
 
-    clearButton?.addEventListener(
+    clearTagButton?.addEventListener(
       'click',
       () => {
         selectedTags.clear();
@@ -456,6 +498,41 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
       },
       { signal }
     );
+
+    searchInputs.forEach((input) => {
+      input.addEventListener(
+        'input',
+        (event) => {
+          query = (event.target as HTMLInputElement).value.trim();
+          applyFilter();
+        },
+        { signal }
+      );
+
+      input.addEventListener(
+        'keydown',
+        (event) => {
+          if (event.key === 'Escape') {
+            query = '';
+            applyFilter();
+          }
+        },
+        { signal }
+      );
+    });
+
+    searchClears.forEach((btn) => {
+      btn.addEventListener(
+        'click',
+        () => {
+          query = '';
+          applyFilter();
+          const firstVisible = searchInputs.find((input) => input.offsetParent !== null);
+          if (firstVisible) firstVisible.focus();
+        },
+        { signal }
+      );
+    });
 
     applyFilter();
   }
@@ -468,3 +545,4 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
 
   document.addEventListener('astro:page-load', initArticleTagFilter);
 </script>
+

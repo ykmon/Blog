@@ -3,7 +3,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
-import UnifiedSidebar from '../../components/UnifiedSidebar.astro';
+import TopNav from '../../components/TopNav.astro';
 import Footer from '../../components/Footer.astro';
 import type { Article } from '../../data/content';
 import { formatDateEN, parseISODate } from '../../utils/date';
@@ -67,13 +67,11 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
 ---
 
 <BaseLayout title={pageTitle} description={description}>
+  <TopNav currentSection="articles" subPage />
   <Header title="Archive" subPage />
 
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-      <UnifiedSidebar currentSection="articles" />
-
-      <main class="lg:col-span-9 relative pl-0 lg:pl-12 space-y-12">
+    <main class="space-y-12">
         <section class="blur-load rounded-[2rem] border border-ink/10 bg-white/80 p-6 md:p-8 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
           <div class="grid gap-8 lg:grid-cols-[1.2fr,0.8fr] lg:items-center">
             <div>
@@ -326,8 +324,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
           <span>共 {sortedArticles.length} 篇文章</span>
           <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
         </div>
-      </main>
-    </div>
+    </main>
   </div>
 
   <Footer />

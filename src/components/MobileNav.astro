@@ -1,87 +1,60 @@
 ---
-// MobileNav.astro - 移动端导航抽屉组件
-// 仅在小于 lg (1024px) 断点时显示
 import SearchBox from './SearchBox.astro';
-
-const sections = [
-  { id: 'home', num: '00', label: '首页', labelEn: 'Home', href: '/' },
-  { id: 'articles', num: '01', label: '文章列表', labelEn: 'Articles', href: '/articles/' },
-  { id: 'series', num: '02', label: '系列笔记', labelEn: 'Series', href: '/series/' },
-  { id: 'tools', num: '03', label: '工具库', labelEn: 'Tools', href: '/tools/' },
-  { id: 'videos', num: '04', label: '视频教程', labelEn: 'Videos', href: '/videos/' },
-  { id: 'about', num: '05', label: '关于', labelEn: 'About', href: '/about/' },
-];
+import { navItems } from '../data/navigation';
 ---
 
-<!-- 浮动汉堡按钮 - 仅移动端可见 -->
-<button
-  id="mobile-nav-toggle"
-  class="lg:hidden fixed bottom-6 right-6 z-50 w-14 h-14 bg-ochre text-white rounded-full shadow-lg flex items-center justify-center hover:bg-ochre/90 transition-all duration-300 hover:scale-105 active:scale-95"
-  aria-label="打开导航菜单"
-  aria-expanded="false"
-  aria-controls="mobile-nav-drawer"
->
-  <!-- 汉堡图标 -->
-  <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-  </svg>
-  <!-- 关闭图标 (默认隐藏) -->
-  <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-  </svg>
-</button>
-
-<!-- 遮罩层 -->
 <div
   id="mobile-nav-overlay"
-  class="fixed inset-0 bg-black/50 z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+  class="fixed inset-0 z-40 bg-black/45 opacity-0 pointer-events-none transition-opacity duration-300"
   aria-hidden="true"
 ></div>
 
-<!-- 抽屉面板 -->
 <aside
   id="mobile-nav-drawer"
-  class="fixed right-0 top-0 h-full w-80 max-w-[85vw] bg-paper z-50 shadow-2xl overflow-y-auto transform translate-x-full transition-transform duration-300 ease-out"
+  class="fixed right-0 top-0 z-50 h-full w-80 max-w-[86vw] translate-x-full overflow-y-auto border-l border-ink/10 bg-paper shadow-2xl transition-transform duration-300 ease-out"
   aria-label="移动端导航菜单"
   aria-hidden="true"
 >
-  <div class="p-6 space-y-6">
-    <!-- 头部 -->
-    <div class="flex items-center justify-between border-b border-gray-200 pb-4">
-      <h2 class="font-serif text-xl font-bold text-ink">菜单</h2>
+  <div class="space-y-6 p-6">
+    <div class="flex items-center justify-between border-b border-ink/10 pb-4">
+      <h2 class="font-serif text-xl text-ink">Menu</h2>
       <button
         id="mobile-nav-close"
-        class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-ink transition-colors rounded-full hover:bg-gray-100"
-        aria-label="关闭菜单"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-white text-gray-500 transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ochre/70"
+        aria-label="关闭导航菜单"
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
     </div>
 
-    <!-- 个人简介 -->
-    <div class="text-center p-4 border border-gray-200 bg-white/50 backdrop-blur-sm rounded-sm">
-      <div class="w-16 h-16 mx-auto bg-gray-300 rounded-full mb-3 overflow-hidden">
-        <img loading="lazy" decoding="async" src="/Resource/ykmon.jpg" alt="Avatar" width="64" height="64" class="object-cover w-full h-full">
+    <div class="rounded-[1.5rem] border border-ink/10 bg-white/70 p-4 text-center">
+      <div class="mx-auto h-16 w-16 overflow-hidden rounded-full border border-ink/10">
+        <img loading="lazy" decoding="async" src="/Resource/ykmon.jpg" alt="YKMON" class="h-full w-full object-cover" width="64" height="64" />
       </div>
-      <h3 class="font-serif text-lg font-bold mb-1">YKMON</h3>
-      <p class="text-xs text-gray-500 uppercase tracking-widest">Technical Artist</p>
+      <h3 class="mt-3 font-serif text-xl font-bold text-ink">YKMON</h3>
+      <p class="mt-1 text-[11px] uppercase tracking-[0.28em] text-ochre">Technical Artist</p>
     </div>
 
-    <!-- 搜索框 -->
     <SearchBox />
 
-    <!-- 导航链接 -->
-    <nav class="space-y-3">
-      <h4 class="font-serif text-lg border-b border-gray-300 pb-2 mb-3 italic">Sections</h4>
-      {sections.map((section) => (
+    <nav class="space-y-2" aria-label="移动端主导航">
+      <div class="mb-2 flex items-center justify-between border-b border-ink/10 pb-3">
+        <h4 class="font-serif text-lg italic text-ink">Sections</h4>
+        <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Navigation</span>
+      </div>
+
+      {navItems.map((item) => (
         <a
-          href={section.href}
-          class="block py-2 text-ink hover:text-ochre transition-colors group"
+          href={item.href}
+          class="group flex items-center justify-between rounded-2xl border border-transparent px-3 py-3 text-ink transition-all duration-300 hover:border-ochre/15 hover:bg-white hover:text-ochre"
         >
-          <span class="text-xs font-bold mr-2 text-gray-400 group-hover:text-ochre">{section.num}</span>
-          {section.label} / {section.labelEn}
+          <span class="flex items-center gap-2">
+            <span class="text-[10px] font-bold tracking-[0.32em] text-gray-400 group-hover:text-ochre">{item.num}</span>
+            <span class="text-base">{item.label}</span>
+          </span>
+          <span class="text-[10px] uppercase tracking-[0.25em] text-gray-400 group-hover:text-ochre">{item.labelEn}</span>
         </a>
       ))}
     </nav>
@@ -89,11 +62,9 @@ const sections = [
 </aside>
 
 <script>
-  // 移动端导航控制脚本（幂等化：使用 AbortController 管理事件生命周期）
   let mobileNavAbort: AbortController | null = null;
 
   function initMobileNav() {
-    // 销毁旧的事件绑定
     if (mobileNavAbort) {
       mobileNavAbort.abort();
     }
@@ -104,83 +75,93 @@ const sections = [
     const overlay = document.getElementById('mobile-nav-overlay');
     const drawer = document.getElementById('mobile-nav-drawer');
     const closeBtn = document.getElementById('mobile-nav-close');
-    const menuIcon = document.getElementById('menu-icon');
-    const closeIcon = document.getElementById('close-icon');
+    const menuIcon = document.getElementById('mobile-nav-menu-icon');
+    const closeIcon = document.getElementById('mobile-nav-close-icon');
 
     if (!toggle || !overlay || !drawer || !closeBtn) return;
 
     let isOpen = false;
 
-    function openDrawer() {
+    const openDrawer = () => {
       isOpen = true;
-      drawer?.classList.remove('translate-x-full');
-      drawer?.classList.add('translate-x-0');
-      drawer?.setAttribute('aria-hidden', 'false');
-      overlay?.classList.remove('opacity-0', 'pointer-events-none');
-      overlay?.classList.add('opacity-100', 'pointer-events-auto');
-      toggle?.setAttribute('aria-expanded', 'true');
+      drawer.classList.remove('translate-x-full');
+      drawer.classList.add('translate-x-0');
+      drawer.setAttribute('aria-hidden', 'false');
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100', 'pointer-events-auto');
+      toggle.setAttribute('aria-expanded', 'true');
       menuIcon?.classList.add('hidden');
       closeIcon?.classList.remove('hidden');
       document.body.classList.add('drawer-open');
-    }
+    };
 
-    function closeDrawer() {
+    const closeDrawer = () => {
       isOpen = false;
-      drawer?.classList.add('translate-x-full');
-      drawer?.classList.remove('translate-x-0');
-      drawer?.setAttribute('aria-hidden', 'true');
-      overlay?.classList.add('opacity-0', 'pointer-events-none');
-      overlay?.classList.remove('opacity-100', 'pointer-events-auto');
-      toggle?.setAttribute('aria-expanded', 'false');
+      drawer.classList.add('translate-x-full');
+      drawer.classList.remove('translate-x-0');
+      drawer.setAttribute('aria-hidden', 'true');
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.classList.remove('opacity-100', 'pointer-events-auto');
+      toggle.setAttribute('aria-expanded', 'false');
       menuIcon?.classList.remove('hidden');
       closeIcon?.classList.add('hidden');
       document.body.classList.remove('drawer-open');
-    }
+    };
 
-    function toggleDrawer() {
-      if (isOpen) {
-        closeDrawer();
-      } else {
-        openDrawer();
-      }
-    }
-
-    // 事件绑定（全部挂载到 signal，方便统一销毁）
-    toggle.addEventListener('click', toggleDrawer, { signal });
-    overlay.addEventListener('click', closeDrawer, { signal });
+    toggle.addEventListener(
+      'click',
+      () => {
+        if (isOpen) {
+          closeDrawer();
+        } else {
+          openDrawer();
+        }
+      },
+      { signal }
+    );
     closeBtn.addEventListener('click', closeDrawer, { signal });
+    overlay.addEventListener('click', closeDrawer, { signal });
 
-    // ESC 键关闭
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        closeDrawer();
-      }
-    }, { signal });
+    document.addEventListener(
+      'keydown',
+      (event) => {
+        if (event.key === 'Escape' && isOpen) {
+          closeDrawer();
+        }
+      },
+      { signal }
+    );
 
-    // 导航链接点击后自动关闭抽屉
     drawer.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        setTimeout(closeDrawer, 150);
-      }, { signal });
+      link.addEventListener(
+        'click',
+        () => {
+          window.setTimeout(closeDrawer, 140);
+        },
+        { signal }
+      );
     });
 
-    // 窗口调整大小时，如果超过 lg 断点则自动关闭
-    window.addEventListener('resize', () => {
-      if (window.innerWidth >= 1024 && isOpen) {
-        closeDrawer();
-      }
-    }, { signal });
+    window.addEventListener(
+      'resize',
+      () => {
+        if (window.innerWidth >= 1024 && isOpen) {
+          closeDrawer();
+        }
+      },
+      { signal }
+    );
   }
 
-  // 支持初始加载和 Astro View Transitions（单次注册保护）
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMobileNav);
   } else {
     initMobileNav();
   }
 
-  if (!(window as any).__mobileNavBound) {
+  const globalWindow = window as Window & { __mobileNavBound?: boolean };
+  if (!globalWindow.__mobileNavBound) {
     document.addEventListener('astro:page-load', initMobileNav);
-    (window as any).__mobileNavBound = true;
+    globalWindow.__mobileNavBound = true;
   }
 </script>

@@ -35,10 +35,15 @@ const featuredArticles = sortedArticles.slice(0, 3);
 const restArticles = sortedArticles.slice(3);
 
 const categories = [...new Set(sortedArticles.map((a) => a.category))];
-const articlesByCategory = categories.reduce((acc, cat) => {
-  acc[cat] = sortedArticles.filter((a) => a.category === cat);
+const articleTagCounts = sortedArticles.reduce((acc, article) => {
+  article.tags.forEach((tag) => {
+    acc[tag] = (acc[tag] ?? 0) + 1;
+  });
   return acc;
-}, {} as Record<string, Article[]>);
+}, {} as Record<string, number>);
+const filterTags = Object.entries(articleTagCounts)
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'en'))
+  .map(([tag, count]) => ({ tag, count }));
 
 const articlesByYear = restArticles.reduce((acc, article) => {
   const year = article.date.split('-')[0];
@@ -115,26 +120,36 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
           </div>
         </section>
 
-        <section class="blur-load space-y-5">
+        <section class="blur-load space-y-5" data-role="article-tag-filter">
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">筛选 Filter</p>
-              <h2 class="mt-2 font-serif text-3xl text-ink">按分类切换</h2>
+              <h2 class="mt-2 font-serif text-3xl text-ink">按标签筛选</h2>
               <p class="mt-2 max-w-2xl text-sm leading-7 text-gray-600">
-                点击分类按钮会筛掉不相关内容，保持精选和时间线同步变化。
+                支持多标签共选，任一标签命中即可显示文章。
               </p>
             </div>
           </div>
 
-          <div class="flex flex-wrap gap-2 rounded-[1.5rem] border border-ink/10 bg-white/70 p-4">
-            <button class="category-btn active rounded-full border border-forest/20 bg-forest px-4 py-2 text-xs font-bold uppercase tracking-[0.3em] text-white transition-all" data-category="all">
-              全部 ({sortedArticles.length})
-            </button>
-            {categories.map((cat) => (
-              <button class={`category-btn rounded-full border px-4 py-2 text-xs font-bold uppercase tracking-[0.3em] transition-all ${getCategoryColor(cat)}`} data-category={cat}>
-                {cat} ({articlesByCategory[cat].length})
+          <div class="rounded-[1.5rem] border border-ink/10 bg-white/70 p-4 space-y-3">
+            <div class="flex flex-wrap gap-2">
+              <button class="tag-filter-btn active rounded-full border border-forest/20 bg-forest px-4 py-2 text-xs font-bold uppercase tracking-[0.3em] text-white transition-all" data-tag-filter="all">
+                全部 ({sortedArticles.length})
               </button>
-            ))}
+              {filterTags.map(({ tag, count }) => (
+                <button
+                  class="tag-filter-btn rounded-full border border-ink/10 bg-paper px-4 py-2 text-xs font-bold uppercase tracking-[0.3em] text-ink transition-all hover:-translate-y-0.5 hover:border-ochre hover:text-ochre"
+                  data-tag-filter={tag}
+                >
+                  {tag} ({count})
+                </button>
+              ))}
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 text-sm text-gray-600">
+              <span data-role="tag-filter-status">显示全部 {sortedArticles.length} 篇文章</span>
+              <button data-role="tag-filter-clear" class="hidden text-ochre hover:underline">清空标签</button>
+            </div>
           </div>
         </section>
 
@@ -152,7 +167,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
               <a
                 href={featuredArticles[0].href}
                 class="article-card group lg:col-span-7 overflow-hidden rounded-[1.75rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
-                data-category={featuredArticles[0].category}
+                data-filter-tags={featuredArticles[0].tags.join(',')}
               >
                 <div class="relative aspect-[16/10] overflow-hidden bg-forest">
                   {featuredArticles[0].image ? (
@@ -195,7 +210,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
                 <a
                   href={article.href}
                   class="article-card group block overflow-hidden rounded-[1.5rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
-                  data-category={article.category}
+                  data-filter-tags={article.tags.join(',')}
                 >
                   <div class="grid gap-0 md:grid-cols-[160px,1fr]">
                     <div class="aspect-[16/10] bg-forest md:aspect-auto">
@@ -256,7 +271,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
                   <a
                     href={article.href}
                     class="article-card group block rounded-[1.35rem] border border-ink/10 bg-white/85 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_14px_32px_rgba(138,98,64,0.12)]"
-                    data-category={article.category}
+                    data-filter-tags={article.tags.join(',')}
                   >
                     <div class="grid gap-4 md:grid-cols-[72px,108px,1fr,auto] md:items-center">
                       <div class="text-xs font-mono text-gray-400">{article.date.slice(5)}</div>
@@ -319,17 +334,16 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
 </BaseLayout>
 
 <style>
-  .category-btn {
+  .tag-filter-btn {
     cursor: pointer;
   }
-  .category-btn.active {
+  .tag-filter-btn.active {
     background-color: #2d4a3e;
     color: white;
     border-color: #2d4a3e;
   }
-  .category-btn:not(.active):hover {
+  .tag-filter-btn:not(.active):hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   .article-card.hidden {
     display: none;
@@ -340,60 +354,120 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
 </style>
 
 <script>
-  function initCategoryFilter() {
-    const buttons = document.querySelectorAll('.category-btn');
-    const articles = document.querySelectorAll('.article-card');
-    const yearSections = document.querySelectorAll('.year-section');
-    const featuredSection = document.querySelector('[data-section="featured"]');
+  let articleFilterAbort: AbortController | null = null;
 
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const category = btn.getAttribute('data-category');
+  function parseTags(value: string | null): string[] {
+    if (!value) return [];
+    return value
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+  }
 
-        buttons.forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
+  function initArticleTagFilter() {
+    if (articleFilterAbort) {
+      articleFilterAbort.abort();
+    }
+    articleFilterAbort = new AbortController();
+    const { signal } = articleFilterAbort;
 
-        if (category === 'all') {
-          articles.forEach((a) => a.classList.remove('hidden'));
-          yearSections.forEach((s) => s.classList.remove('hidden'));
-          if (featuredSection) featuredSection.classList.remove('hidden');
+    const filterRoot = document.querySelector<HTMLElement>('[data-role="article-tag-filter"]');
+    if (!filterRoot) return;
+
+    const buttons = Array.from(filterRoot.querySelectorAll<HTMLButtonElement>('.tag-filter-btn[data-tag-filter]'));
+    const status = filterRoot.querySelector<HTMLElement>('[data-role="tag-filter-status"]');
+    const clearButton = filterRoot.querySelector<HTMLButtonElement>('[data-role="tag-filter-clear"]');
+    const articles = Array.from(document.querySelectorAll<HTMLElement>('.article-card[data-filter-tags]'));
+    const yearSections = Array.from(document.querySelectorAll<HTMLElement>('.year-section'));
+    const featuredSection = document.querySelector<HTMLElement>('[data-section="featured"]');
+    const totalCount = articles.length;
+    const selectedTags = new Set<string>();
+
+    const applyFilter = () => {
+      let visibleCount = 0;
+
+      articles.forEach((article) => {
+        const articleTags = parseTags(article.getAttribute('data-filter-tags'));
+        const isVisible =
+          selectedTags.size === 0 || articleTags.some((tag) => selectedTags.has(tag));
+
+        article.classList.toggle('hidden', !isVisible);
+        if (isVisible) visibleCount += 1;
+      });
+
+      buttons.forEach((button) => {
+        const tag = button.getAttribute('data-tag-filter');
+        const isAll = tag === 'all';
+        const isActive = isAll ? selectedTags.size === 0 : (tag ? selectedTags.has(tag) : false);
+        button.classList.toggle('active', isActive);
+      });
+
+      if (featuredSection) {
+        const visibleFeatured = featuredSection.querySelectorAll('.article-card:not(.hidden)');
+        featuredSection.classList.toggle('hidden', visibleFeatured.length === 0);
+      }
+
+      yearSections.forEach((section) => {
+        const visibleArticles = section.querySelectorAll('.article-card:not(.hidden)');
+        section.classList.toggle('hidden', visibleArticles.length === 0);
+      });
+
+      if (status) {
+        if (selectedTags.size === 0) {
+          status.textContent = `显示全部 ${totalCount} 篇文章`;
         } else {
-          articles.forEach((article) => {
-            const articleCat = article.getAttribute('data-category');
-            if (articleCat === category) {
-              article.classList.remove('hidden');
-            } else {
-              article.classList.add('hidden');
-            }
-          });
+          const labels = Array.from(selectedTags).join('、');
+          status.textContent = `显示 ${visibleCount} / ${totalCount} 篇 · 已选标签：${labels}`;
+        }
+      }
 
-          if (featuredSection) {
-            const visibleFeatured = featuredSection.querySelectorAll('.article-card:not(.hidden)');
-            if (visibleFeatured.length === 0) {
-              featuredSection.classList.add('hidden');
-            } else {
-              featuredSection.classList.remove('hidden');
-            }
+      if (clearButton) {
+        clearButton.classList.toggle('hidden', selectedTags.size === 0);
+      }
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener(
+        'click',
+        () => {
+          const tag = button.getAttribute('data-tag-filter');
+          if (!tag) return;
+
+          if (tag === 'all') {
+            selectedTags.clear();
+            applyFilter();
+            return;
           }
 
-          yearSections.forEach((section) => {
-            const visibleArticles = section.querySelectorAll('.article-card:not(.hidden)');
-            if (visibleArticles.length === 0) {
-              section.classList.add('hidden');
-            } else {
-              section.classList.remove('hidden');
-            }
-          });
-        }
-      });
+          if (selectedTags.has(tag)) {
+            selectedTags.delete(tag);
+          } else {
+            selectedTags.add(tag);
+          }
+
+          applyFilter();
+        },
+        { signal }
+      );
     });
+
+    clearButton?.addEventListener(
+      'click',
+      () => {
+        selectedTags.clear();
+        applyFilter();
+      },
+      { signal }
+    );
+
+    applyFilter();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCategoryFilter);
+    document.addEventListener('DOMContentLoaded', initArticleTagFilter);
   } else {
-    initCategoryFilter();
+    initArticleTagFilter();
   }
 
-  document.addEventListener('astro:page-load', initCategoryFilter);
+  document.addEventListener('astro:page-load', initArticleTagFilter);
 </script>

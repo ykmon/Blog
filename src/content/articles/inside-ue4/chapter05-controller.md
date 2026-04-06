@@ -3,11 +3,12 @@ title: "GamePlay架构(5)：Controller"
 description: "UE4 GamePlay 架构学习笔记"
 category: "inside-ue4"
 date: "2026-01-04"
-listed: false
 tags:
   - UE
+  - UnrealEngine
   - Basic
 image: "/Articles/inside-ue4-chapter05-controller/cover.jpg"
+listed: false
 ---
 ![cover](/Articles/inside-ue4-chapter05-controller/cover.jpg)
 

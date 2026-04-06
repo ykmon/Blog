@@ -130,6 +130,7 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
 
     // Lazy Load Effect with Intersection Observer（幂等：先断开旧 observer）
     let blurObserver: IntersectionObserver | null = null;
+    let eagerBlurObserver: IntersectionObserver | null = null;
 
     function initObserver() {
       // 断开旧的 observer，避免堆积
@@ -137,21 +138,36 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
         blurObserver.disconnect();
         blurObserver = null;
       }
+      if (eagerBlurObserver) {
+        eagerBlurObserver.disconnect();
+        eagerBlurObserver = null;
+      }
 
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
+      const markLoaded: IntersectionObserverCallback = (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add('loaded');
+          observer.unobserve(entry.target);
+        });
       };
 
-      blurObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('loaded');
-          }
-        });
-      }, observerOptions);
+      blurObserver = new IntersectionObserver(markLoaded, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      });
 
-      document.querySelectorAll('.blur-load:not(.loaded)').forEach(el => {
+      eagerBlurObserver = new IntersectionObserver(markLoaded, {
+        threshold: 0.01,
+        rootMargin: '0px 0px 360px 0px',
+      });
+
+      document.querySelectorAll('.blur-load:not(.loaded)').forEach((el) => {
+        if (el.getAttribute('data-blur-priority') === 'eager') {
+          eagerBlurObserver!.observe(el);
+          return;
+        }
+
         blurObserver!.observe(el);
       });
     }

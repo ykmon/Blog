@@ -1,10 +1,10 @@
 ---
 title: "static静态变量"
 description: "static静态变量"
-category: "Article"
+category: "Game Engine"
 date: "2022-10-19"
 tags:
-  - Article
+  - Code
 image: "/Articles/static静态变量/cover.jpg"
 ---
 ![cover](/Articles/static静态变量/cover.jpg)

@@ -4,13 +4,15 @@ description: "在 Houdini 自动化或 Headless 环境中，如何绕过 Qt Dial
 category: "Houdini"
 href: "/articles/houdini-bypass-qt-ui/"
 date: "2026-01-21"
-readTime: "10 Min Read"
-placeholder: "Houdini"
 tags:
-  - Houdini
-  - Automation
+  - DevOps
+  - Devops
   - Code
+  - Automation
+  - Houdini
+readTime: "10 Min Read"
 image: "/Articles/houdini-bypass-qt-ui/cover.jpg"
+placeholder: "Houdini"
 ---
 ![cover](/Articles/houdini-bypass-qt-ui/cover.jpg)
 

@@ -1,10 +1,10 @@
 ---
 title: "栈stack&堆heap"
 description: "栈stack&堆heap"
-category: "Article"
+category: "Game Engine"
 date: "2022-10-18"
 tags:
-  - Article
+  - Code
 image: "/Articles/栈stack堆heap/cover.jpg"
 ---
 ![cover](/Articles/栈stack堆heap/cover.jpg)

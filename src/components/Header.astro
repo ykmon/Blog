@@ -11,12 +11,20 @@ const { title = 'TechArt Chronicle.', subtitle, subPage = false } = Astro.props;
 ---
 
 {subPage ? (
-  <header class="py-12 md:py-16 text-center border-b border-gray-300 relative bg-paper z-10">
-    <div class="container mx-auto px-6">
-      <a href="/" class="inline-block">
-        <div class="text-xs font-bold tracking-[0.3em] uppercase text-ochre mb-2 font-serif">TechArt Chronicle</div>
-        <h1 class="font-serif text-3xl md:text-5xl font-bold tracking-tight text-ink">{title}</h1>
-      </a>
+  <header class="relative overflow-hidden border-b border-ink/10 bg-paper py-10 md:py-12">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(45,74,62,0.08),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.55),rgba(245,245,247,0.95))]"></div>
+    <div class="container mx-auto px-4 md:px-6 max-w-7xl relative">
+      <div class="rounded-[2rem] border border-ink/10 bg-white/75 px-6 py-8 shadow-[0_16px_40px_rgba(26,26,26,0.06)] backdrop-blur-sm md:px-8 md:py-10">
+        <a href="/" class="inline-block">
+          <div class="text-[11px] font-bold tracking-[0.35em] uppercase text-ochre mb-3 font-serif">TechArt Chronicle / Section</div>
+          <h1 class="font-serif text-4xl md:text-6xl font-bold tracking-tight text-ink leading-[0.95]">{title}</h1>
+        </a>
+        {subtitle && (
+          <p class="mt-4 max-w-3xl font-body text-sm md:text-base leading-7 text-gray-600">
+            <Fragment set:html={subtitle} />
+          </p>
+        )}
+      </div>
     </div>
   </header>
 ) : (

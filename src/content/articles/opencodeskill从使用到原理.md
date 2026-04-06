@@ -1,10 +1,12 @@
 ---
 title: "OpenCode+Skill：从使用到原理"
 description: "OpenCode+Skill：从使用到原理"
-category: "Article"
+category: "AI"
 date: "2026-02-24"
 tags:
   - Code
+  - Automation
+  - AI
 image: "/Articles/opencodeskill从使用到原理/cover.jpg"
 ---
 ![cover](/Articles/opencodeskill从使用到原理/cover.jpg)

@@ -1,10 +1,12 @@
 ---
 title: "MVP矩阵"
 description: "MVP矩阵"
-category: "Article"
+category: "Computer Graphics"
 date: "2022-07-22"
 tags:
-  - Article
+  - Shader
+  - Code
+  - Basic
 image: "/Articles/mvp矩阵/cover.jpg"
 ---
 ![cover](/Articles/mvp矩阵/cover.jpg)

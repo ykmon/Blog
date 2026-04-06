@@ -1,10 +1,10 @@
 ---
 title: "USD"
 description: "USD"
-category: "Article"
+category: "Houdini"
 date: "2023-01-12"
 tags:
-  - Article
+  - Houdini
 image: "/Articles/usd/cover.jpg"
 ---
 ![cover](/Articles/usd/cover.jpg)

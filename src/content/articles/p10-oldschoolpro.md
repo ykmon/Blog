@@ -1,10 +1,10 @@
 ---
 title: "P10 OldSchoolPro"
 description: "P10 OldSchoolPro"
-category: "Article"
+category: "Game Engine"
 date: "2022-05-31"
 tags:
-  - Article
+  - Code
 image: "/Articles/p10-oldschoolpro/cover.jpg"
 ---
 ![cover](/Articles/p10-oldschoolpro/cover.jpg)

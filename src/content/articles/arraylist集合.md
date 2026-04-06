@@ -1,10 +1,10 @@
 ---
 title: "ArrayList集合"
 description: "ArrayList集合"
-category: "Article"
+category: "Game Engine"
 date: "2022-08-06"
 tags:
-  - Article
+  - Code
 image: "/Articles/arraylist集合/cover.jpg"
 ---
 ![cover](/Articles/arraylist集合/cover.jpg)

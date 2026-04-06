@@ -1,10 +1,12 @@
 ---
 title: "2.3MVP矩阵"
 description: "2.3MVP矩阵"
-category: "Article"
+category: "Computer Graphics"
 date: "2022-09-06"
 tags:
-  - Article
+  - Shader
+  - Code
+  - Basic
 image: "/Articles/23mvp矩阵/cover.jpg"
 ---
 ![cover](/Articles/23mvp矩阵/cover.jpg)

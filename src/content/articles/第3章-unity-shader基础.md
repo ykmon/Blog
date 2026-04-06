@@ -5,6 +5,8 @@ category: "Shader"
 date: "2022-04-27"
 tags:
   - Shader
+  - Unity
+  - Basic
 image: "/Articles/第3章-unity-shader基础/cover.jpg"
 ---
 ![cover](/Articles/第3章-unity-shader基础/cover.jpg)

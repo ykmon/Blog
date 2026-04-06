@@ -3,13 +3,13 @@ title: "深入浅出 GPU 执行模型"
 description: "从 Lane 到 Thread，彻底理解 GPU 并发编程的核心架构与性能优化关键"
 category: "图形学"
 date: "2026-03-18"
+tags:
+  - Shader
+  - Code
+  - Basic
 readTime: "6 Min Read"
 image: "/Articles/gpu-execution-model/cover.png"
-tags:
-  - Basic
-  - Code
 ---
-
 ![GPU 执行模型架构图](/Articles/gpu-execution-model/cover.png)
 
 # 深入浅出 GPU 执行模型：打破 CPU 直觉的并发魔法与 UE 实战

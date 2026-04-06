@@ -2,14 +2,33 @@
 // Footer.astro - 网站底部
 ---
 
-<footer class="bg-ink text-paper py-20 border-t-8 border-forest">
-  <div class="container mx-auto px-6 text-center">
-    <div class="font-serif italic text-3xl mb-8 opacity-90">TechArt Chronicle.</div>
-    <div class="flex justify-center gap-8 font-body text-xs tracking-widest uppercase text-gray-500 mb-8">
-      <a href="https://space.bilibili.com/18272055" target="_blank" rel="noopener noreferrer" class="hover:text-paper transition-colors">Bilibili</a>
-    </div>
-    <div class="text-xs text-gray-600 font-serif italic">
-      &copy; {new Date().getFullYear()} Designed with Digital & Organic.
+<footer class="mt-20 border-t border-ink/10 bg-[linear-gradient(180deg,rgba(26,26,26,0.98),rgba(15,15,15,1))] text-paper">
+  <div class="container mx-auto max-w-7xl px-4 md:px-6 py-14 md:py-16">
+    <div class="grid gap-8 md:grid-cols-[1.4fr,1fr] md:items-end">
+      <div class="rounded-[2rem] border border-white/10 bg-white/5 p-6 md:p-8">
+        <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-paper/45">TechArt Chronicle</p>
+        <h2 class="mt-3 font-serif text-3xl md:text-4xl leading-tight">
+          记录可复用的技术笔记与工作流方法
+        </h2>
+        <p class="mt-4 max-w-2xl text-sm leading-7 text-paper/70">
+          聚焦 Unreal Engine、Houdini、Shader、PCG 和游戏开发中的实践经验。
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-4 rounded-[2rem] border border-white/10 bg-white/5 p-6 md:p-8 md:items-end">
+        <div class="flex flex-wrap gap-4 text-[11px] font-bold uppercase tracking-[0.3em] text-paper/55">
+          <a href="/articles/" class="transition-colors hover:text-paper">Articles</a>
+          <a href="/series/" class="transition-colors hover:text-paper">Series</a>
+          <a href="/tools/" class="transition-colors hover:text-paper">Tools</a>
+          <a href="/videos/" class="transition-colors hover:text-paper">Videos</a>
+        </div>
+        <a href="https://space.bilibili.com/18272055" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-ochre transition-colors hover:text-paper">
+          Bilibili →
+        </a>
+        <div class="text-xs text-paper/40">
+          &copy; {new Date().getFullYear()} TechArt Chronicle
+        </div>
+      </div>
     </div>
   </div>
 </footer>

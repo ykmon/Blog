@@ -1,10 +1,11 @@
 ---
 title: "对PBR的理解"
 description: "对PBR的理解"
-category: "Article"
+category: "Computer Graphics"
 date: "2022-06-26"
 tags:
-  - Article
+  - Shader
+  - Code
 image: "/Articles/对pbr的理解/cover.jpg"
 ---
 ![cover](/Articles/对pbr的理解/cover.jpg)

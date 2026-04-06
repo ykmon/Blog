@@ -1,10 +1,12 @@
 ---
 title: "L03 Transformation"
 description: "L03 Transformation"
-category: "Article"
+category: "Computer Graphics"
 date: "2022-07-23"
 tags:
-  - Article
+  - Shader
+  - Code
+  - Basic
 image: "/Articles/l03-transformation/cover.jpg"
 ---
 ![cover](/Articles/l03-transformation/cover.jpg)

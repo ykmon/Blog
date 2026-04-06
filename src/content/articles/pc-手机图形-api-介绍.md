@@ -1,10 +1,11 @@
 ---
 title: "PC 手机图形 API 介绍"
 description: "PC 手机图形 API 介绍"
-category: "Article"
+category: "Computer Graphics"
 date: "2022-09-06"
 tags:
-  - Article
+  - Shader
+  - Code
 image: "/Articles/pc-手机图形-api-介绍/cover.jpg"
 ---
 ![cover](/Articles/pc-手机图形-api-介绍/cover.jpg)

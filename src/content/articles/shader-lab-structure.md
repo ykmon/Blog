@@ -3,13 +3,13 @@ title: "ShaderLab 结构详解"
 description: "通过图解方式拆解 Unity ShaderLab 的核心结构，让代码不再只是枯燥的字符"
 category: "Shader"
 date: "2022-12-10"
+tags:
+  - Shader
+  - Code
+  - Unity
 readTime: "4 Min Read"
 image: "/Articles/ShaderLabStructure/images/cover.webp"
-tags:
-  - Unity
-  - Code
 ---
-
 <p class="lead italic text-gray-500">原文参考：<a href="https://zhuanlan.zhihu.com/p/142665509" class="text-ochre">Shader学习（11）</a>，作者为冯乐乐。</p>
 
 > 代码太长看得人眼花，公式太难看得人犯傻...其实，最好的学习方法是把知识图表化。

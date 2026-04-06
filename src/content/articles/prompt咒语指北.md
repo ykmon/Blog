@@ -1,10 +1,12 @@
 ---
 title: "Prompt咒语指北"
 description: "Prompt咒语指北"
-category: "Article"
+category: "AI"
 date: "2023-04-05"
 tags:
-  - Article
+  - Code
+  - Automation
+  - AI
 image: "/Articles/prompt咒语指北/cover.jpg"
 ---
 ![cover](/Articles/prompt咒语指北/cover.jpg)

@@ -3,11 +3,14 @@ title: "GamePlay架构(6)：PlayerController和AIController"
 description: "UE4 GamePlay 架构学习笔记"
 category: "inside-ue4"
 date: "2026-01-04"
-listed: false
 tags:
   - UE
+  - UnrealEngine
+  - Automation
+  - AI
   - Basic
 image: "/Articles/inside-ue4-chapter06-player-ai-controller/cover.jpg"
+listed: false
 ---
 ![cover](/Articles/inside-ue4-chapter06-player-ai-controller/cover.jpg)
 

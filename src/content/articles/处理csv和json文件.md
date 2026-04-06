@@ -1,10 +1,10 @@
 ---
 title: "处理CSV和JSON文件"
 description: "处理CSV和JSON文件"
-category: "Article"
+category: "Game Engine"
 date: "2024-03-10"
 tags:
-  - Article
+  - Code
 image: "/Articles/处理csv和json文件/cover.jpg"
 ---
 ![cover](/Articles/处理csv和json文件/cover.jpg)

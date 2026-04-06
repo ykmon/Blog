@@ -4,7 +4,9 @@ description: "头发_Groom物理参数解释"
 category: "Unreal Engine"
 date: "2023-01-12"
 tags:
-  - Article
+  - UE
+  - UnrealEngine
+  - Code
 image: "/Articles/头发_groom物理参数解释/cover.jpg"
 ---
 ![cover](/Articles/头发_groom物理参数解释/cover.jpg)

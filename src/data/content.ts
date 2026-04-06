@@ -1,10 +1,10 @@
 // 标签分类系统
 export const tagCategories = {
-    tools: ['UE', 'Unity', 'Houdini', 'Maya', 'Others DCC'],
+    tools: ['UE', 'UnrealEngine', 'Unity', 'Houdini', 'Maya', 'Others DCC'],
     languages: ['Code'],
-    domains: ['PCG', 'Animation', 'Automation', 'Simulation'],
+    domains: ['Shader', 'PCG', 'Animation', 'Automation', 'Simulation'],
     foundations: ['Basic'],
-    practices: ['Plugin Development', 'DevOps', 'AI']
+    practices: ['Plugin Development', 'DevOps', 'Devops', 'AI']
 } as const;
 
 // 所有可用标签的扁平列表

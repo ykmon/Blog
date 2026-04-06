@@ -1,10 +1,10 @@
 ---
 title: "MH&ML"
 description: "MH&ML"
-category: "Article"
+category: "Game Engine"
 date: "2023-07-03"
 tags:
-  - Article
+  - Code
 image: "/Articles/mhml/cover.jpg"
 ---
 ![cover](/Articles/mhml/cover.jpg)

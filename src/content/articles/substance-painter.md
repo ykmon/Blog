@@ -3,12 +3,14 @@ title: "Substance Painter 小技巧"
 description: "材质制作、UV处理、贴花融合等实用技巧"
 category: "3D Art"
 date: "2021-09-15"
+tags:
+  - Shader
+  - Automation
+  - AI
+  - Others DCC
 readTime: "5 Min Read"
 image: "/Articles/substance-painter/Untitled.png"
-tags:
-  - Others DCC
 ---
-
 <h3>制作模型时尽可能把单独的模块分开</h3>
 <p>把材质按照金属和非金属大致分类并给默认材质。</p>
 <img loading="lazy" decoding="async" src="/Articles/substance-painter/Untitled.png" alt="模块分离">

@@ -31,7 +31,7 @@ const collectionArticles: Article[] = (await getCollection('articles'))
   });
 
 const sortedArticles = [...collectionArticles].sort((a, b) => parseISODate(b.date) - parseISODate(a.date));
-const featuredArticles = sortedArticles.slice(0, 3);
+const featuredArticles = sortedArticles.slice(0, 4);
 const latestArticles = sortedArticles.slice(0, 8);
 
 const heroStats = [
@@ -235,11 +235,11 @@ const latestUpdate = latestArticles[0]?.date ? formatDateCN(latestArticles[0].da
                 </a>
               )}
 
-              <div class="grid gap-6 lg:col-span-5">
-                {featuredArticles.slice(1).map((article, index) => (
+              <div class="grid gap-6 self-start lg:col-span-5 lg:grid-rows-3">
+                {featuredArticles.slice(1, 4).map((article, index) => (
                   <a
                     href={article.href}
-                    class="group overflow-hidden rounded-[1.5rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
+                    class="group h-full overflow-hidden rounded-[1.5rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
                   >
                     <div class="grid gap-0 md:grid-cols-[160px,1fr]">
                       <div class="aspect-[16/10] bg-forest md:aspect-auto">

@@ -4,6 +4,7 @@ import BaseLayout from './BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
+import ArticleToc from '../components/ArticleToc.astro';
 import { formatDateEN } from '../utils/date';
 
 export interface Props {
@@ -41,7 +42,12 @@ const breadcrumbItems = [
 <BaseLayout title={`${title} - TechArt Chronicle`} description={description} image={image} keywords={keywords}>
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
       <!-- MAIN CONTENT -->
-      <main class="relative">
+      <main class="relative lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-8 xl:gap-10">
+        <div class="hidden lg:block">
+          <ArticleToc />
+        </div>
+
+        <div>
         <Breadcrumb items={breadcrumbItems} />
 
         <article class="overflow-hidden rounded-[2rem] border border-ink/10 bg-white/80 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
@@ -59,7 +65,7 @@ const breadcrumbItems = [
             )}
           </div>
 
-          <div class="article-prose prose prose-lg prose-slate max-w-none prose-p:max-w-none prose-li:max-w-none prose-headings:max-w-none p-6 md:p-8 lg:p-10">
+          <div class="article-prose prose prose-lg prose-slate max-w-none prose-p:max-w-none prose-li:max-w-none prose-headings:max-w-none p-6 md:p-8 lg:p-10" data-article-content>
             <slot />
           </div>
         </article>
@@ -77,6 +83,7 @@ const breadcrumbItems = [
         <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
           <a href={categoryLink} class="text-ochre hover:underline">← Back to Articles</a>
           <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
+        </div>
         </div>
       </main>
   </div>

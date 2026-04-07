@@ -1,0 +1,274 @@
+---
+export interface Props {
+  title?: string;
+  maxDepth?: 2 | 3 | 4;
+}
+
+const { title = '目录', maxDepth = 3 } = Astro.props;
+---
+
+<aside class="article-toc" data-article-toc data-toc-max-depth={maxDepth}>
+  <div class="article-toc-shell rounded-[1.5rem] border border-ink/10 bg-white/75 p-4 shadow-[0_12px_32px_rgba(26,26,26,0.05)] backdrop-blur-sm">
+    <div class="article-toc-header flex items-center justify-between gap-3 border-b border-ink/10 pb-3">
+      <h2 class="flex items-center gap-2 font-serif text-xl text-ink">
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5 text-forest/70">
+          <path fill="currentColor" d="M4 6a2 2 0 1 1 0 4a2 2 0 0 1 0-4Zm4 1h12v2H8V7Zm-4 5a2 2 0 1 1 0 4a2 2 0 0 1 0-4Zm4 1h12v2H8v-2Zm-4 5a2 2 0 1 1 0 4a2 2 0 0 1 0-4Zm4 1h12v2H8v-2Z"></path>
+        </svg>
+        {title}
+      </h2>
+      <button
+        type="button"
+        class="article-toc-toggle rounded-full bg-paper px-3 py-1 text-sm text-ochre transition hover:bg-ochre/10"
+        data-role="toc-toggle"
+        aria-expanded="true"
+      >
+        收起
+      </button>
+    </div>
+
+    <nav class="article-toc-body mt-3" data-role="toc-body" aria-label="文章目录">
+      <ol class="article-toc-list" data-role="toc-list"></ol>
+      <p class="article-toc-empty hidden px-2 py-3 text-sm text-gray-500" data-role="toc-empty">
+        当前文章暂无可导航小节
+      </p>
+    </nav>
+  </div>
+</aside>
+
+<script>
+  let dispose = () => {};
+
+  function normalizeSlug(text, index) {
+    const slug = text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\u4e00-\u9fa5\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+    return slug || `section-${index + 1}`;
+  }
+
+  function initArticleToc() {
+    dispose();
+
+    const root = document.querySelector('[data-article-toc]');
+    const content = document.querySelector('[data-article-content]');
+
+    if (!root || !content) return;
+
+    const list = root.querySelector('[data-role="toc-list"]');
+    const empty = root.querySelector('[data-role="toc-empty"]');
+    const body = root.querySelector('[data-role="toc-body"]');
+    const toggle = root.querySelector('[data-role="toc-toggle"]');
+
+    if (!list || !empty || !body || !toggle) return;
+
+    const maxDepth = Number(root.getAttribute('data-toc-max-depth') || 3);
+    const selector = Array.from({ length: Math.max(1, maxDepth - 1) }, (_, i) => `h${i + 2}`).join(', ');
+    const headingElements = Array.from(content.querySelectorAll(selector));
+
+    const usedIds = new Set(Array.from(document.querySelectorAll('[id]')).map((el) => el.id));
+    const items = [];
+
+    for (let i = 0; i < headingElements.length; i += 1) {
+      const heading = headingElements[i];
+      const text = heading.textContent?.trim() || '';
+      if (!text) continue;
+
+      if (!heading.id) {
+        const base = normalizeSlug(text, i);
+        let id = base;
+        let suffix = 2;
+        while (usedIds.has(id)) {
+          id = `${base}-${suffix}`;
+          suffix += 1;
+        }
+        heading.id = id;
+        usedIds.add(id);
+      }
+
+      const level = Number(heading.tagName.slice(1));
+      items.push({ id: heading.id, text, level, node: heading });
+    }
+
+    list.innerHTML = '';
+
+    if (items.length === 0) {
+      empty.classList.remove('hidden');
+      root.classList.add('is-empty');
+      return;
+    }
+
+    root.classList.remove('is-empty');
+    empty.classList.add('hidden');
+
+    const fragment = document.createDocumentFragment();
+    const linkMap = new Map();
+
+    for (const item of items) {
+      const li = document.createElement('li');
+      li.className = `article-toc-item level-${item.level}`;
+
+      const marker = document.createElement('span');
+      marker.className = 'article-toc-marker';
+      li.appendChild(marker);
+
+      const link = document.createElement('a');
+      link.href = `#${item.id}`;
+      link.textContent = item.text;
+      link.className = 'article-toc-link';
+
+      li.appendChild(link);
+      fragment.appendChild(li);
+      linkMap.set(item.id, link);
+    }
+
+    list.appendChild(fragment);
+
+    function setActive(id) {
+      for (const [key, link] of linkMap.entries()) {
+        if (key === id) {
+          link.classList.add('is-active');
+        } else {
+          link.classList.remove('is-active');
+        }
+      }
+    }
+
+    function updateActive() {
+      const cursor = window.scrollY + 140;
+      let currentId = items[0].id;
+      for (const item of items) {
+        if (item.node.offsetTop <= cursor) {
+          currentId = item.id;
+        } else {
+          break;
+        }
+      }
+      setActive(currentId);
+    }
+
+    let ticking = false;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        updateActive();
+        ticking = false;
+      });
+    };
+
+    const handleToggle = () => {
+      const collapsed = root.classList.toggle('is-collapsed');
+      toggle.textContent = collapsed ? '展开' : '收起';
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+    };
+
+    updateActive();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    toggle.addEventListener('click', handleToggle);
+
+    dispose = () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      toggle.removeEventListener('click', handleToggle);
+    };
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initArticleToc, { once: true });
+  } else {
+    initArticleToc();
+  }
+
+  document.addEventListener('astro:page-load', initArticleToc);
+</script>
+
+<style is:global>
+  .article-toc {
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+  }
+
+  .article-toc-body {
+    max-height: calc(100vh - 11.5rem);
+    overflow: auto;
+    padding-right: 0.25rem;
+  }
+
+  .article-toc-body::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .article-toc-body::-webkit-scrollbar-thumb {
+    background: rgba(138, 98, 64, 0.25);
+    border-radius: 999px;
+  }
+
+  .article-toc-list {
+    position: relative;
+    margin: 0;
+    padding: 0.5rem 0 0.5rem 1.2rem;
+    list-style: none;
+  }
+
+  .article-toc-list::before {
+    content: '';
+    position: absolute;
+    left: 0.35rem;
+    top: 0.4rem;
+    bottom: 0.4rem;
+    width: 1px;
+    background: rgba(148, 163, 184, 0.45);
+  }
+
+  .article-toc-item {
+    position: relative;
+    margin: 0;
+    padding: 0.3rem 0 0.3rem 0.8rem;
+  }
+
+  .article-toc-item.level-3 {
+    padding-left: 1.35rem;
+  }
+
+  .article-toc-item.level-4 {
+    padding-left: 1.8rem;
+  }
+
+  .article-toc-marker {
+    position: absolute;
+    left: -0.05rem;
+    top: 0.95rem;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 999px;
+    background: rgba(71, 85, 105, 0.55);
+  }
+
+  .article-toc-link {
+    display: inline-block;
+    color: rgba(71, 85, 105, 0.92);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .article-toc-link:hover {
+    color: theme('colors.ochre');
+    transform: translateX(2px);
+  }
+
+  .article-toc-link.is-active {
+    color: theme('colors.forest');
+    font-weight: 600;
+  }
+
+  .article-toc.is-collapsed .article-toc-body {
+    display: none;
+  }
+</style>

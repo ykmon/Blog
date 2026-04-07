@@ -14,33 +14,6 @@ const description = '系列笔记合集 - GAMES101 图形学、GAMES104 游戏�
 
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
     <main class="space-y-12">
-        <section class="blur-load rounded-[2rem] border border-ink/10 bg-white/80 p-6 md:p-8 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
-          <div class="grid gap-8 lg:grid-cols-[1.2fr,0.8fr] lg:items-center">
-            <div>
-              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Collections / Series</p>
-              <h1 class="mt-3 font-serif text-4xl md:text-5xl xl:text-6xl leading-[0.95] text-ink">
-                按路线阅读，而不是按碎片跳读
-              </h1>
-              <p class="mt-4 max-w-3xl text-sm md:text-base leading-7 text-gray-600">
-                这些系列页像一组知识路线图，适合从头到尾连续阅读，也适合按章节回查。
-              </p>
-            </div>
-
-            <div class="grid gap-3 sm:grid-cols-2">
-              <div class="rounded-[1.5rem] border border-ink/10 bg-paper p-5">
-                <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Series</div>
-                <div class="mt-2 font-serif text-3xl text-ink">{seriesList.length}</div>
-                <div class="mt-2 text-sm leading-6 text-gray-600">个长期系列</div>
-              </div>
-              <div class="rounded-[1.5rem] border border-ink/10 bg-paper p-5">
-                <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Chapters</div>
-                <div class="mt-2 font-serif text-3xl text-ink">{seriesList.reduce((sum, series) => sum + series.articles.length, 0)}</div>
-                <div class="mt-2 text-sm leading-6 text-gray-600">章可连续浏览</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section class="space-y-5">
           <div>
             <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Series Map</p>

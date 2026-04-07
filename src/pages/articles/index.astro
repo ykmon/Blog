@@ -2,7 +2,6 @@
 // articles/index.astro - 文章列表页（编辑部档案风格）
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Header from '../../components/Header.astro';
 import TopNav from '../../components/TopNav.astro';
 import Footer from '../../components/Footer.astro';
 import type { Article } from '../../data/content';
@@ -34,7 +33,6 @@ const sortedArticles = [...collectionArticles].sort((a, b) => parseISODate(b.dat
 const featuredArticles = sortedArticles.slice(0, 3);
 const restArticles = sortedArticles.slice(3);
 
-const categories = [...new Set(sortedArticles.map((a) => a.category))];
 const articleTagCounts = sortedArticles.reduce((acc, article) => {
   article.tags.forEach((tag) => {
     acc[tag] = (acc[tag] ?? 0) + 1;
@@ -68,56 +66,9 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
 
 <BaseLayout title={pageTitle} description={description}>
   <TopNav currentSection="articles" subPage />
-  <Header title="Archive" subPage />
 
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
     <main class="space-y-12" data-articles-filter="enhanced">
-        <section class="blur-load rounded-[2rem] border border-ink/10 bg-white/80 p-6 md:p-8 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
-          <div class="grid gap-8 lg:grid-cols-[1.2fr,0.8fr] lg:items-center">
-            <div>
-              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Archive / All Posts</p>
-              <h1 class="mt-3 font-serif text-4xl md:text-5xl xl:text-6xl leading-[0.95] text-ink">
-                文章索引
-              </h1>
-              <p class="mt-4 max-w-3xl text-sm md:text-base leading-7 text-gray-600">
-                按分类、精选和年份浏览文章。
-              </p>
-
-              <div class="mt-6 flex flex-wrap gap-3">
-                <a href="#featured" class="inline-flex items-center justify-center rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-forest/90">
-                  精选
-                </a>
-                <a href="#timeline" class="inline-flex items-center justify-center rounded-full border border-ink/15 bg-white px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:border-ochre hover:text-ochre">
-                  时间线
-                </a>
-              </div>
-            </div>
-
-            <div class="grid gap-3 sm:grid-cols-2">
-              <div class="rounded-[1.5rem] border border-ink/10 bg-paper p-5">
-                <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Total</div>
-                <div class="mt-2 font-serif text-3xl text-ink">{sortedArticles.length}</div>
-                <div class="mt-2 text-sm leading-6 text-gray-600">篇文章内容可浏览</div>
-              </div>
-              <div class="rounded-[1.5rem] border border-ink/10 bg-paper p-5">
-                <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Categories</div>
-                <div class="mt-2 font-serif text-3xl text-ink">{categories.length}</div>
-                <div class="mt-2 text-sm leading-6 text-gray-600">个分类入口</div>
-              </div>
-              <div class="rounded-[1.5rem] border border-ink/10 bg-paper p-5">
-                <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Featured</div>
-                <div class="mt-2 font-serif text-3xl text-ink">{featuredArticles.length}</div>
-                <div class="mt-2 text-sm leading-6 text-gray-600">篇精选内容</div>
-              </div>
-              <div class="rounded-[1.5rem] border border-ink/10 bg-paper p-5">
-                <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Latest</div>
-                <div class="mt-2 font-serif text-3xl text-ink">{sortedArticles[0] ? formatDateEN(sortedArticles[0].date) : '--'}</div>
-                <div class="mt-2 text-sm leading-6 text-gray-600">最近一次更新</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section class="blur-load space-y-5" data-role="article-tag-filter">
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>

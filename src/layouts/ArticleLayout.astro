@@ -54,15 +54,15 @@ const breadcrumbItems = [
               {date && <span class="rounded-full bg-gray-100 px-2.5 py-1 text-gray-500">{formatDateEN(date)}</span>}
               {tags.length > 0 && <span class="text-gray-400">{tags.length} tags</span>}
             </div>
-            <h1 class="mt-4 max-w-4xl font-serif text-4xl md:text-5xl leading-[0.96] text-ink">{title}</h1>
+            <h1 class="mt-4 max-w-none font-serif text-4xl md:text-5xl leading-[0.96] text-ink">{title}</h1>
             {description && (
-              <p class="mt-5 max-w-3xl text-sm md:text-base leading-7 text-gray-600">
+              <p class="mt-5 max-w-none text-sm md:text-base leading-7 text-gray-600">
                 {description}
               </p>
             )}
           </div>
 
-          <div class="article-prose prose prose-lg prose-slate max-w-none p-6 md:p-8 lg:p-10">
+          <div class="article-prose prose prose-lg prose-slate max-w-none prose-p:max-w-none prose-li:max-w-none prose-headings:max-w-none p-6 md:p-8 lg:p-10">
             <slot />
           </div>
         </article>

@@ -30,8 +30,8 @@ const collectionArticles: Article[] = (await getCollection('articles'))
   });
 
 const sortedArticles = [...collectionArticles].sort((a, b) => parseISODate(b.date) - parseISODate(a.date));
-const featuredArticles = sortedArticles.slice(0, 3);
-const restArticles = sortedArticles.slice(3);
+const featuredArticles = sortedArticles.slice(0, 4);
+const restArticles = sortedArticles.slice(4);
 
 const articleTagCounts = sortedArticles.reduce((acc, article) => {
   article.tags.forEach((tag) => {
@@ -43,25 +43,6 @@ const filterTags = Object.entries(articleTagCounts)
   .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'en'))
   .map(([tag, count]) => ({ tag, count }));
 
-const articlesByYear = restArticles.reduce((acc, article) => {
-  const year = article.date.split('-')[0];
-  if (!acc[year]) acc[year] = [];
-  acc[year].push(article);
-  return acc;
-}, {} as Record<string, Article[]>);
-
-const years = Object.keys(articlesByYear).sort((a, b) => Number(b) - Number(a));
-
-const categoryColors: Record<string, string> = {
-  'Unreal Engine': 'bg-forest/10 text-forest border-forest/20',
-  'Unity': 'bg-green-100 text-green-700 border-green-200',
-  'Houdini': 'bg-ochre/10 text-ochre border-ochre/20',
-  'Computer Graphics': 'bg-purple-100 text-purple-700 border-purple-200',
-  'Game Engine': 'bg-red-100 text-red-700 border-red-200',
-  'DevOps': 'bg-gray-100 text-gray-700 border-gray-200',
-};
-
-const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 text-gray-700 border-gray-200';
 ---
 
 <BaseLayout title={pageTitle} description={description}>
@@ -141,7 +122,7 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
                   <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em]">
                     <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{featuredArticles[0].category}</span>
                     {featuredArticles[0].readTime && <span class="text-gray-400">{featuredArticles[0].readTime}</span>}
-                    <span class="text-gray-300">鈥?/span>
+                    <span class="text-gray-300">•</span>
                     <span class="text-gray-400">{formatDateEN(featuredArticles[0].date)}</span>
                   </div>
                   <h3 class="mt-4 font-serif text-2xl leading-tight text-ink transition-colors group-hover:text-forest md:text-3xl">
@@ -154,11 +135,11 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
               </a>
             )}
 
-            <div class="lg:col-span-5 space-y-4">
-              {featuredArticles.slice(1).map((article, index) => (
+            <div class="grid gap-6 lg:col-span-5 lg:h-full lg:grid-rows-3">
+              {featuredArticles.slice(1, 4).map((article, index) => (
                 <a
                   href={article.href}
-                  class="article-card group block overflow-hidden rounded-[1.5rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
+                  class="article-card group block h-full overflow-hidden rounded-[1.5rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
                   data-filter-tags={article.tags.join(',')}
                 >
                   <div class="grid gap-0 md:grid-cols-[160px,1fr]">
@@ -200,75 +181,61 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
           </div>
         </section>
 
-        <section class="blur-load space-y-5" id="timeline" data-blur-priority="eager">
+        <section class="blur-load space-y-5" id="timeline" data-section="browse" data-blur-priority="eager">
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">时间线 Timeline</p>
-              <h2 class="mt-2 font-serif text-3xl text-ink">按年份浏览其余文章</h2>
+              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">浏览文章 Browse</p>
+              <h2 class="mt-2 font-serif text-3xl text-ink">按双栏快速浏览其余文章</h2>
             </div>
           </div>
 
-          {years.map((year) => (
-            <div class="year-section space-y-4" data-year={year}>
-              <h3 class="sticky top-4 z-10 flex items-center gap-3 rounded-full border border-ink/10 bg-paper/90 px-4 py-2 font-serif text-2xl text-ink backdrop-blur-sm">
-                <span class="text-ochre">{year}</span>
-                <span class="flex-1 h-px bg-gray-200"></span>
-                <span class="text-sm font-normal text-gray-400">{articlesByYear[year].length} 篇</span>
-              </h3>
-              <div class="space-y-3">
-                {articlesByYear[year].map((article) => (
-                  <a
-                    href={article.href}
-                    class="article-card group block rounded-[1.35rem] border border-ink/10 bg-white/85 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_14px_32px_rgba(138,98,64,0.12)]"
-                    data-filter-tags={article.tags.join(',')}
-                  >
-                    <div class="grid gap-4 md:grid-cols-[72px,108px,1fr,auto] md:items-center">
-                      <div class="text-xs font-mono text-gray-400">{article.date.slice(5)}</div>
-
-                      <div class="overflow-hidden rounded-2xl bg-forest">
-                        {article.image ? (
-                          <img
-                            loading="lazy"
-                            decoding="async"
-                            src={article.image}
-                            alt={article.imageAlt ?? article.title}
-                            class="aspect-[4/3] h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
-                        ) : (
-                          <div class="flex aspect-[4/3] items-center justify-center bg-[linear-gradient(135deg,#2d4a3e,#8a6240)] font-serif text-xs uppercase tracking-[0.25em] text-paper">
-                            {article.category.slice(0, 3)}
-                          </div>
-                        )}
-                      </div>
-
-                      <div class="min-w-0">
-                        <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em]">
-                          <span class={`rounded-full border px-2.5 py-1 ${getCategoryColor(article.category)}`}>
-                            {article.category}
-                          </span>
-                          {article.readTime === 'Series' && (
-                            <span class="text-forest">SERIES</span>
-                          )}
-                        </div>
-                        <h4 class="mt-3 font-serif text-lg leading-tight text-ink transition-colors group-hover:text-forest">
-                          {article.title}
-                        </h4>
-                        <p class="mt-2 text-sm leading-6 text-gray-500 line-clamp-2">
-                          {article.description}
-                        </p>
-                      </div>
-
-                      <div class="text-right text-sm text-gray-400">
-                        <span class="inline-flex items-center gap-2 font-semibold text-ochre transition-transform duration-300 group-hover:translate-x-1">
-                          →
-                        </span>
-                      </div>
+          <div class="grid gap-4 xl:grid-cols-2">
+            {restArticles.map((article, index) => (
+              <a
+                href={article.href}
+                class="article-card group grid gap-4 rounded-[1.35rem] border border-ink/10 bg-white/85 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_14px_32px_rgba(138,98,64,0.12)] md:grid-cols-[140px,minmax(0,1fr),auto] md:items-center md:p-5"
+                data-filter-tags={article.tags.join(',')}
+              >
+                <div class="overflow-hidden rounded-[1.15rem] border border-ink/10 bg-forest">
+                  {article.image ? (
+                    <img
+                      loading="lazy"
+                      decoding="async"
+                      src={article.image}
+                      alt={article.imageAlt ?? article.title}
+                      class="h-40 w-full object-cover transition-transform duration-700 group-hover:scale-105 md:h-full"
+                    />
+                  ) : (
+                    <div class="flex h-40 w-full items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_35%),linear-gradient(135deg,#2d4a3e,#1a1a1a)] px-4 text-center font-serif text-2xl text-paper md:h-full">
+                      {article.placeholder ?? article.category}
                     </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          ))}
+                  )}
+                </div>
+
+                <div class="min-w-0 flex-1">
+                  <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em]">
+                    <span class="text-ochre">{String(index + 1).padStart(2, '0')}</span>
+                    <span class="hidden h-4 w-px bg-gray-200 md:block"></span>
+                    <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{article.category}</span>
+                    {article.readTime && <span class="text-gray-400">{article.readTime}</span>}
+                  </div>
+                  <h3 class="mt-3 font-serif text-xl leading-tight text-ink transition-colors group-hover:text-forest">
+                    {article.title}
+                  </h3>
+                  <p class="mt-2 text-sm leading-6 text-gray-600 line-clamp-2">
+                    {article.description}
+                  </p>
+                </div>
+
+                <div class="flex items-center justify-between gap-4 text-sm text-gray-400 md:min-w-36 md:flex-col md:items-end md:justify-center">
+                  <span>{formatDateEN(article.date)}</span>
+                  <span class="font-semibold text-ochre transition-transform duration-300 group-hover:translate-x-1 md:translate-x-0">
+                    →
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
         </section>
 
         <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
@@ -294,9 +261,6 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
     transform: translateY(-1px);
   }
   .article-card.hidden {
-    display: none;
-  }
-  .year-section.hidden {
     display: none;
   }
 </style>
@@ -341,8 +305,8 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
     const searchClears = Array.from(document.querySelectorAll<HTMLElement>('[data-role="search-clear"]'));
     const searchStatuses = Array.from(document.querySelectorAll<HTMLElement>('[data-role="search-status"]'));
     const articles = Array.from(document.querySelectorAll<HTMLElement>('.article-card[data-filter-tags]'));
-    const yearSections = Array.from(document.querySelectorAll<HTMLElement>('.year-section'));
     const featuredSection = document.querySelector<HTMLElement>('[data-section="featured"]');
+    const browseSection = document.querySelector<HTMLElement>('[data-section="browse"]');
     const totalCount = articles.length;
     const selectedTags = new Set<string>();
 
@@ -384,10 +348,10 @@ const getCategoryColor = (cat: string) => categoryColors[cat] || 'bg-gray-100 te
         featuredSection.classList.toggle('hidden', visibleFeatured.length === 0);
       }
 
-      yearSections.forEach((section) => {
-        const visibleArticles = section.querySelectorAll('.article-card:not(.hidden)');
-        section.classList.toggle('hidden', visibleArticles.length === 0);
-      });
+      if (browseSection) {
+        const visibleBrowse = browseSection.querySelectorAll('.article-card:not(.hidden)');
+        browseSection.classList.toggle('hidden', visibleBrowse.length === 0);
+      }
 
       if (status) {
         if (!query && selectedTags.size === 0) {

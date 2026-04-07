@@ -31,8 +31,15 @@ const collectionArticles: Article[] = (await getCollection('articles'))
   });
 
 const sortedArticles = [...collectionArticles].sort((a, b) => parseISODate(b.date) - parseISODate(a.date));
-const featuredArticles = sortedArticles.slice(0, 4);
-const latestArticles = sortedArticles.slice(0, 8);
+
+// 去重策略：同标题仅保留最新一篇，避免首页卡片出现重复内容占位
+const uniqueArticles = sortedArticles.filter((article, index, arr) => {
+  const key = article.title.trim().toLowerCase();
+  return arr.findIndex((item) => item.title.trim().toLowerCase() === key) === index;
+});
+
+const featuredArticles = uniqueArticles.slice(0, 4);
+const latestArticles = uniqueArticles.slice(0, 8);
 
 const heroStats = [
   { label: 'Articles', value: `${collectionArticles.length}` },

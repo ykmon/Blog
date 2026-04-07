@@ -222,7 +222,7 @@ body.drawer-open {
 /* ===== 文章正文排版优化 ===== */
 
 .article-prose {
-  max-width: 72ch;
+  max-width: none;
   margin-left: auto;
   margin-right: auto;
   color: theme('colors.ink');

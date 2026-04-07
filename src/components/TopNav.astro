@@ -21,7 +21,6 @@ const {
 } = Astro.props;
 
 const currentItem = getNavItemById(currentSection);
-const finalContextLabel = contextLabel ?? currentItem.labelEn.toUpperCase();
 const finalContextDescription = contextDescription ?? currentItem.description;
 const profileDescription = '致力自动化管线开发，非传统技术美术，从项目管理到技术落地。';
 ---
@@ -126,9 +125,13 @@ const profileDescription = '致力自动化管线开发，非传统技术美术�
             </div>
           )}
 
-          <div class:list={['rounded-2xl border border-ink/10 bg-white/80 px-4 py-3', showSearch ? 'lg:min-w-[280px]' : 'w-full sm:w-auto']}>
-            <p class="text-[10px] font-bold uppercase tracking-[0.35em] text-gray-400">{finalContextLabel}</p>
-            <p class:list={['mt-2 text-sm leading-6 text-gray-600', subPage ? 'max-w-[42ch]' : 'max-w-[36ch]']}>
+          <div
+            class:list={[
+              'rounded-2xl border border-ink/10 bg-white/80 px-4 py-2 lg:flex lg:h-[50px] lg:items-center',
+              showSearch ? 'lg:min-w-[280px]' : 'w-full sm:w-auto',
+            ]}
+          >
+            <p class:list={['text-sm text-gray-600 lg:line-clamp-1', subPage ? 'max-w-[42ch]' : 'max-w-[36ch]']}>
               {finalContextDescription}
             </p>
           </div>

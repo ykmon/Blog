@@ -42,49 +42,51 @@ const breadcrumbItems = [
 <BaseLayout title={`${title} - TechArt Chronicle`} description={description} image={image} keywords={keywords}>
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
       <!-- MAIN CONTENT -->
-      <main class="relative lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-8 xl:gap-10">
-        <div class="hidden lg:block">
-          <ArticleToc />
-        </div>
-
-        <div>
+      <main class="relative space-y-8">
         <Breadcrumb items={breadcrumbItems} />
 
-        <article class="overflow-hidden rounded-[2rem] border border-ink/10 bg-white/80 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
-          <div class="border-b border-ink/10 p-6 md:p-8 lg:p-10">
-            <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em]">
-              <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{category}</span>
-              {date && <span class="rounded-full bg-gray-100 px-2.5 py-1 text-gray-500">{formatDateEN(date)}</span>}
-              {tags.length > 0 && <span class="text-gray-400">{tags.length} tags</span>}
-            </div>
-            <h1 class="mt-4 max-w-none font-serif text-4xl md:text-5xl leading-[0.96] text-ink">{title}</h1>
-            {description && (
-              <p class="mt-5 max-w-none text-sm md:text-base leading-7 text-gray-600">
-                {description}
-              </p>
+        <header class="overflow-hidden rounded-[2rem] border border-ink/10 bg-white/80 p-6 shadow-[0_18px_48px_rgba(26,26,26,0.06)] md:p-8 lg:p-10">
+          <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em]">
+            <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{category}</span>
+            {date && <span class="rounded-full bg-gray-100 px-2.5 py-1 text-gray-500">{formatDateEN(date)}</span>}
+            {tags.length > 0 && <span class="text-gray-400">{tags.length} tags</span>}
+          </div>
+          <h1 class="mt-4 max-w-none font-serif text-4xl leading-[0.96] text-ink md:text-5xl">{title}</h1>
+          {description && (
+            <p class="mt-5 max-w-none text-sm leading-7 text-gray-600 md:text-base">
+              {description}
+            </p>
+          )}
+        </header>
+
+        <section class="lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-8 xl:gap-10">
+          <div class="hidden lg:block">
+            <ArticleToc />
+          </div>
+
+          <div>
+            <article class="overflow-hidden rounded-[2rem] border border-ink/10 bg-white/80 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
+              <div class="article-prose prose prose-lg prose-slate max-w-none prose-p:max-w-none prose-li:max-w-none prose-headings:max-w-none p-6 md:p-8 lg:p-10" data-article-content>
+                <slot />
+              </div>
+            </article>
+
+            <!-- 相关文章推荐 -->
+            {slug && tags.length > 0 && (
+              <RelatedArticles 
+                currentSlug={slug} 
+                tags={tags} 
+                category={category}
+                limit={3}
+              />
             )}
+
+            <div class="mt-20 flex items-center justify-between border-t border-gray-300 pt-8 text-sm font-serif italic text-gray-500">
+              <a href={categoryLink} class="text-ochre hover:underline">← Back to Articles</a>
+              <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
+            </div>
           </div>
-
-          <div class="article-prose prose prose-lg prose-slate max-w-none prose-p:max-w-none prose-li:max-w-none prose-headings:max-w-none p-6 md:p-8 lg:p-10" data-article-content>
-            <slot />
-          </div>
-        </article>
-
-        <!-- 相关文章推荐 -->
-        {slug && tags.length > 0 && (
-          <RelatedArticles 
-            currentSlug={slug} 
-            tags={tags} 
-            category={category}
-            limit={3}
-          />
-        )}
-
-        <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
-          <a href={categoryLink} class="text-ochre hover:underline">← Back to Articles</a>
-          <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
-        </div>
-        </div>
+        </section>
       </main>
   </div>
 

@@ -94,6 +94,50 @@ const topicCards = [
 ];
 
 const latestUpdate = latestArticles[0]?.date ? formatDateCN(latestArticles[0].date) : '';
+
+const profileCard = {
+  name: 'YKMON',
+  role: 'Technical Artist',
+  intro: '聚焦 Unreal Engine、Houdini、Shader 与自动化管线，持续整理可复用的技术方法。',
+  avatar: '/Resource/ykmon.jpg',
+};
+
+const moeHomeModules = [
+  {
+    title: 'RSS 聚合流',
+    description: '聚合外部订阅源并展示最近更新，推荐在构建阶段抓取后静态化。',
+    status: 'Planned',
+  },
+  {
+    title: 'Memos 动态流',
+    description: '展示短笔记、开发日志和快速想法，可作为文章之外的轻量更新入口。',
+    status: 'Planned',
+  },
+  {
+    title: '终端风留言板',
+    description: '保留轻交互留言体验，建议接入评论系统并定制为终端视觉样式。',
+    status: 'Planned',
+  },
+];
+
+const categoryMap = new Map<string, number>();
+const tagMap = new Map<string, number>();
+
+for (const article of uniqueArticles) {
+  categoryMap.set(article.category, (categoryMap.get(article.category) ?? 0) + 1);
+  for (const tag of article.tags) {
+    if (!tag) continue;
+    tagMap.set(tag, (tagMap.get(tag) ?? 0) + 1);
+  }
+}
+
+const topCategories = Array.from(categoryMap.entries())
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 8);
+
+const topTags = Array.from(tagMap.entries())
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 12);
 ---
 
 <BaseLayout title={pageTitle} description={description}>
@@ -156,6 +200,25 @@ const latestUpdate = latestArticles[0]?.date ? formatDateCN(latestArticles[0].da
                   </div>
 
                   <div class="mt-4 grid gap-3">
+                    <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-4">
+                      <div class="flex items-start gap-3">
+                        <div class="h-11 w-11 overflow-hidden rounded-full border border-ink/10">
+                          <img
+                            loading="lazy"
+                            decoding="async"
+                            src={profileCard.avatar}
+                            alt={profileCard.name}
+                            class="h-full w-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <div class="font-serif text-lg text-ink">{profileCard.name}</div>
+                          <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-ochre">{profileCard.role}</div>
+                        </div>
+                      </div>
+                      <p class="mt-3 text-sm leading-6 text-gray-600">{profileCard.intro}</p>
+                    </div>
+
                     <a href={`/articles/${seriesList[2].id}/`} class="group rounded-2xl border border-ink/10 bg-paper px-4 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-ochre">
                       <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Latest Series</div>
                       <div class="mt-2 font-serif text-lg text-ink group-hover:text-forest">{seriesList[2].title}</div>
@@ -177,9 +240,67 @@ const latestUpdate = latestArticles[0]?.date ? formatDateCN(latestArticles[0].da
                         最新内容会优先出现在首页首屏和最近更新列表里。
                       </p>
                     </div>
+
+                    <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-4">
+                      <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">分类 Category</div>
+                      <div class="mt-3 flex flex-wrap gap-2">
+                        {topCategories.map(([category, count]) => (
+                          <a
+                            href={`/articles/?q=${encodeURIComponent(category)}`}
+                            class="inline-flex items-center gap-1 rounded-full border border-ink/10 bg-white px-2.5 py-1 text-xs text-gray-600 transition-colors hover:border-ochre hover:text-ochre"
+                          >
+                            <span>{category}</span>
+                            <span class="text-[10px] text-gray-400">{count}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-4">
+                      <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">标签 Tag</div>
+                      <div class="mt-3 flex flex-wrap gap-2">
+                        {topTags.map(([tag, count]) => (
+                          <a
+                            href={`/articles/?tags=${encodeURIComponent(tag)}`}
+                            class="inline-flex items-center gap-1 rounded-full border border-ink/10 bg-white px-2.5 py-1 text-xs text-gray-600 transition-colors hover:border-ochre hover:text-ochre"
+                          >
+                            <span>#{tag}</span>
+                            <span class="text-[10px] text-gray-400">{count}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section class="blur-load space-y-5">
+            <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">MoeHome 对标模块</p>
+                <h2 class="mt-2 font-serif text-3xl text-ink">动态信息流与轻交互入口</h2>
+                <p class="mt-2 max-w-2xl text-sm leading-7 text-gray-600">
+                  参考目标站点的“配置驱动主页”思路，先预留 RSS、Memos 与留言模块，后续按需接入数据源。
+                </p>
+              </div>
+            </div>
+
+            <div class="grid gap-4 lg:grid-cols-3">
+              {moeHomeModules.map((module) => (
+                <article class="rounded-[1.35rem] border border-ink/10 bg-white/85 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_14px_30px_rgba(138,98,64,0.12)]">
+                  <div class="flex items-center justify-between gap-4">
+                    <h3 class="font-serif text-2xl text-ink">{module.title}</h3>
+                    <span class="rounded-full border border-ochre/25 bg-ochre/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-ochre">
+                      {module.status}
+                    </span>
+                  </div>
+                  <p class="mt-3 text-sm leading-7 text-gray-600">
+                    {module.description}
+                  </p>
+                </article>
+              ))}
             </div>
           </section>
 

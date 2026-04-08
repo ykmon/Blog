@@ -137,15 +137,18 @@ const { title = '目录', maxDepth = 3 } = Astro.props;
     }
 
     function updateActive() {
-      const cursor = window.scrollY + 140;
+      const activationOffset = 140;
       let currentId = items[0].id;
+
       for (const item of items) {
-        if (item.node.offsetTop <= cursor) {
+        const headingTop = item.node.getBoundingClientRect().top;
+        if (headingTop <= activationOffset) {
           currentId = item.id;
         } else {
           break;
         }
       }
+
       setActive(currentId);
     }
 
@@ -188,10 +191,7 @@ const { title = '目录', maxDepth = 3 } = Astro.props;
 
 <style is:global>
   .article-toc {
-    position: sticky;
-    top: 2rem;
-    align-self: start;
-    max-height: calc(100vh - 4rem);
+    position: relative;
   }
 
   .article-toc-body {

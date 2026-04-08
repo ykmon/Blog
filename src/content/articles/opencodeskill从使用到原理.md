@@ -8,6 +8,7 @@ tags:
   - Automation
   - AI
 image: "/Articles/opencodeskill从使用到原理/cover.jpg"
+listed: false
 ---
 ![cover](/Articles/opencodeskill从使用到原理/cover.jpg)
 

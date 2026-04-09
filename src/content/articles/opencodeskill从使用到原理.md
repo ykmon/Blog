@@ -13,19 +13,19 @@ listed: false
 ![cover](/Articles/opencodeskill从使用到原理/cover.jpg)
 
 
-# 引言
+## 引言
 
 最近Cluade Code通过增加空格的方式来降低缓存命中率，今天正好学习一下OpenCode以及Skill的使用和原理
 
-# 安装OpenCode
+## 安装OpenCode
 
-# 绑定模型
+## 绑定模型
 
 这里推荐一个中转站，大致1RMB=100USD额度，注意看文档有使用说明
 
 注册好API之后，在CLI中输出/connet可以连接模型，再输入/models即可选择模型
 
-# OpenCode裸跑（不用Skills)
+## OpenCode裸跑（不用Skills)
 
 进入你的代码仓库，通过CMD命令输入OPENCODE即可运行
 
@@ -53,7 +53,7 @@ AI跑完之后可以使用/new命令新建一个会话，用英文hello，观察
 - `/model`：选择一个模型
 - `/mcp`：开启或关闭 MCP
 - `/agent`：选择一个 Agent 执行
-# Skill
+## Skill
 
 Skill可以理解为AI的增强插件，必须配合AI使用，**可以支持某些原本AI模型不支持的功能。**
 
@@ -65,7 +65,7 @@ Skill可以理解为AI的增强插件，必须配合AI使用，**可以支持某
 
 等配置完毕后，我们再与AI对话，AI并不会常态化加载Skill，而是在所需的时候选择性加载Skill来完成项目
 
-# 创建一个极简Skill
+## 创建一个极简Skill
 
 根据规范，我们来测试创建一个会议整理的skill
 
@@ -85,7 +85,7 @@ description:"帮用户整理会议纪要，当opencode需要整理会议纪要�
 
 执行效果：
 
-# Skill原理分析
+## Skill原理分析
 
 ## 按需加载 渐进式披露
 

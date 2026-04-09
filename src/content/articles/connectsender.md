@@ -10,7 +10,7 @@ image: "/Articles/connectsender/cover.jpg"
 ![cover](/Articles/connectsender/cover.jpg)
 
 
-# Connect()
+## Connect()
 
 在 PyQt 中，`**connect**` 函数用于将一个信号（signal）与一个槽（slot）连接起来。信号和槽机制是 PyQt 及其基础库 Qt 的重要特性之一，用于实现事件驱动编程。
 
@@ -32,7 +32,7 @@ button.clicked.connect(button_clicked)
 
 在这个示例中，当按钮被点击时，`**button_clicked**` 函数会被调用。
 
-# Sender()
+## Sender()
 
 在 PyQt 中，`**sender()**` 函数是一个非常有用的方法，它可以在槽（slot）函数中获取触发该槽的信号的发送者对象。
 

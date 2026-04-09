@@ -13,15 +13,15 @@ image: "/Articles/opencode-skill/cover.jpg"
 ---
 ![cover](/Articles/opencode-skill/cover.jpg)
 
-# 引言
+## 引言
 
 最近 Claude Code 通过增加空格的方式来降低缓存命中率，今天正好学习一下 OpenCode 以及 Skill 的使用和原理。
 
-# 安装 OpenCode
+## 安装 OpenCode
 
 参考安装教程：[CSDN 教程](https://blog.csdn.net/m0_62128476/article/details/157857984)
 
-# 绑定模型
+## 绑定模型
 
 这里推荐一个中转站，大致 1RMB = 100USD 额度，注意看文档有使用说明：
 
@@ -29,7 +29,7 @@ image: "/Articles/opencode-skill/cover.jpg"
 
 注册好 API 之后，在 CLI 中输入 `/connect` 可以连接模型，再输入 `/models` 即可选择模型。
 
-# OpenCode 裸跑（不用 Skills）
+## OpenCode 裸跑（不用 Skills）
 
 进入你的代码仓库，通过 CMD 命令输入 `opencode` 即可运行。
 
@@ -58,7 +58,7 @@ AI 跑完之后可以使用 `/new` 命令新建一个会话，用英文 hello，
 - `/mcp`：开启或关闭 MCP
 - `/agent`：选择一个 Agent 执行
 
-# Skill
+## Skill
 
 Skill 可以理解为 AI 的增强插件，必须配合 AI 使用，**可以支持某些原本 AI 模型不支持的功能**。
 
@@ -74,7 +74,7 @@ Skill 可以理解为 AI 的增强插件，必须配合 AI 使用，**可以支�
 
 ![Skill 加载示意](/Articles/opencode-skill/image.png)
 
-# 创建一个极简 Skill
+## 创建一个极简 Skill
 
 参考官方文档：[What are skills? - Agent Skills](https://agentskills.io/what-are-skills)
 
@@ -99,7 +99,7 @@ description: "帮用户整理会议纪要，当 opencode 需要整理会议纪�
 
 ![Skill 执行效果](/Articles/opencode-skill/image%201.png)
 
-# Skill 原理分析
+## Skill 原理分析
 
 ## 按需加载 渐进式披露
 

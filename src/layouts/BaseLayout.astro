@@ -77,6 +77,10 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
   </script>
 
   <script>
+    import '../scripts/init-code-fold';
+  </script>
+
+  <script>
     // KaTeX — 异步按需加载数学公式渲染
     async function loadKaTeX() {
       // 检测页面中是否包含 LaTeX 数学公式分隔符 \(...\) 或 \[...\] 或 $$...$$

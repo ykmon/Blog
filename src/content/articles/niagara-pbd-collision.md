@@ -9,7 +9,11 @@ tags:
   - Shader
   - Code
 readTime: "10 Min Read"
+image: "/Articles/niagara-pbd-collision/cover.png"
+imageAlt: "UE5 Niagara PBD 碰撞与空间划分封面"
 ---
+
+![UE5 Niagara PBD 碰撞与空间划分封面](/Articles/niagara-pbd-collision/cover.png)
 
 在虚幻引擎 (UE5) 的 Niagara 系统中，当我们需要让成千上万个 GPU 粒子拥有"体积感"并防止互相穿模时，传统的物理引擎往往会力不从心。这时候，我们需要利用**基于位置的动力学（Position-Based Dynamics, 简称 PBD）**配合**3D 邻居网格（Neighbor Grid 3D）**来手写一个高性能的约束求解器。
 

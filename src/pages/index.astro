@@ -18,7 +18,7 @@ const collectionArticles = sortByDateDesc(
 const tools = sortByDateDesc((await getCollection('tools')).map(mapToolEntry));
 const uniqueArticles = uniqueArticlesByTitle(collectionArticles);
 
-const featuredArticles = uniqueArticles.slice(0, 4);
+const featuredArticles = uniqueArticles.slice(0, 5);
 const latestArticles = uniqueArticles.slice(0, 8);
 
 const heroStats = [
@@ -178,52 +178,54 @@ const latestUpdate = latestArticles[0]?.date ? formatDateCN(latestArticles[0].da
             </div>
 
             <div class="grid gap-6 lg:grid-cols-12">
-              {featuredArticles[0] && (
+              <div class="grid gap-6 lg:col-span-7">
+                {featuredArticles.slice(0, 2).map((article, index) => (
                 <a
-                  href={featuredArticles[0].href}
-                  class="group lg:col-span-7 overflow-hidden rounded-[1.75rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
+                  href={article.href}
+                  class="group overflow-hidden rounded-[1.75rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
                 >
                   <div class="relative aspect-video overflow-hidden bg-forest">
-                    {featuredArticles[0].image ? (
+                    {article.image ? (
                       <img
                         loading="lazy"
                         decoding="async"
-                        src={featuredArticles[0].image}
-                        alt={featuredArticles[0].imageAlt ?? featuredArticles[0].title}
+                        src={article.image}
+                        alt={article.imageAlt ?? article.title}
                         class="h-full w-full object-contain"
                       />
                     ) : (
                       <div class="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_35%),linear-gradient(135deg,#2d4a3e,#1a1a1a)] px-8 text-center font-serif text-3xl text-paper">
-                        {featuredArticles[0].category}
+                        {article.category}
                       </div>
                     )}
                     <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ink/80 to-transparent"></div>
                     <div class="absolute left-5 top-5 rounded-full bg-paper/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.3em] text-forest backdrop-blur">
-                      Featured 01
+                      Featured {String(index + 1).padStart(2, '0')}
                     </div>
                   </div>
                   <div class="p-6 md:p-7">
                     <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em]">
-                      <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{featuredArticles[0].category}</span>
-                      {featuredArticles[0].readTime && <span class="text-gray-400">{featuredArticles[0].readTime}</span>}
+                      <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{article.category}</span>
+                      {article.readTime && <span class="text-gray-400">{article.readTime}</span>}
                       <span class="text-gray-300">•</span>
-                      <span class="text-gray-400">{formatDateCN(featuredArticles[0].date)}</span>
+                      <span class="text-gray-400">{formatDateCN(article.date)}</span>
                     </div>
-                    <h3 class="mt-4 font-serif text-2xl leading-tight text-ink transition-colors group-hover:text-forest md:text-3xl">
-                      {featuredArticles[0].title}
+                    <h3 class="mt-4 font-serif text-2xl leading-tight text-ink transition-colors group-hover:text-forest">
+                      {article.title}
                     </h3>
-                    <p class="mt-4 max-w-2xl text-sm leading-7 text-gray-600 md:text-base">
-                      {featuredArticles[0].description}
+                    <p class="mt-4 line-clamp-2 max-w-2xl text-sm leading-7 text-gray-600 md:text-base">
+                      {article.description}
                     </p>
                     <div class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-ochre">
                       阅读这篇文章 <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </div>
                   </div>
                 </a>
-              )}
+                ))}
+              </div>
 
               <div class="grid gap-6 lg:col-span-5">
-                {featuredArticles.slice(1, 4).map((article, index) => (
+                {featuredArticles.slice(2, 5).map((article, index) => (
                   <a
                     href={article.href}
                     class="group h-full overflow-hidden rounded-[1.5rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
@@ -246,7 +248,7 @@ const latestUpdate = latestArticles[0]?.date ? formatDateCN(latestArticles[0].da
                       </div>
                       <div class="flex min-w-0 flex-col p-5">
                         <div class="flex min-w-0 flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em]">
-                          <span class="rounded-full bg-ochre/10 px-2.5 py-1 text-ochre">{String(index + 2).padStart(2, '0')}</span>
+                          <span class="rounded-full bg-ochre/10 px-2.5 py-1 text-ochre">{String(index + 3).padStart(2, '0')}</span>
                           <span class="rounded-full bg-gray-100 px-2.5 py-1 text-gray-600">{article.category}</span>
                           {article.readTime && <span class="text-gray-400">{article.readTime}</span>}
                         </div>

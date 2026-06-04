@@ -3,6 +3,7 @@ title: "通过QtDesniger创建视口并导入Houdini"
 description: "通过QtDesniger创建视口并导入Houdini"
 category: "Houdini / Tool"
 date: "2024-04-14"
+icon: "▣"
 tags:
   - Houdini
 ---

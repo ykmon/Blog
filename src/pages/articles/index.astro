@@ -1,47 +1,21 @@
 ﻿---
 // articles/index.astro - 文章列表页（编辑部档案风格）
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TopNav from '../../components/TopNav.astro';
 import Footer from '../../components/Footer.astro';
-import type { Article } from '../../data/content';
-import { formatDateEN, parseISODate } from '../../utils/date';
+import { formatDateEN } from '../../utils/date';
+import { countTags, mapArticleEntry, sortByDateDesc } from '../../utils/content';
 
 const pageTitle = 'Articles - TechArt Chronicle';
 const description = '技术美术文章合集 - Unreal Engine、Unity Shader、Houdini、GAMES 系列课程笔记等。';
 
-const collectionArticles: Article[] = (await getCollection('articles'))
-  .filter((entry: CollectionEntry<'articles'>) => entry.data.listed !== false)
-  .map((entry: CollectionEntry<'articles'>) => {
-    const href = entry.data.href ?? `/articles/${entry.slug}/`;
-    return {
-      type: 'article',
-      href,
-      title: entry.data.title,
-      category: entry.data.category,
-      tags: entry.data.tags ?? [],
-      description: entry.data.description,
-      date: entry.data.date ?? '1970-01-01',
-      readTime: entry.data.readTime,
-      image: entry.data.image,
-      imageAlt: entry.data.imageAlt,
-      placeholder: entry.data.placeholder,
-    };
-  });
-
-const sortedArticles = [...collectionArticles].sort((a, b) => parseISODate(b.date) - parseISODate(a.date));
+const sortedArticles = sortByDateDesc(
+  (await getCollection('articles')).filter((entry) => entry.data.listed !== false).map(mapArticleEntry)
+);
 const featuredArticles = sortedArticles.slice(0, 4);
 const restArticles = sortedArticles.slice(4);
-
-const articleTagCounts = sortedArticles.reduce((acc, article) => {
-  article.tags.forEach((tag) => {
-    acc[tag] = (acc[tag] ?? 0) + 1;
-  });
-  return acc;
-}, {} as Record<string, number>);
-const filterTags = Object.entries(articleTagCounts)
-  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'en'))
-  .map(([tag, count]) => ({ tag, count }));
+const filterTags = countTags(sortedArticles);
 
 ---
 
@@ -49,7 +23,7 @@ const filterTags = Object.entries(articleTagCounts)
   <TopNav currentSection="articles" subPage />
 
   <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
-    <main class="space-y-12" data-articles-filter="enhanced">
+    <main class="space-y-12" data-filter-root>
         <section class="blur-load space-y-5" data-role="article-tag-filter">
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
@@ -63,13 +37,13 @@ const filterTags = Object.entries(articleTagCounts)
 
           <div class="rounded-[1.5rem] border border-ink/10 bg-white/70 p-4 space-y-3">
             <div class="flex flex-wrap gap-2">
-              <button class="tag-filter-btn active rounded-full border border-forest/20 bg-forest px-4 py-2 text-xs font-bold uppercase tracking-[0.3em] text-white transition-all" data-tag-filter="all">
+              <button class="tag-filter-btn active rounded-full border border-forest/20 bg-forest px-4 py-2 text-xs font-bold uppercase tracking-[0.3em] text-white transition-all" data-role="clear-filters">
                 全部 ({sortedArticles.length})
               </button>
               {filterTags.map(({ tag, count }) => (
                 <button
                   class="tag-filter-btn rounded-full border border-ink/10 bg-paper px-4 py-2 text-xs font-bold uppercase tracking-[0.3em] text-ink transition-all hover:-translate-y-0.5 hover:border-ochre hover:text-ochre"
-                  data-tag-filter={tag}
+                  data-tag={tag}
                 >
                   {tag} ({count})
                 </button>
@@ -77,8 +51,8 @@ const filterTags = Object.entries(articleTagCounts)
             </div>
 
             <div class="flex flex-wrap items-center gap-3 text-sm text-gray-600">
-              <span data-role="tag-filter-status">显示全部 {sortedArticles.length} 篇文章</span>
-              <button data-role="tag-filter-clear" class="hidden text-ochre hover:underline">清空标签</button>
+              <span data-role="filter-status" class="hidden"><span data-role="filter-count"></span></span>
+              <button data-role="clear-filters" class="hidden text-ochre hover:underline">清空标签</button>
             </div>
           </div>
         </section>
@@ -97,7 +71,7 @@ const filterTags = Object.entries(articleTagCounts)
               <a
                 href={featuredArticles[0].href}
                 class="article-card group lg:col-span-7 overflow-hidden rounded-[1.75rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
-                data-filter-tags={featuredArticles[0].tags.join(',')}
+                data-tags={featuredArticles[0].tags.join(',')}
               >
                 <div class="relative aspect-[16/10] overflow-hidden bg-forest">
                   {featuredArticles[0].image ? (
@@ -140,7 +114,7 @@ const filterTags = Object.entries(articleTagCounts)
                 <a
                   href={article.href}
                   class="article-card group block h-full overflow-hidden rounded-[1.5rem] border border-ink/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
-                  data-filter-tags={article.tags.join(',')}
+                  data-tags={article.tags.join(',')}
                 >
                   <div class="grid gap-0 md:grid-cols-[160px,1fr]">
                     <div class="aspect-[16/10] bg-forest md:aspect-auto">
@@ -194,7 +168,7 @@ const filterTags = Object.entries(articleTagCounts)
               <a
                 href={article.href}
                 class="article-card group grid gap-4 rounded-[1.35rem] border border-ink/10 bg-white/85 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_14px_32px_rgba(138,98,64,0.12)] md:grid-cols-[140px,minmax(0,1fr),auto] md:items-center md:p-5"
-                data-filter-tags={article.tags.join(',')}
+                data-tags={article.tags.join(',')}
               >
                 <div class="overflow-hidden rounded-[1.15rem] border border-ink/10 bg-forest">
                   {article.image ? (
@@ -260,204 +234,7 @@ const filterTags = Object.entries(articleTagCounts)
   .tag-filter-btn:not(.active):hover {
     transform: translateY(-1px);
   }
-  .article-card.hidden {
+  .article-card.is-hidden {
     display: none;
   }
 </style>
-
-<script>
-  let articleFilterAbort: AbortController | null = null;
-
-  function parseTags(value: string | null): string[] {
-    if (!value) return [];
-    return value.split(',').map((tag) => tag.trim()).filter(Boolean);
-  }
-
-  function syncFilterUrl(query: string, selectedTags: Set<string>) {
-    const url = new URL(window.location.href);
-    if (query) {
-      url.searchParams.set('q', query);
-    } else {
-      url.searchParams.delete('q');
-    }
-
-    if (selectedTags.size > 0) {
-      url.searchParams.set('tags', Array.from(selectedTags).join(','));
-    } else {
-      url.searchParams.delete('tags');
-    }
-
-    window.history.replaceState({}, '', `${url.pathname}${url.search}`);
-  }
-
-  function initArticleTagFilter() {
-    if (articleFilterAbort) articleFilterAbort.abort();
-    articleFilterAbort = new AbortController();
-    const { signal } = articleFilterAbort;
-
-    const filterRoot = document.querySelector<HTMLElement>('[data-role="article-tag-filter"]');
-    if (!filterRoot) return;
-
-    const buttons = Array.from(filterRoot.querySelectorAll<HTMLButtonElement>('.tag-filter-btn[data-tag-filter]'));
-    const status = filterRoot.querySelector<HTMLElement>('[data-role="tag-filter-status"]');
-    const clearTagButton = filterRoot.querySelector<HTMLButtonElement>('[data-role="tag-filter-clear"]');
-    const searchInputs = Array.from(document.querySelectorAll<HTMLInputElement>('[data-role="search-input"]'));
-    const searchClears = Array.from(document.querySelectorAll<HTMLElement>('[data-role="search-clear"]'));
-    const searchStatuses = Array.from(document.querySelectorAll<HTMLElement>('[data-role="search-status"]'));
-    const articles = Array.from(document.querySelectorAll<HTMLElement>('.article-card[data-filter-tags]'));
-    const featuredSection = document.querySelector<HTMLElement>('[data-section="featured"]');
-    const browseSection = document.querySelector<HTMLElement>('[data-section="browse"]');
-    const totalCount = articles.length;
-    const selectedTags = new Set<string>();
-
-    const params = new URLSearchParams(window.location.search);
-    let query = (params.get('q') ?? '').trim();
-    const urlTags = parseTags(params.get('tags'));
-    urlTags.forEach((tag) => selectedTags.add(tag));
-
-    const syncSearchUi = () => {
-      searchInputs.forEach((input) => {
-        if (input.value !== query) input.value = query;
-      });
-      searchClears.forEach((btn) => btn.classList.toggle('hidden', !query));
-    };
-
-    const applyFilter = () => {
-      const lowerQuery = query.toLowerCase();
-      let visibleCount = 0;
-
-      articles.forEach((article) => {
-        const articleTags = parseTags(article.getAttribute('data-filter-tags'));
-        const tagMatched = selectedTags.size === 0 || articleTags.some((tag) => selectedTags.has(tag));
-        const textMatched = !lowerQuery || (article.textContent ?? '').toLowerCase().includes(lowerQuery);
-        const isVisible = tagMatched && textMatched;
-
-        article.classList.toggle('hidden', !isVisible);
-        if (isVisible) visibleCount += 1;
-      });
-
-      buttons.forEach((button) => {
-        const tag = button.getAttribute('data-tag-filter');
-        const isAll = tag === 'all';
-        const isActive = isAll ? selectedTags.size === 0 : (tag ? selectedTags.has(tag) : false);
-        button.classList.toggle('active', isActive);
-      });
-
-      if (featuredSection) {
-        const visibleFeatured = featuredSection.querySelectorAll('.article-card:not(.hidden)');
-        featuredSection.classList.toggle('hidden', visibleFeatured.length === 0);
-      }
-
-      if (browseSection) {
-        const visibleBrowse = browseSection.querySelectorAll('.article-card:not(.hidden)');
-        browseSection.classList.toggle('hidden', visibleBrowse.length === 0);
-      }
-
-      if (status) {
-        if (!query && selectedTags.size === 0) {
-          status.textContent = `显示全部 ${totalCount} 篇文章`;
-        } else if (query && selectedTags.size === 0) {
-          status.textContent = `搜索“${query}” · ${visibleCount} / ${totalCount} 篇`;
-        } else if (!query && selectedTags.size > 0) {
-          const labels = Array.from(selectedTags).join('、');
-          status.textContent = `标签筛选 · ${visibleCount} / ${totalCount} 篇 · ${labels}`;
-        } else {
-          const labels = Array.from(selectedTags).join('、');
-          status.textContent = `搜索 + 标签 · ${visibleCount} / ${totalCount} 篇 · ${labels}`;
-        }
-      }
-
-      searchStatuses.forEach((searchStatus) => {
-        if (!query) {
-          searchStatus.classList.add('hidden');
-          return;
-        }
-        searchStatus.textContent = `找到 ${visibleCount} 篇结果`;
-        searchStatus.classList.remove('hidden');
-      });
-
-      if (clearTagButton) {
-        clearTagButton.classList.toggle('hidden', selectedTags.size === 0);
-      }
-
-      syncSearchUi();
-      syncFilterUrl(query, selectedTags);
-    };
-
-    buttons.forEach((button) => {
-      button.addEventListener(
-        'click',
-        () => {
-          const tag = button.getAttribute('data-tag-filter');
-          if (!tag) return;
-
-          if (tag === 'all') {
-            selectedTags.clear();
-          } else if (selectedTags.has(tag)) {
-            selectedTags.delete(tag);
-          } else {
-            selectedTags.add(tag);
-          }
-
-          applyFilter();
-        },
-        { signal }
-      );
-    });
-
-    clearTagButton?.addEventListener(
-      'click',
-      () => {
-        selectedTags.clear();
-        applyFilter();
-      },
-      { signal }
-    );
-
-    searchInputs.forEach((input) => {
-      input.addEventListener(
-        'input',
-        (event) => {
-          query = (event.target as HTMLInputElement).value.trim();
-          applyFilter();
-        },
-        { signal }
-      );
-
-      input.addEventListener(
-        'keydown',
-        (event) => {
-          if (event.key === 'Escape') {
-            query = '';
-            applyFilter();
-          }
-        },
-        { signal }
-      );
-    });
-
-    searchClears.forEach((btn) => {
-      btn.addEventListener(
-        'click',
-        () => {
-          query = '';
-          applyFilter();
-          const firstVisible = searchInputs.find((input) => input.offsetParent !== null);
-          if (firstVisible) firstVisible.focus();
-        },
-        { signal }
-      );
-    });
-
-    applyFilter();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initArticleTagFilter);
-  } else {
-    initArticleTagFilter();
-  }
-
-  document.addEventListener('astro:page-load', initArticleTagFilter);
-</script>
-

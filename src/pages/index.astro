@@ -1,42 +1,22 @@
 ---
 // src/pages/index.astro - 首页（编辑部封面版）
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TopNav from '../components/TopNav.astro';
 import Footer from '../components/Footer.astro';
 import { seriesList } from '../data/series';
-import { tools, videos, type Article } from '../data/content';
-import { formatDateCN, parseISODate } from '../utils/date';
+import { videos } from '../data/content';
+import { formatDateCN } from '../utils/date';
+import { mapArticleEntry, mapToolEntry, sortByDateDesc, uniqueArticlesByTitle } from '../utils/content';
 
 const pageTitle = 'TechArt Chronicle | 技术美术志';
 const description = '技术美术博客 - 分享 Unreal Engine、Houdini、Shader、PCG、自动化管线等实践笔记。';
 
-const collectionArticles: Article[] = (await getCollection('articles'))
-  .filter((entry: CollectionEntry<'articles'>) => entry.data.listed !== false)
-  .map((entry: CollectionEntry<'articles'>) => {
-    const href = entry.data.href ?? `/articles/${entry.slug}/`;
-    return {
-      type: 'article',
-      href,
-      title: entry.data.title,
-      category: entry.data.category,
-      tags: entry.data.tags ?? [],
-      description: entry.data.description,
-      date: entry.data.date ?? '1970-01-01',
-      readTime: entry.data.readTime,
-      image: entry.data.image,
-      imageAlt: entry.data.imageAlt,
-      placeholder: entry.data.placeholder,
-    };
-  });
-
-const sortedArticles = [...collectionArticles].sort((a, b) => parseISODate(b.date) - parseISODate(a.date));
-
-// 去重策略：同标题仅保留最新一篇，避免首页卡片出现重复内容占位
-const uniqueArticles = sortedArticles.filter((article, index, arr) => {
-  const key = article.title.trim().toLowerCase();
-  return arr.findIndex((item) => item.title.trim().toLowerCase() === key) === index;
-});
+const collectionArticles = sortByDateDesc(
+  (await getCollection('articles')).filter((entry) => entry.data.listed !== false).map(mapArticleEntry)
+);
+const tools = sortByDateDesc((await getCollection('tools')).map(mapToolEntry));
+const uniqueArticles = uniqueArticlesByTitle(collectionArticles);
 
 const featuredArticles = uniqueArticles.slice(0, 4);
 const latestArticles = uniqueArticles.slice(0, 8);

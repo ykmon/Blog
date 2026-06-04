@@ -7,7 +7,7 @@ tags:
   - UE
   - UnrealEngine
   - DevOps
-  - Devops
+  - DevOps
   - Automation
 readTime: "5 Min Read"
 image: "/Articles/unreal-svn/Untitled_7.png"

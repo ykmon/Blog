@@ -2,6 +2,8 @@
 title: "按照组拆分模型"
 description: "自动按照Point/Prim/Edge组拆分几何体"
 category: "Houdini / Tool"
+date: "2023-12-05"
+icon: "✂️"
 tags:
   - Houdini
   - Code

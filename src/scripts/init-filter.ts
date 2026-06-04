@@ -3,17 +3,12 @@
  *
  * - 当页面存在旧版 data-tags 卡片时，启用本地搜索与标签过滤
  * - 当页面没有可过滤卡片时，搜索框回车将跳转到 /articles/?q=...
- * - 当页面启用增强版文章过滤器时（data-articles-filter="enhanced"），跳过本脚本
  */
 
 import FilterController from './filter-controller';
 
 let initialized = false;
 let debounceTimer: number | null = null;
-
-function hasEnhancedArticlesFilter(): boolean {
-  return !!document.querySelector('[data-articles-filter="enhanced"]');
-}
 
 function hasFilterTargets(): boolean {
   return !!document.querySelector('[data-tags]');
@@ -73,7 +68,6 @@ function initRedirectSearchOnly() {
 }
 
 function initFilter() {
-  if (hasEnhancedArticlesFilter()) return;
   if (initialized) return;
   initialized = true;
 
@@ -133,19 +127,22 @@ function initFilter() {
     btn.addEventListener('click', clearSearch);
   });
 
-  const allTagBtns = document.querySelectorAll<HTMLElement>('.tag-btn[data-tag]');
+  const allTagBtns = document.querySelectorAll<HTMLElement>('[data-tag]');
   const filterStatuses = document.querySelectorAll<HTMLElement>('[data-role="filter-status"]');
   const filterCounts = document.querySelectorAll<HTMLElement>('[data-role="filter-count"]');
   const clearFilterBtns = document.querySelectorAll<HTMLElement>('[data-role="clear-filters"]');
 
-  if (fc.selectedTags.size > 0) {
+  const syncTagButtons = () => {
     allTagBtns.forEach((btn) => {
       const tag = btn.getAttribute('data-tag');
-      if (tag && fc.selectedTags.has(tag)) {
-        btn.classList.add('active');
-      }
+      btn.classList.toggle('active', !!tag && fc.selectedTags.has(tag));
     });
-  }
+    clearFilterBtns.forEach((btn) => {
+      btn.classList.toggle('hidden', fc.selectedTags.size === 0);
+    });
+  };
+
+  syncTagButtons();
 
   allTagBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -153,20 +150,14 @@ function initFilter() {
       if (!tag) return;
 
       fc.toggleTag(tag);
-
-      const isActive = fc.selectedTags.has(tag);
-      document
-        .querySelectorAll<HTMLElement>(`.tag-btn[data-tag="${CSS.escape(tag)}"]`)
-        .forEach((button) => {
-          button.classList.toggle('active', isActive);
-        });
+      syncTagButtons();
     });
   });
 
   clearFilterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       fc.clearTags();
-      allTagBtns.forEach((button) => button.classList.remove('active'));
+      syncTagButtons();
     });
   });
 
@@ -188,10 +179,19 @@ function initFilter() {
     });
 
     filterCounts.forEach((el) => {
-      if (hasTags) {
-        const tagList = Array.from(fc.selectedTags).join(', ');
-        el.textContent = `Showing ${visibleCount} of ${totalCount} items - ${tagList}`;
+      if (hasSearch && hasTags) {
+        const tagList = Array.from(fc.selectedTags).join('、');
+        el.textContent = `搜索 + 标签 · ${visibleCount} / ${totalCount} 篇 · ${tagList}`;
+      } else if (hasTags) {
+        const tagList = Array.from(fc.selectedTags).join('、');
+        el.textContent = `标签筛选 · ${visibleCount} / ${totalCount} 篇 · ${tagList}`;
+      } else {
+        el.textContent = `显示全部 ${totalCount} 篇文章`;
       }
+    });
+
+    clearFilterBtns.forEach((btn) => {
+      btn.classList.toggle('hidden', !hasTags);
     });
   });
 }

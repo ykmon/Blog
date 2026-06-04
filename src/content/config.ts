@@ -1,4 +1,7 @@
 import { defineCollection, z } from 'astro:content';
+import { allTags } from '../data/tags';
+
+const tagSchema = z.enum(allTags as [string, ...string[]]);
 
 const articles = defineCollection({
   type: 'content',
@@ -8,7 +11,7 @@ const articles = defineCollection({
     category: z.string(),
     href: z.string().optional(),
     date: z.string().optional(),
-    tags: z.array(z.string()).optional(),
+    tags: z.array(tagSchema).optional(),
     readTime: z.string().optional(),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
@@ -23,9 +26,12 @@ const tools = defineCollection({
     title: z.string(),
     description: z.string(),
     category: z.string().default('Houdini / Tool'),
-    tags: z.array(z.string()).optional(),
+    tags: z.array(tagSchema).optional(),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
+    icon: z.string().optional(),
+    date: z.string().optional(),
+    href: z.string().optional(),
   }),
 });
 

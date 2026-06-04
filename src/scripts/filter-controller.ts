@@ -3,7 +3,7 @@
  *
  * 设计原则：
  * - 单例模式，全局唯一状态源
- * - SearchBox 和 TagFilter 只更新状态，不直接操作 DOM 显示
+ * - SearchBox 和标签按钮只更新状态，不直接操作 DOM 显示
  * - 每次状态变更后统一计算可见项并渲染
  */
 
@@ -15,6 +15,7 @@ export interface FilterableItem {
   description: string;
   tags: string[];
   category: string;
+  text: string;
 }
 
 class FilterController {
@@ -46,14 +47,15 @@ class FilterController {
     const elements = document.querySelectorAll<HTMLElement>('[data-tags]');
     elements.forEach((el) => {
       const titleEl = el.querySelector('h2, h3');
-      const descEl = el.querySelector('.drop-cap, p');
-      const categoryEl = el.querySelector('.text-ochre');
+      const descEl = el.querySelector('[data-filter-description], .drop-cap, p');
+      const categoryEl = el.querySelector('[data-filter-category], .text-ochre');
       this.items.push({
         element: el,
         title: titleEl?.textContent?.trim() || '',
         description: descEl?.textContent?.trim() || '',
         tags: (el.getAttribute('data-tags') || '').split(',').map(t => t.trim()).filter(Boolean),
         category: categoryEl?.textContent?.trim() || '',
+        text: el.textContent?.trim() || '',
       });
     });
 
@@ -152,6 +154,7 @@ class FilterController {
       }
 
       // 更新 DOM
+      item.element.classList.toggle('is-hidden', !visible);
       item.element.style.display = visible ? '' : 'none';
       if (visible) visibleCount++;
 
@@ -164,6 +167,10 @@ class FilterController {
 
     // 通知监听者
     this.listeners.forEach(fn => fn(visibleCount, this.items.length));
+    document.querySelectorAll<HTMLElement>('[data-section]').forEach((section) => {
+      const visibleItems = section.querySelectorAll('[data-tags]:not(.is-hidden)');
+      section.classList.toggle('hidden', visibleItems.length === 0);
+    });
   }
 
   /** 同步状态到 URL */

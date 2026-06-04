@@ -2,6 +2,8 @@
 title: "快速添加自定义Parameter"
 description: "通过Python脚本快速为Houdini节点添加自定义参数"
 category: "Houdini / Tool"
+date: "2023-11-25"
+icon: "⚡"
 tags:
   - Houdini
   - Code

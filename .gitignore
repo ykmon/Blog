@@ -37,6 +37,10 @@ _legacy_backup/
 
 # Agent config
 .agent/
+.appdata/
+.home/
+.sisyphus/
+.opencode/
 
 # One-time migration scripts (already completed)
 /scripts/

@@ -2,6 +2,8 @@
 title: "批量创建选中的ObjectMerge"
 description: "批量为选中节点创建Object Merge节点"
 category: "Houdini / Tool"
+date: "2023-12-01"
+icon: "⛓️"
 tags:
   - Houdini
   - Code

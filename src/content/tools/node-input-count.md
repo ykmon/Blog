@@ -2,6 +2,8 @@
 title: "节点输入数量"
 description: "为Houdini节点添加显示输入连接数量的参数"
 category: "Houdini / Tool"
+date: "2023-12-10"
+icon: "🔢"
 tags:
   - Houdini
   - Code

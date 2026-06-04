@@ -6,7 +6,7 @@ href: "/articles/houdini-bypass-qt-ui/"
 date: "2026-01-21"
 tags:
   - DevOps
-  - Devops
+  - DevOps
   - Code
   - Automation
   - Houdini

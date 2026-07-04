@@ -78,14 +78,14 @@ const profileDescription = '致力自动化管线开发，非传统技术美术�
         </a>
 
         <nav
-          class="hidden min-w-0 flex-1 grid-cols-6 gap-2 rounded-2xl border border-ink/10 bg-white/80 p-2 lg:grid"
+          class="hidden min-w-0 flex-1 grid-cols-7 gap-1 rounded-2xl border border-ink/10 bg-white/80 p-2 lg:grid xl:gap-2"
           aria-label="主导航"
         >
           {navItems.map((item) => (
             <a
               href={item.href}
               class:list={[
-                'group rounded-xl border px-3 py-2 text-center transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ochre/70',
+                'group rounded-xl border px-1.5 py-2 text-center transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ochre/70 xl:px-3',
                 currentSection === item.id
                   ? 'border-forest/25 bg-forest/10 text-forest shadow-[0_6px_16px_rgba(45,74,62,0.12)]'
                   : 'border-transparent text-ink hover:border-ochre/15 hover:text-ochre',
@@ -95,7 +95,7 @@ const profileDescription = '致力自动化管线开发，非传统技术美术�
               <span class:list={['block text-[10px] font-bold tracking-[0.3em]', currentSection === item.id ? 'text-forest' : 'text-gray-400 group-hover:text-ochre']}>
                 {item.num}
               </span>
-              <span class="mt-1 block text-sm font-medium">{item.label}</span>
+              <span class="mt-1 block text-xs font-medium xl:text-sm">{item.label}</span>
               <span class="mt-1 block text-[10px] uppercase tracking-[0.25em] text-gray-400 group-hover:text-ochre">{item.labelEn}</span>
             </a>
           ))}

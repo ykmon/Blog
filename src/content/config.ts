@@ -35,7 +35,23 @@ const tools = defineCollection({
   }),
 });
 
+const gallery = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    category: z.string(),
+    date: z.string(),
+    location: z.string(),
+    tags: z.array(z.string()).optional(),
+    image: z.string(),
+    imageAlt: z.string(),
+    listed: z.boolean().optional(),
+  }),
+});
+
 export const collections = {
   articles,
   tools,
+  gallery,
 };

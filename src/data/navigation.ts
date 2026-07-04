@@ -1,4 +1,4 @@
-export type SectionId = 'home' | 'articles' | 'series' | 'tools' | 'videos' | 'about';
+export type SectionId = 'home' | 'articles' | 'series' | 'tools' | 'videos' | 'gallery' | 'about';
 
 export interface NavItem {
   id: SectionId;
@@ -51,8 +51,16 @@ export const navItems: NavItem[] = [
     description: '可视化技术演示与流程验证。',
   },
   {
-    id: 'about',
+    id: 'gallery',
     num: '05',
+    label: '相册',
+    labelEn: 'Gallery',
+    href: '/gallery/',
+    description: '风景、扫街与日常观察的影像记录。',
+  },
+  {
+    id: 'about',
+    num: '06',
     label: '关于',
     labelEn: 'About',
     href: '/about/',

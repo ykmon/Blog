@@ -38,7 +38,20 @@ export interface Video {
     cid: string;
 }
 
-export type ContentItem = Article | Tool | Video;
+export interface GalleryPhoto {
+    type: 'gallery';
+    title: string;
+    category: string;
+    tags: string[];
+    description?: string;
+    /** ISO 格式日期 YYYY-MM-DD */
+    date: string;
+    location: string;
+    image: string;
+    imageAlt: string;
+}
+
+export type ContentItem = Article | Tool | Video | GalleryPhoto;
 
 export const videos: Video[] = [
     {

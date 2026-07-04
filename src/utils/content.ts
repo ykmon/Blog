@@ -1,6 +1,6 @@
 // src/utils/content.ts - Content collection mapping helpers
 import type { CollectionEntry } from 'astro:content';
-import type { Article, Tool } from '../data/content';
+import type { Article, GalleryPhoto, Tool } from '../data/content';
 import { parseISODate } from './date';
 
 export function articleHref(entry: CollectionEntry<'articles'>): string {
@@ -36,6 +36,20 @@ export function mapToolEntry(entry: CollectionEntry<'tools'>): Tool {
     tags: entry.data.tags ?? [],
     description: entry.data.description,
     date: entry.data.date ?? '1970-01-01',
+  };
+}
+
+export function mapGalleryEntry(entry: CollectionEntry<'gallery'>): GalleryPhoto {
+  return {
+    type: 'gallery',
+    title: entry.data.title,
+    category: entry.data.category,
+    tags: entry.data.tags ?? [],
+    description: entry.data.description,
+    date: entry.data.date,
+    location: entry.data.location,
+    image: entry.data.image,
+    imageAlt: entry.data.imageAlt,
   };
 }
 

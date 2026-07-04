@@ -7,7 +7,7 @@ import Footer from '../components/Footer.astro';
 import { seriesList } from '../data/series';
 import { videos } from '../data/content';
 import { formatDateCN } from '../utils/date';
-import { mapArticleEntry, mapToolEntry, sortByDateDesc, uniqueArticlesByTitle } from '../utils/content';
+import { mapArticleEntry, mapGalleryEntry, mapToolEntry, sortByDateDesc, uniqueArticlesByTitle } from '../utils/content';
 
 const pageTitle = 'TechArt Chronicle | 技术美术志';
 const description = '技术美术博客 - 分享 Unreal Engine、Houdini、Shader、PCG、自动化管线等实践笔记。';
@@ -16,6 +16,9 @@ const collectionArticles = sortByDateDesc(
   (await getCollection('articles')).filter((entry) => entry.data.listed !== false).map(mapArticleEntry)
 );
 const tools = sortByDateDesc((await getCollection('tools')).map(mapToolEntry));
+const galleryPhotos = sortByDateDesc(
+  (await getCollection('gallery')).filter((entry) => entry.data.listed !== false).map(mapGalleryEntry)
+);
 const uniqueArticles = uniqueArticlesByTitle(collectionArticles);
 
 const featuredArticles = uniqueArticles.slice(0, 5);
@@ -26,6 +29,7 @@ const heroStats = [
   { label: 'Series', value: `${seriesList.length}` },
   { label: 'Tools', value: `${tools.length}` },
   { label: 'Videos', value: `${videos.length}` },
+  { label: 'Photos', value: `${galleryPhotos.length}` },
 ];
 
 const topicCards = [
@@ -70,6 +74,13 @@ const topicCards = [
     href: '/tools/',
     query: 'Library',
     accent: 'ochre',
+  },
+  {
+    label: 'Gallery',
+    description: '风景、扫街与日常观察的影像记录。',
+    href: '/gallery/',
+    query: 'Photos',
+    accent: 'forest',
   },
 ];
 
@@ -116,7 +127,7 @@ const latestUpdate = latestArticles[0]?.date ? formatDateCN(latestArticles[0].da
                   </a>
                 </div>
 
-                <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
                   {heroStats.map((stat) => (
                     <div class="rounded-2xl border border-ink/10 bg-white/70 px-4 py-3 backdrop-blur-sm">
                       <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">{stat.label}</div>

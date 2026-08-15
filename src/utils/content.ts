@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import type { Article, GalleryPhoto, Tool } from '../data/content';
 import { parseISODate } from './date';
+import { readGalleryExif } from './gallery-exif';
 
 export function articleHref(entry: CollectionEntry<'articles'>): string {
   return entry.data.href ?? `/articles/${entry.slug}/`;
@@ -40,6 +41,8 @@ export function mapToolEntry(entry: CollectionEntry<'tools'>): Tool {
 }
 
 export function mapGalleryEntry(entry: CollectionEntry<'gallery'>): GalleryPhoto {
+  const exif = readGalleryExif(entry.data.image);
+
   return {
     type: 'gallery',
     title: entry.data.title,
@@ -50,6 +53,7 @@ export function mapGalleryEntry(entry: CollectionEntry<'gallery'>): GalleryPhoto
     location: entry.data.location,
     image: entry.data.image,
     imageAlt: entry.data.imageAlt,
+    ...(exif ? { exif } : {}),
   };
 }
 

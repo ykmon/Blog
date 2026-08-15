@@ -1,3 +1,5 @@
+import type { GalleryExif } from '../utils/gallery-exif';
+
 export { allTags, getTagCategory, tagCategories } from './tags';
 
 export interface Article {
@@ -49,6 +51,7 @@ export interface GalleryPhoto {
     location: string;
     image: string;
     imageAlt: string;
+    exif?: GalleryExif;
 }
 
 export type ContentItem = Article | Tool | Video | GalleryPhoto;

@@ -115,6 +115,13 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
                       data-description={photo.description ?? ''}
                       data-image={photo.image}
                       data-alt={photo.imageAlt}
+                      data-camera={photo.exif?.camera ?? ''}
+                      data-lens={photo.exif?.lens ?? ''}
+                      data-focal-length={photo.exif?.focalLength ?? ''}
+                      data-aperture={photo.exif?.aperture ?? ''}
+                      data-shutter-speed={photo.exif?.shutterSpeed ?? ''}
+                      data-iso={photo.exif?.iso ?? ''}
+                      data-taken-at={photo.exif?.takenAt ?? ''}
                     >
                       <div class="overflow-hidden bg-forest">
                         <img
@@ -147,7 +154,7 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
 
           <div
             id="gallery-lightbox"
-            class="fixed inset-0 z-[80] hidden bg-ink/90 p-4 backdrop-blur-sm md:p-8"
+            class="fixed inset-0 z-[80] hidden overflow-y-auto bg-ink/90 p-4 backdrop-blur-sm md:p-8"
             aria-hidden="true"
           >
             <button
@@ -157,7 +164,7 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
               aria-label="关闭相册预览"
             ></button>
 
-            <div class="relative mx-auto flex h-full max-w-6xl flex-col justify-center">
+            <div class="relative mx-auto flex min-h-full max-w-6xl flex-col justify-center">
               <button
                 type="button"
                 class="absolute right-0 top-0 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-paper/20 bg-paper/10 text-paper transition-all hover:bg-paper/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-paper/70"
@@ -169,7 +176,7 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
                 </svg>
               </button>
 
-              <figure class="relative grid max-h-full gap-5 pt-14 lg:grid-cols-[minmax(0,1fr),320px] lg:items-center lg:pt-0">
+              <figure class="relative grid gap-5 pt-14 lg:grid-cols-[minmax(0,1fr),360px] lg:items-center lg:pt-0">
                 <div class="flex min-h-0 items-center justify-center">
                   <img
                     id="gallery-lightbox-image"
@@ -183,6 +190,39 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
                   <h2 id="gallery-lightbox-title" class="mt-3 font-serif text-3xl leading-tight"></h2>
                   <p id="gallery-lightbox-location" class="mt-3 text-sm leading-6 text-paper/75"></p>
                   <p id="gallery-lightbox-description" class="mt-4 text-sm leading-7 text-paper/65"></p>
+                  <div id="gallery-lightbox-exif" class="mt-5 hidden border-t border-paper/10 pt-5">
+                    <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-paper/55">拍摄参数</div>
+                    <dl class="mt-3 grid grid-cols-2 gap-3">
+                      <div class="gallery-exif-item col-span-2 hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="camera">
+                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Camera</dt>
+                        <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
+                      </div>
+                      <div class="gallery-exif-item col-span-2 hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="lens">
+                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Lens</dt>
+                        <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
+                      </div>
+                      <div class="gallery-exif-item hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="focalLength">
+                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Focal</dt>
+                        <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
+                      </div>
+                      <div class="gallery-exif-item hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="aperture">
+                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Aperture</dt>
+                        <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
+                      </div>
+                      <div class="gallery-exif-item hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="shutterSpeed">
+                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Shutter</dt>
+                        <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
+                      </div>
+                      <div class="gallery-exif-item hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="iso">
+                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">ISO</dt>
+                        <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
+                      </div>
+                      <div class="gallery-exif-item col-span-2 hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="takenAt">
+                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Taken</dt>
+                        <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
+                      </div>
+                    </dl>
+                  </div>
                 </figcaption>
               </figure>
             </div>
@@ -261,6 +301,8 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
     const lightboxTitle = document.getElementById('gallery-lightbox-title');
     const lightboxLocation = document.getElementById('gallery-lightbox-location');
     const lightboxDescription = document.getElementById('gallery-lightbox-description');
+    const lightboxExif = document.getElementById('gallery-lightbox-exif');
+    const exifItems = Array.from(document.querySelectorAll<HTMLElement>('[data-exif-field]'));
 
     const setActiveFilter = (activeFilter: string) => {
       let visibleCount = 0;
@@ -300,6 +342,48 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
         lightboxImage.src = '';
         lightboxImage.alt = '';
       }
+      if (lightboxExif) {
+        lightboxExif.classList.add('hidden');
+      }
+      exifItems.forEach((item) => {
+        item.classList.add('hidden');
+        const valueElement = item.querySelector<HTMLElement>('[data-exif-value]');
+        if (valueElement) {
+          valueElement.textContent = '';
+        }
+      });
+    };
+
+    const updateExifDetails = (button: HTMLElement) => {
+      const exifValues: Record<string, string> = {
+        camera: button.dataset.camera ?? '',
+        lens: button.dataset.lens ?? '',
+        focalLength: button.dataset.focalLength ?? '',
+        aperture: button.dataset.aperture ?? '',
+        shutterSpeed: button.dataset.shutterSpeed ?? '',
+        iso: button.dataset.iso ?? '',
+        takenAt: button.dataset.takenAt ?? '',
+      };
+      let hasExif = false;
+
+      exifItems.forEach((item) => {
+        const field = item.dataset.exifField ?? '';
+        const value = exifValues[field] ?? '';
+        const valueElement = item.querySelector<HTMLElement>('[data-exif-value]');
+
+        if (valueElement) {
+          valueElement.textContent = value;
+        }
+
+        item.classList.toggle('hidden', !value);
+        if (value) {
+          hasExif = true;
+        }
+      });
+
+      if (lightboxExif) {
+        lightboxExif.classList.toggle('hidden', !hasExif);
+      }
     };
 
     document.querySelectorAll<HTMLElement>('[data-gallery-open]').forEach((button) => {
@@ -314,6 +398,7 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
           lightboxTitle.textContent = button.dataset.title ?? '';
           lightboxLocation.textContent = button.dataset.location ?? '';
           lightboxDescription.textContent = button.dataset.description ?? '';
+          updateExifDetails(button);
           lightbox.classList.remove('hidden');
           lightbox.setAttribute('aria-hidden', 'false');
           document.body.classList.add('gallery-lightbox-open');

@@ -70,6 +70,17 @@ export const seriesList: Series[] = [
       { slug: 'inside-ue4/chapter09-gameinstance', title: 'Ch09 - GameInstance', chapter: 'Ch09', date: '2026-01-04' },
       { slug: 'inside-ue4/chapter10-summary', title: 'Ch10 - Summary', chapter: 'Ch10', date: '2026-01-04' },
     ]
+  },
+  {
+    id: 'agent-series',
+    title: 'Agent 系列 - 从模型到可靠执行',
+    titleEn: 'Agent Series - From Models to Reliable Execution',
+    description: '从 LLM、上下文与工具出发，逐步理解 Agent 的运行循环、Harness 工程、编排模式与安全护栏。',
+    category: 'Artificial Intelligence',
+    tags: ['AI', 'Code', 'Basic'],
+    articles: [
+      { slug: 'agent-series/agent-introduction', title: '第一章 - Agent的入门', chapter: 'Ch01', date: '2026-10-24' },
+    ]
   }
 ];
 

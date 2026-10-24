@@ -12,11 +12,15 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const categoryLink = entry.slug.startsWith('agent-series/')
+  ? '/articles/agent-series/'
+  : '/articles/';
 ---
 
 <ArticleLayout
   title={entry.data.title}
   category={entry.data.category}
+  categoryLink={categoryLink}
   description={entry.data.description}
   date={entry.data.date}
   image={entry.data.image}

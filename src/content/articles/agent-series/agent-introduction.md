@@ -8,8 +8,8 @@ tags:
   - Code
   - Basic
 readTime: "25 Min Read"
-image: "/images/agent-series/agent-introduction-cover.png"
-imageAlt: "手绘风格的 AI Agent 与上下文、工具和环境组成的闭环示意图"
+image: "/images/agent-series/agent-introduction-cover-v2.png"
+imageAlt: "Agent 入门章节封面，展示 LLM、上下文、工具、Harness、ReAct 与 Environment 的手绘闭环"
 ---
 
 ## 现代 Agent = LLM + 上下文 + 工具

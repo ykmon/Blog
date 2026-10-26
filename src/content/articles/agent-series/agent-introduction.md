@@ -8,8 +8,8 @@ tags:
   - Code
   - Basic
 readTime: "25 Min Read"
-image: "/images/agent-series/agent-system-overview.png"
-imageAlt: "Agent、Harness 与 Environment 的闭环关系示意图"
+image: "/images/agent-series/agent-introduction-cover.png"
+imageAlt: "手绘风格的 AI Agent 与上下文、工具和环境组成的闭环示意图"
 ---
 
 ## 现代 Agent = LLM + 上下文 + 工具

@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopNav from '../components/TopNav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="页面未找到 - TechArt Chronicle">
+  <TopNav showSearch={false} />
+  <main class="reading-width page-main">
+    <header class="page-heading">
+      <p class="mb-4 text-sm">404</p>
+      <h1>这一页暂时找不到了</h1>
+      <p>链接可能已经变更，也可以从文章列表继续阅读。</p>
+    </header>
+    <div class="flex gap-6">
+      <a href="/" class="text-link">返回首页</a>
+      <a href="/articles/" class="text-link">浏览文章 →</a>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

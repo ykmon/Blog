@@ -1,77 +1,29 @@
 ---
-// videos/index.astro - 视频列表页（编辑部风格）
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TopNav from '../../components/TopNav.astro';
 import Footer from '../../components/Footer.astro';
-import { formatDateEN } from '../../utils/date';
+import { formatDateCN } from '../../utils/date';
 import { videos } from '../../data/content';
-
-const pageTitle = 'Videos - TechArt Chronicle';
-const description = '技术美术视频教程 - Houdini 程序化、Unreal Engine PCG、布料解算等技术演示。';
 ---
 
-<BaseLayout title={pageTitle} description={description}>
-  <TopNav currentSection="videos" subPage />
-
-  <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
-    <main class="space-y-12">
-        <section class="space-y-6">
-          <div>
-            <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Showcase</p>
-            <h2 class="mt-2 font-serif text-3xl text-ink">技术演示合集</h2>
+<BaseLayout title="视频教程 - TechArt Chronicle" description="Houdini、Unreal Engine 和程序化工作流的视频演示。">
+  <TopNav currentSection="videos" />
+  <main class="reading-width page-main">
+    <header class="page-heading"><h1>视频教程</h1><p>用影像记录节点流程、效果验证和制作中的细节。</p></header>
+    <div class="space-y-14">
+      {videos.map((video) => (
+        <article>
+          <div class="reading-list-title mb-4">
+            <h2 class="text-xl">{video.title}</h2>
+            <time class="text-sm text-gray-400" datetime={video.date}>{formatDateCN(video.date, true)}</time>
           </div>
-
-          <div class="grid gap-10">
-            {videos.map((video) => (
-              <article class="overflow-hidden rounded-[2rem] border border-ink/10 bg-white/80 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
-                <div class="aspect-video bg-gray-800 relative overflow-hidden">
-                  <iframe
-                    src={`https://player.bilibili.com/player.html?isOutside=true&aid=${video.aid}&bvid=${video.bvid}&cid=${video.cid}&p=1&autoplay=0`}
-                    title={video.title}
-                    loading="lazy"
-                    class="absolute top-0 left-0 h-full w-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    style="border:0;"
-                  ></iframe>
-                </div>
-
-                <div class="grid gap-4 p-6 md:grid-cols-[1fr,auto] md:items-end md:p-8">
-                  <div>
-                    <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em]">
-                      <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{video.category}</span>
-                      {video.tags.map((tag) => (
-                        <span class="rounded-full bg-gray-100 px-2.5 py-1 text-gray-600">{tag}</span>
-                      ))}
-                    </div>
-                    <h3 class="mt-4 font-serif text-3xl leading-tight text-ink">
-                      {video.title}
-                    </h3>
-                  </div>
-                  <div class="text-sm text-gray-400 md:text-right">
-                    <div>{formatDateEN(video.date)}</div>
-                    <div class="mt-2 text-ochre font-semibold">Bilibili</div>
-                  </div>
-                </div>
-              </article>
-            ))}
+          <div class="aspect-video bg-gray-100 overflow-hidden rounded-sm">
+            <iframe src={`https://player.bilibili.com/player.html?isOutside=true&aid=${video.aid}&bvid=${video.bvid}&cid=${video.cid}&p=1&autoplay=0`} title={video.title} loading="lazy" class="h-full w-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />
           </div>
-        </section>
-
-        <section class="rounded-[2rem] border border-ink/10 bg-[linear-gradient(180deg,rgba(26,26,26,0.98),rgba(45,74,62,0.92))] p-6 md:p-8 text-paper shadow-[0_18px_48px_rgba(26,26,26,0.12)]">
-          <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-paper/55">Format</p>
-          <h2 class="mt-3 font-serif text-3xl">视频页只展示结果，不做冗余包装</h2>
-          <p class="mt-4 max-w-2xl text-sm leading-7 text-paper/75">
-            适合用来补充文章里不容易表达清楚的视觉过程，比如节点流、效果验证、工作流演示。
-          </p>
-        </section>
-
-        <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
-          <span>Page 1 of 1</span>
-          <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
-        </div>
-    </main>
-  </div>
-
+          <p class="mt-3 text-sm text-gray-500">{video.category} · {video.tags.join(' / ')}</p>
+        </article>
+      ))}
+    </div>
+  </main>
   <Footer />
 </BaseLayout>

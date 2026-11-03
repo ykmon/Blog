@@ -4,19 +4,19 @@ export default {
     theme: {
         extend: {
             colors: {
-                paper: '#F5F5F7',
+                paper: '#ffffff',
                 ink: '#1a1a1a',
-                forest: '#2d4a3e',
-                ochre: '#8a6240',
+                forest: '#333333',
+                ochre: '#555555',
                 glass: 'rgba(255, 255, 255, 0.5)',
             },
             fontFamily: {
-                serif: ['Playfair Display', 'serif'],
-                body: ['Noto Serif SC', 'serif'],
+                serif: ['LXGW WenKai Lite', 'KaiTi', 'serif'],
+                body: ['LXGW WenKai Lite', 'KaiTi', 'sans-serif'],
             },
             boxShadow: {
-                'retro': '8px 8px 0px 0px rgba(45, 74, 62, 0.15)',
-                'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                'retro': 'none',
+                'card': 'none',
             },
             typography: (theme) => ({
                 DEFAULT: {
@@ -28,7 +28,7 @@ export default {
                         h2: {
                             fontFamily: theme('fontFamily.serif').join(', '),
                             color: theme('colors.forest'),
-                            fontStyle: 'italic',
+                            fontStyle: 'normal',
                         },
                         h3: {
                             fontFamily: theme('fontFamily.serif').join(', '),
@@ -38,8 +38,8 @@ export default {
                         a: { color: theme('colors.ochre') },
                         blockquote: {
                             borderLeftColor: theme('colors.forest'),
-                            fontStyle: 'italic',
-                            backgroundColor: 'rgba(45, 74, 62, 0.05)',
+                            fontStyle: 'normal',
+                            backgroundColor: '#fafafa',
                             color: theme('colors.gray.600'),
                         },
                         code: {

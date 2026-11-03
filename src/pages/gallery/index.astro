@@ -7,13 +7,12 @@ import Footer from '../../components/Footer.astro';
 import { formatDateCN } from '../../utils/date';
 import { mapGalleryEntry, sortByDateDesc } from '../../utils/content';
 
-const pageTitle = 'Gallery - TechArt Chronicle';
+const pageTitle = '相册 - TechArt Chronicle';
 const description = 'YKMON 的个人相册，记录风景、扫街与日常观察。';
 
 const galleryPhotos = sortByDateDesc(
   (await getCollection('gallery')).filter((entry) => entry.data.listed !== false).map(mapGalleryEntry)
 );
-const latestPhoto = galleryPhotos[0];
 const filterOptions = Array.from(
   new Set(['风景', '扫街', ...galleryPhotos.flatMap((photo) => [photo.category, ...photo.tags])].filter(Boolean))
 );
@@ -23,71 +22,39 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
 <BaseLayout title={pageTitle} description={description}>
   <TopNav currentSection="gallery" subPage />
 
-  <div class="container mx-auto max-w-7xl px-4 py-12 md:px-6">
+  <div class="reading-width page-main">
     <main class="space-y-12">
-      <section class="blur-load overflow-hidden rounded-[2rem] border border-ink/10 bg-white/80 shadow-[0_18px_50px_rgba(26,26,26,0.06)]">
-        <div class="grid gap-0 lg:grid-cols-[minmax(0,1fr),360px]">
-          <div class="p-6 md:p-8 lg:p-10">
-            <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Gallery / Personal Archive</p>
-            <h1 class="mt-4 max-w-3xl font-serif text-4xl leading-tight text-ink md:text-6xl">
-              风景、街角和偶然遇见的光
-            </h1>
-            <p class="mt-5 max-w-2xl text-sm leading-7 text-gray-600 md:text-base">
-              这里收纳个人拍摄的风景与扫街照片。相册会保持轻量整理，只记录标题、地点与拍摄日期，把照片本身留在第一位。
-            </p>
-          </div>
-
-          <div class="border-t border-ink/10 bg-[linear-gradient(180deg,rgba(45,74,62,0.96),rgba(26,26,26,0.96))] p-6 text-paper md:p-8 lg:border-l lg:border-t-0">
-            <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-paper/55">Archive Status</p>
-            <div class="mt-6 grid grid-cols-2 gap-3">
-              <div class="rounded-2xl border border-paper/10 bg-paper/5 p-4">
-                <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-paper/45">Photos</div>
-                <div class="mt-2 font-serif text-3xl">{galleryPhotos.length}</div>
-              </div>
-              <div class="rounded-2xl border border-paper/10 bg-paper/5 p-4">
-                <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-paper/45">Scenes</div>
-                <div class="mt-2 font-serif text-3xl">{categoryCount}</div>
-              </div>
-            </div>
-            <div class="mt-4 rounded-2xl border border-paper/10 bg-paper/5 p-4">
-              <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-paper/45">Latest</div>
-              <div class="mt-2 font-serif text-2xl">
-                {latestPhoto ? formatDateCN(latestPhoto.date) : '整理中'}
-              </div>
-              <p class="mt-2 text-sm leading-6 text-paper/65">
-                {latestPhoto ? `${latestPhoto.location} / ${latestPhoto.category}` : '照片目录已经准备好，等待第一组作品入库。'}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      <header class="page-heading">
+        <h1>相册</h1>
+        <p>风景、街角和偶然遇见的光。记录 {galleryPhotos.length} 张照片，{categoryCount} 种日常风景。</p>
+      </header>
       {galleryPhotos.length > 0 ? (
         <>
-          <section class="blur-load space-y-5" data-gallery-root>
+          <section class="space-y-5" data-gallery-root>
             <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
-                <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Browse</p>
-                <h2 class="mt-2 font-serif text-3xl text-ink">按主题浏览照片</h2>
+                <h2 class="text-2xl text-ink">按主题浏览</h2>
               </div>
               <div class="text-sm text-gray-500">
-                <span data-gallery-count>{galleryPhotos.length}</span> / {galleryPhotos.length} photos
+                <span data-gallery-count>{galleryPhotos.length}</span> / {galleryPhotos.length} 张
               </div>
             </div>
 
-            <div class="flex flex-wrap gap-2 rounded-[1.5rem] border border-ink/10 bg-white/70 p-4">
+            <div class="flex flex-wrap gap-2">
               <button
                 type="button"
-                class="gallery-filter-btn active rounded-full border border-forest bg-forest px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-white transition-all"
+                class="gallery-filter-btn tag-filter-btn active"
                 data-gallery-filter="all"
+                aria-pressed="true"
               >
                 全部
               </button>
               {filterOptions.map((filter) => (
                 <button
                   type="button"
-                  class="gallery-filter-btn rounded-full border border-ink/10 bg-paper px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-ink transition-all hover:-translate-y-0.5 hover:border-ochre hover:text-ochre"
+                  class="gallery-filter-btn tag-filter-btn"
                   data-gallery-filter={filter}
+                  aria-pressed="false"
                 >
                   {filter}
                 </button>
@@ -100,7 +67,7 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
 
                 return (
                   <article
-                    class="gallery-card group mb-5 break-inside-avoid overflow-hidden rounded-[1.35rem] border border-ink/10 bg-white shadow-[0_12px_28px_rgba(26,26,26,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_18px_42px_rgba(138,98,64,0.14)]"
+                    class="gallery-card group mb-8 break-inside-avoid overflow-hidden"
                     data-gallery-card
                     data-gallery-filters={filters}
                   >
@@ -110,7 +77,7 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
                       data-gallery-open
                       data-title={photo.title}
                       data-location={photo.location}
-                      data-date={formatDateCN(photo.date)}
+                      data-date={formatDateCN(photo.date, true)}
                       data-category={photo.category}
                       data-description={photo.description ?? ''}
                       data-image={photo.image}
@@ -132,10 +99,10 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
                           class="h-auto w-full transition-transform duration-700 group-hover:scale-[1.03]"
                         />
                       </div>
-                      <div class="p-4">
-                        <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em]">
-                          <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{photo.category}</span>
-                          <span class="text-gray-400">{formatDateCN(photo.date)}</span>
+                      <div class="py-4">
+                        <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-normal">
+                          <span class="text-gray-500">{photo.category}</span>
+                          <span class="text-gray-400">{formatDateCN(photo.date, true)}</span>
                         </div>
                         <h3 class="mt-3 font-serif text-xl leading-tight text-ink transition-colors group-hover:text-forest">
                           {photo.title}
@@ -182,43 +149,43 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
                     id="gallery-lightbox-image"
                     src=""
                     alt=""
-                    class="max-h-[70vh] w-auto max-w-full rounded-[1rem] object-contain shadow-[0_24px_70px_rgba(0,0,0,0.35)] lg:max-h-[82vh]"
+                    class="max-h-[70vh] w-auto max-w-full rounded-sm object-contain  lg:max-h-[82vh]"
                   />
                 </div>
-                <figcaption class="rounded-[1.25rem] border border-paper/10 bg-paper/10 p-5 text-paper backdrop-blur">
-                  <div id="gallery-lightbox-meta" class="text-[10px] font-bold uppercase tracking-[0.3em] text-paper/55"></div>
+                <figcaption class="rounded-sm border border-paper/10 bg-paper/10 p-5 text-paper backdrop-blur">
+                  <div id="gallery-lightbox-meta" class="text-[10px] font-bold uppercase tracking-normal text-paper/55"></div>
                   <h2 id="gallery-lightbox-title" class="mt-3 font-serif text-3xl leading-tight"></h2>
                   <p id="gallery-lightbox-location" class="mt-3 text-sm leading-6 text-paper/75"></p>
                   <p id="gallery-lightbox-description" class="mt-4 text-sm leading-7 text-paper/65"></p>
                   <div id="gallery-lightbox-exif" class="mt-5 hidden border-t border-paper/10 pt-5">
-                    <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-paper/55">拍摄参数</div>
+                    <div class="text-[10px] font-bold uppercase tracking-normal text-paper/55">拍摄参数</div>
                     <dl class="mt-3 grid grid-cols-2 gap-3">
                       <div class="gallery-exif-item col-span-2 hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="camera">
-                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Camera</dt>
+                        <dt class="text-[10px] font-bold uppercase tracking-normal text-paper/45">Camera</dt>
                         <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
                       </div>
                       <div class="gallery-exif-item col-span-2 hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="lens">
-                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Lens</dt>
+                        <dt class="text-[10px] font-bold uppercase tracking-normal text-paper/45">Lens</dt>
                         <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
                       </div>
                       <div class="gallery-exif-item hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="focalLength">
-                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Focal</dt>
+                        <dt class="text-[10px] font-bold uppercase tracking-normal text-paper/45">Focal</dt>
                         <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
                       </div>
                       <div class="gallery-exif-item hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="aperture">
-                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Aperture</dt>
+                        <dt class="text-[10px] font-bold uppercase tracking-normal text-paper/45">Aperture</dt>
                         <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
                       </div>
                       <div class="gallery-exif-item hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="shutterSpeed">
-                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Shutter</dt>
+                        <dt class="text-[10px] font-bold uppercase tracking-normal text-paper/45">Shutter</dt>
                         <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
                       </div>
                       <div class="gallery-exif-item hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="iso">
-                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">ISO</dt>
+                        <dt class="text-[10px] font-bold uppercase tracking-normal text-paper/45">ISO</dt>
                         <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
                       </div>
                       <div class="gallery-exif-item col-span-2 hidden rounded-2xl border border-paper/10 bg-paper/5 p-3" data-exif-field="takenAt">
-                        <dt class="text-[10px] font-bold uppercase tracking-[0.25em] text-paper/45">Taken</dt>
+                        <dt class="text-[10px] font-bold uppercase tracking-normal text-paper/45">Taken</dt>
                         <dd class="mt-1 text-sm leading-6 text-paper" data-exif-value></dd>
                       </div>
                     </dl>
@@ -229,19 +196,18 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
           </div>
         </>
       ) : (
-        <section class="blur-load rounded-[2rem] border border-dashed border-ink/15 bg-white/70 p-8 text-center md:p-12">
-          <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Coming Soon</p>
+        <section class="rounded-sm border border-dashed border-ink/15 bg-white/70 p-8 text-center md:p-12">
+          <p class="text-[11px] font-bold uppercase tracking-normal text-ochre">Coming Soon</p>
           <h2 class="mt-3 font-serif text-3xl text-ink">相册整理中</h2>
           <p class="mx-auto mt-4 max-w-xl text-sm leading-7 text-gray-600">
-            页面结构已经就绪。之后把照片放入 <code class="rounded bg-paper px-1.5 py-0.5 text-ochre">public/images/gallery</code>，
-            并在 <code class="rounded bg-paper px-1.5 py-0.5 text-ochre">src/content/gallery</code> 添加对应条目即可展示。
+            新的照片正在整理中，稍后再来看看。
           </p>
         </section>
       )}
 
-      <div class="mt-20 flex items-center justify-between border-t border-gray-300 pt-8 font-serif text-sm italic text-gray-500">
+      <div class="mt-20 flex items-center justify-between border-t border-gray-300 pt-8 text-sm text-gray-500">
         <span>共 {galleryPhotos.length} 张照片</span>
-        <a href="#top" class="text-ochre hover:underline">Back to Top →</a>
+        <a href="#top" class="text-ochre hover:underline">返回顶部 ↑</a>
       </div>
     </main>
   </div>
@@ -268,8 +234,8 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
   }
 
   .gallery-filter-btn.active {
-    background-color: #2d4a3e;
-    border-color: #2d4a3e;
+    background-color: #333333;
+    border-color: #333333;
     color: white;
   }
 
@@ -277,9 +243,6 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
     display: none;
   }
 
-  body.gallery-lightbox-open {
-    overflow: hidden;
-  }
 </style>
 
 <script>
@@ -315,7 +278,9 @@ const categoryCount = new Set(galleryPhotos.map((photo) => photo.category)).size
       });
 
       filterButtons.forEach((button) => {
-        button.classList.toggle('active', button.dataset.galleryFilter === activeFilter);
+        const active = button.dataset.galleryFilter === activeFilter;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
       });
 
       if (count) {

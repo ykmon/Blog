@@ -1,5 +1,4 @@
 ---
-// ToolLayout.astro - 工具页面布局模板
 import BaseLayout from './BaseLayout.astro';
 import TopNav from '../components/TopNav.astro';
 import Footer from '../components/Footer.astro';
@@ -9,46 +8,22 @@ export interface Props {
   category?: string;
   description?: string;
 }
-
-const { 
-  title, 
-  category = 'Houdini / Tool',
-  description,
-} = Astro.props;
+const { title, category = 'Houdini / Tool', description } = Astro.props;
 ---
 
 <BaseLayout title={`${title} - TechArt Chronicle`} description={description}>
-  <TopNav currentSection="tools" subPage contextDescription={description} />
-
-  <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
-      <main class="relative">
-        <div class="mb-6 flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em]">
-          <span class="rounded-full bg-forest/10 px-2.5 py-1 text-forest">{category}</span>
-          <span class="text-gray-400">Procedural / Tool</span>
-        </div>
-
-        <article class="overflow-hidden rounded-[2rem] border border-ink/10 bg-white/80 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
-          <div class="border-b border-ink/10 p-6 md:p-8">
-            <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Tool / Reference</p>
-            <h1 class="mt-4 font-serif text-4xl md:text-5xl leading-tight text-ink">{title}</h1>
-            {description && (
-              <p class="mt-4 max-w-3xl text-sm md:text-base leading-7 text-gray-600">
-                {description}
-              </p>
-            )}
-          </div>
-
-          <div class="prose prose-lg prose-slate max-w-none p-6 md:p-8" data-content-body>
-            <slot />
-          </div>
-        </article>
-
-        <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
-          <a href="/tools/" class="text-ochre hover:underline">← Back to Tools</a>
-          <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
-        </div>
-      </main>
-  </div>
-
+  <TopNav currentSection="tools" />
+  <main class="reading-width page-main">
+    <header class="page-heading">
+      <p class="mb-3 text-sm">{category}</p>
+      <h1>{title}</h1>
+      {description && <p>{description}</p>}
+    </header>
+    <article class="article-prose prose prose-lg prose-slate max-w-none" data-content-body><slot /></article>
+    <div class="mt-16 flex justify-between border-t border-gray-100 pt-6 text-sm text-gray-500">
+      <a href="/tools/" class="hover:underline">← 返回工具库</a>
+      <a href="#top" class="hover:underline">返回顶部 ↑</a>
+    </div>
+  </main>
   <Footer />
 </BaseLayout>

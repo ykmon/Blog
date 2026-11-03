@@ -1,174 +1,45 @@
 ---
-// src/pages/about.astro - 关于我页面（编辑部风格）
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TopNav from '../components/TopNav.astro';
 import Footer from '../components/Footer.astro';
-
-const pageTitle = 'About - TechArt Chronicle';
-const description = '关于 YKMON - Technical Artist，专注于游戏引擎技术、程序化内容生成、Shader 开发与自动化工具。';
-
 const focusAreas = [
-  { title: 'Game Engine', desc: '引擎架构、渲染管线、性能优化' },
-  { title: 'PCG', desc: '程序化内容生成、Houdini 工具开发' },
-  { title: 'Shader', desc: '着色器开发、材质系统、视觉效果' },
-  { title: 'Automation', desc: '工作流自动化、CI/CD、工具链开发' },
+  { title: '引擎与图形学', desc: 'Unreal Engine、Unity、引擎架构、渲染管线与性能优化。' },
+  { title: '程序化内容', desc: 'Houdini、PCG、HDA 开发，以及可复用的场景制作流程。' },
+  { title: 'Shader 与视觉效果', desc: '着色器开发、材质系统与实时视觉效果。' },
+  { title: '工具与自动化', desc: 'Python、C++、VEX、工作流自动化和项目管线。' },
 ];
-
-const techStack = {
-  engines: ['Unreal Engine', 'Unity'],
-  dcc: ['Houdini', 'Maya', 'Blender', 'Substance Painter'],
-  languages: ['Python', 'C++', 'GLSL/HLSL', 'VEX'],
-  tools: ['Git', 'Jenkins', 'Docker', 'Perforce'],
-};
 ---
 
-<BaseLayout title={pageTitle} description={description}>
-  <TopNav currentSection="about" subPage />
-
-  <div class="container mx-auto px-4 md:px-6 py-12 max-w-7xl">
-    <main class="space-y-12">
-        <section class="blur-load rounded-[2rem] border border-ink/10 bg-white/80 p-6 md:p-8 shadow-[0_18px_48px_rgba(26,26,26,0.06)]">
-          <div class="grid gap-8 lg:grid-cols-[auto,1fr] lg:items-center">
-            <div class="flex justify-center lg:justify-start">
-              <div class="h-32 w-32 overflow-hidden rounded-full border border-ink/10 shadow-[0_12px_30px_rgba(26,26,26,0.12)]">
-                <img loading="lazy" decoding="async" src="/Resource/ykmon.jpg" alt="YKMON" class="h-full w-full object-cover" />
-              </div>
-            </div>
-
-            <div>
-              <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Technical Artist / Builder</p>
-              <h1 class="mt-3 font-serif text-4xl md:text-5xl leading-tight text-ink">
-                YKMON
-              </h1>
-              <p class="mt-4 max-w-3xl text-sm md:text-base leading-7 text-gray-600">
-                非传统技术美术，更偏向把项目里的复杂问题整理成可执行的流程。
-                我关注引擎技术、程序化内容生成、Shader 设计、工具开发和自动化管线，
-                也会把这些实践不断沉淀到博客里。
-              </p>
-
-              <div class="mt-6 flex flex-wrap gap-3">
-                <a href="/articles/" class="inline-flex items-center justify-center rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-forest/90">
-                  读文章
-                </a>
-                <a href="/series/" class="inline-flex items-center justify-center rounded-full border border-ink/15 bg-white px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:border-ochre hover:text-ochre">
-                  看系列
-                </a>
-                <a href="https://space.bilibili.com/18272055" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-gray-500 transition-colors hover:text-ochre">
-                  Bilibili →
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-3">
-              <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Focus</div>
-              <div class="mt-2 font-serif text-xl text-ink">Engine</div>
-            </div>
-            <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-3">
-              <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Format</div>
-              <div class="mt-2 font-serif text-xl text-ink">Notes</div>
-            </div>
-            <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-3">
-              <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Stack</div>
-              <div class="mt-2 font-serif text-xl text-ink">Pipeline</div>
-            </div>
-            <div class="rounded-2xl border border-ink/10 bg-paper px-4 py-3">
-              <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Mode</div>
-              <div class="mt-2 font-serif text-xl text-ink">Long-term</div>
-            </div>
-          </div>
-        </section>
-
-        <section class="blur-load space-y-5">
-          <div>
-            <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">专业领域</p>
-            <h2 class="mt-2 font-serif text-3xl text-ink">我主要做什么</h2>
-          </div>
-          <div class="grid gap-4 md:grid-cols-2">
-            {focusAreas.map((item, index) => (
-              <article class="rounded-[1.5rem] border border-ink/10 bg-white/80 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_14px_30px_rgba(138,98,64,0.12)]">
-                <div class="flex items-start gap-4">
-                  <span class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-forest/10 font-serif text-lg text-forest">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <div>
-                    <h3 class="font-serif text-xl text-ink">{item.title}</h3>
-                    <p class="mt-2 text-sm leading-7 text-gray-600">{item.desc}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section class="blur-load space-y-5">
-          <div>
-            <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">技术栈</p>
-            <h2 class="mt-2 font-serif text-3xl text-ink">常用工具与语言</h2>
-          </div>
-
-          <div class="grid gap-4 lg:grid-cols-2">
-            <div class="rounded-[1.5rem] border border-ink/10 bg-white/80 p-5">
-              <h3 class="font-serif text-xl text-ink">游戏引擎</h3>
-              <div class="mt-4 flex flex-wrap gap-2">
-                {techStack.engines.map((tech) => (
-                  <span class="rounded-full bg-forest/10 px-3 py-1 text-sm text-forest">{tech}</span>
-                ))}
-              </div>
-            </div>
-            <div class="rounded-[1.5rem] border border-ink/10 bg-white/80 p-5">
-              <h3 class="font-serif text-xl text-ink">DCC 工具</h3>
-              <div class="mt-4 flex flex-wrap gap-2">
-                {techStack.dcc.map((tech) => (
-                  <span class="rounded-full bg-ochre/10 px-3 py-1 text-sm text-ochre">{tech}</span>
-                ))}
-              </div>
-            </div>
-            <div class="rounded-[1.5rem] border border-ink/10 bg-white/80 p-5">
-              <h3 class="font-serif text-xl text-ink">编程语言</h3>
-              <div class="mt-4 flex flex-wrap gap-2">
-                {techStack.languages.map((tech) => (
-                  <span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">{tech}</span>
-                ))}
-              </div>
-            </div>
-            <div class="rounded-[1.5rem] border border-ink/10 bg-white/80 p-5">
-              <h3 class="font-serif text-xl text-ink">工程化</h3>
-              <div class="mt-4 flex flex-wrap gap-2">
-                {techStack.tools.map((tech) => (
-                  <span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">{tech}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="blur-load rounded-[2rem] border border-ink/10 bg-[linear-gradient(180deg,rgba(26,26,26,0.98),rgba(45,74,62,0.92))] p-6 md:p-8 text-paper shadow-[0_18px_48px_rgba(26,26,26,0.12)]">
-          <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-paper/55">联系我</p>
-          <h2 class="mt-3 font-serif text-3xl">如果你也在做类似的事情</h2>
-          <p class="mt-4 max-w-2xl text-sm leading-7 text-paper/75">
-            可以通过 Bilibili 找到我。这里的内容更像一份长期整理的工作日志，
-            不是碎片化动态。
-          </p>
-          <div class="mt-6">
-            <a
-              href="https://space.bilibili.com/18272055"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center justify-center rounded-full bg-paper px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-paper/90"
-            >
-              打开 Bilibili
-            </a>
-          </div>
-        </section>
-
-        <div class="mt-20 border-t border-gray-300 pt-8 flex justify-between items-center text-sm font-serif italic text-gray-500">
-          <a href="/" class="text-ochre hover:underline">← Back to Home</a>
-          <a href="#top" class="text-ochre hover:underline">Back to Top ↑</a>
-        </div>
-    </main>
-  </div>
-
+<BaseLayout title="关于 YKMON - TechArt Chronicle" description="关于 YKMON：技术美术、游戏开发与自动化工具。">
+  <TopNav currentSection="about" />
+  <main class="reading-width page-main">
+    <header class="page-heading">
+      <img src="/Resource/ykmon.jpg" alt="YKMON" width="80" height="80" class="mb-6 h-20 w-20 rounded-full object-cover" decoding="async" />
+      <h1>你好，我是 YKMON</h1>
+      <p>一名关注工具、流程与技术落地的技术美术。</p>
+    </header>
+    <div class="article-prose prose prose-lg max-w-none">
+      <p>我更偏向把项目里的复杂问题整理成可执行的流程。从项目管理到技术落地，关注引擎技术、程序化内容生成、Shader 设计、工具开发和自动化管线。</p>
+      <p>这个博客是我的实践笔记本。记录遇到的问题、验证过的方法，以及那些值得反复琢磨的实现细节，也收纳一些日常拍摄的照片。</p>
+      <h2>我在关注什么</h2>
+      {focusAreas.map((area) => <section><h3>{area.title}</h3><p>{area.desc}</p></section>)}
+      <h2>常用工具与语言</h2>
+      <ul>
+        <li>游戏引擎：Unreal Engine、Unity</li>
+        <li>DCC 工具：Houdini、Maya、Blender、Substance Painter</li>
+        <li>编程语言：Python、C++、GLSL/HLSL、VEX</li>
+        <li>工程化：Git、Jenkins、Docker、Perforce</li>
+      </ul>
+      <h2>在这里可以找到</h2>
+      <ul>
+        <li><a href="/articles/">文章</a>：引擎、图形学与开发实践。</li>
+        <li><a href="/series/">系列笔记</a>：GAMES101、GAMES104、InsideUE4 和 Agent 工程。</li>
+        <li><a href="/tools/">工具库</a>：Houdini 脚本与自动化小工具。</li>
+        <li><a href="/videos/">视频教程</a>与<a href="/gallery/">相册</a>：制作流程和生活中的视觉记录。</li>
+      </ul>
+      <h2>找到我</h2>
+      <p><a href="https://space.bilibili.com/18272055" target="_blank" rel="noopener noreferrer">Bilibili ↗</a></p>
+    </div>
+  </main>
   <Footer />
 </BaseLayout>

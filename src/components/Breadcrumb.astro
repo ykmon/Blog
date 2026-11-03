@@ -8,9 +8,9 @@ const { items } = Astro.props;
 ---
 
 <nav class="mb-6 text-sm font-body" aria-label="Breadcrumb">
-  <ol class="flex items-center flex-wrap gap-2 rounded-full border border-ink/10 bg-white/70 px-4 py-2 shadow-[0_8px_20px_rgba(26,26,26,0.04)] backdrop-blur-sm">
+  <ol class="flex items-center flex-wrap gap-2 text-gray-500">
     <li>
-      <a href="/" class="text-gray-500 hover:text-ochre transition-colors">Home</a>
+      <a href="/" class="text-gray-500 hover:text-ochre transition-colors">首页</a>
     </li>
     {items.map((item, index) => (
       <>

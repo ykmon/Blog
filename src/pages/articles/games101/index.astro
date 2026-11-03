@@ -1,6 +1,7 @@
 ---
 // games101/index.astro - GAMES101 系列索引页
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+import SeriesChapters from '../../../components/SeriesChapters.astro';
 
 const articles = [
   { href: 'l02', title: 'L02 线性代数回顾', desc: '向量点乘、叉乘、矩阵乘法基础' },
@@ -16,29 +17,10 @@ const articles = [
 <ArticleLayout 
   title="GAMES101 图形学入门系列" 
   category="GAMES101"
-  categoryLink="/articles/"
+  categoryLink="/series/"
+  showToc={false}
   description="GAMES101 现代计算机图形学入门课程笔记"
 >
-  <div class="not-prose rounded-[1.75rem] border border-ink/10 bg-white/80 p-6 md:p-8 mb-8 shadow-[0_14px_34px_rgba(26,26,26,0.05)]">
-    <p class="text-[11px] font-bold uppercase tracking-[0.35em] text-ochre">Series Overview</p>
-    <p class="mt-3 text-sm md:text-base leading-7 text-gray-600">
-      GAMES101 是计算机图形学的入门路线，适合从基础线性代数一路读到光栅化、光线追踪和材质外观。
-    </p>
-  </div>
-
-  <div class="not-prose grid gap-4 md:grid-cols-2">
-    {articles.map((article, index) => (
-      <a href={article.href} class="group rounded-[1.35rem] border border-ink/10 bg-white/80 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-ochre hover:shadow-[0_14px_30px_rgba(138,98,64,0.12)]">
-        <div class="flex items-start gap-4">
-          <span class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-forest/10 font-serif text-lg text-forest">
-            {String(index + 1).padStart(2, '0')}
-          </span>
-          <div>
-            <h3 class="font-serif text-xl text-ink transition-colors group-hover:text-forest">{article.title}</h3>
-            <p class="mt-2 text-sm leading-7 text-gray-600">{article.desc}</p>
-          </div>
-        </div>
-      </a>
-    ))}
-  </div>
+  <p class="mb-10 text-gray-600">GAMES101 是计算机图形学的入门路线，适合从基础线性代数一路读到光栅化、光线追踪和材质外观。</p>
+  <SeriesChapters basePath="/articles/games101" articles={articles} />
 </ArticleLayout>

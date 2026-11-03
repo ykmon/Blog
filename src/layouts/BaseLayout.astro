@@ -1,6 +1,7 @@
 ---
 // BaseLayout.astro - 基础布局模板
-import '../styles/fonts.css';
+import 'lxgw-wenkai-lite-webfont/lxgwwenkailite-regular.css';
+import 'lxgw-wenkai-lite-webfont/lxgwwenkailite-bold.css';
 import '../styles/global.css';
 import MobileNav from '../components/MobileNav.astro';
 export interface Props {
@@ -55,7 +56,7 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
   <meta name="twitter:description" content={description}>
   <meta name="twitter:image" content={absoluteImageUrl}>
   
-  <!-- Fonts — 自托管字体，通过 fonts.css 中的 @font-face + unicode-range 按需加载 -->
+  <!-- Fonts — 自托管字体，霞鹜文楷通过 @font-face + unicode-range 按需加载 -->
   
   <!-- KaTeX - 异步按需加载，仅在有数学公式时才加载 -->
   <!-- 代码高亮已由 Astro 内置 Shiki 在构建时完成，无需运行时 JS -->
@@ -81,6 +82,16 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
   </script>
 
   <script>
+    interface MathRenderOptions {
+      delimiters: Array<{ left: string; right: string; display: boolean }>;
+      throwOnError: boolean;
+      ignoredTags: string[];
+    }
+    const pageWindow = window as Window & {
+      renderMathInElement?: (element: HTMLElement, options: MathRenderOptions) => void;
+      __pageInitBound?: boolean;
+    };
+
     // KaTeX — 异步按需加载数学公式渲染
     async function loadKaTeX() {
       // 检测页面中是否包含 LaTeX 数学公式分隔符 \(...\) 或 \[...\] 或 $$...$$
@@ -114,7 +125,7 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
         // 加载 auto-render 扩展（自动扫描并渲染页面中的数学公式）
         await loadScript('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js');
 
-        const renderMathInElement = (window as any).renderMathInElement;
+        const renderMathInElement = pageWindow.renderMathInElement;
         if (renderMathInElement) {
           renderMathInElement(document.body, {
             delimiters: [
@@ -132,55 +143,10 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
       }
     }
 
-    // Lazy Load Effect with Intersection Observer（幂等：先断开旧 observer）
-    let blurObserver: IntersectionObserver | null = null;
-    let eagerBlurObserver: IntersectionObserver | null = null;
-
-    function initObserver() {
-      // 断开旧的 observer，避免堆积
-      if (blurObserver) {
-        blurObserver.disconnect();
-        blurObserver = null;
-      }
-      if (eagerBlurObserver) {
-        eagerBlurObserver.disconnect();
-        eagerBlurObserver = null;
-      }
-
-      const markLoaded: IntersectionObserverCallback = (entries, observer) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          entry.target.classList.add('loaded');
-          observer.unobserve(entry.target);
-        });
-      };
-
-      blurObserver = new IntersectionObserver(markLoaded, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px',
-      });
-
-      eagerBlurObserver = new IntersectionObserver(markLoaded, {
-        threshold: 0.01,
-        rootMargin: '0px 0px 360px 0px',
-      });
-
-      document.querySelectorAll('.blur-load:not(.loaded)').forEach((el) => {
-        if (el.getAttribute('data-blur-priority') === 'eager') {
-          eagerBlurObserver!.observe(el);
-          return;
-        }
-
-        blurObserver!.observe(el);
-      });
-    }
-
     function initPage() {
-      loadKaTeX();
-      initObserver();
+      void loadKaTeX();
     }
-    
+
     // Support both static sites and View Transitions
     // 使用单次注册保护，避免 astro:page-load 重复绑定
     if (document.readyState === 'loading') {
@@ -189,9 +155,9 @@ const absoluteImageUrl = new URL(image, Astro.site).href;
       initPage();
     }
 
-    if (!(window as any).__pageInitBound) {
+    if (!pageWindow.__pageInitBound) {
       document.addEventListener('astro:page-load', initPage);
-      (window as any).__pageInitBound = true;
+      pageWindow.__pageInitBound = true;
     }
   </script>
 </body>

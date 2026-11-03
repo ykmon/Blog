@@ -10,14 +10,14 @@ interface Props {
   volume?: number;
 }
 
-const { 
-  playlistId, 
-  server = 'netease', 
+const {
+  playlistId,
+  server = 'netease',
   type = 'playlist',
   fixed = false,
   mini = false,
   autoplay = true,
-  theme = '#2d4a3e', // Forest Green
+  theme = '#333333', // Neutral ink
   volume = 0.2
 } = Astro.props;
 ---
@@ -26,23 +26,23 @@ const {
 
 <div class="music-player-container" id="music-player-container">
   <!-- Float Button (Side Tab Style) -->
-  <button 
-    class="music-toggle retro-card" 
-    id="music-toggle" 
+  <button
+    class="music-toggle retro-card"
+    id="music-toggle"
     aria-label="Toggle Music Player"
     title="Background Music"
   >
     <span class="icon">🎵</span>
     <span class="label">Music</span>
   </button>
-  
+
   <!-- Player Panel (Wrapper for APlayer) -->
   <div class="music-panel retro-card" id="music-panel">
     <div class="music-header">
       <span class="title">Background Music</span>
       <button class="close-btn" id="music-close" aria-label="Close">×</button>
     </div>
-    
+
     <!-- MetingJS 占位容器，脚本加载后自动初始化 -->
     <div id="meting-container"
       data-id={playlistId}
@@ -146,7 +146,7 @@ const {
     right: 0;
     bottom: 25%;
     z-index: 40;
-    font-family: 'Inter', sans-serif;
+    font-family: inherit;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -157,9 +157,9 @@ const {
     width: auto;
     height: auto;
     min-width: 80px;
-    padding: 8px 12px 8px 16px; 
+    padding: 8px 12px 8px 16px;
     border-radius: 8px 0 0 8px;
-    background: #2d4a3e;
+    background: #333333;
     color: white;
     display: flex;
     align-items: center;
@@ -171,26 +171,26 @@ const {
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1px solid rgba(0,0,0,0.05);
     border-right: none;
-    box-shadow: -2px 4px 6px rgba(0,0,0,0.1);
+    box-shadow: none;
     letter-spacing: 0.5px;
   }
 
   .music-toggle:hover {
-    transform: translateX(-4px); 
-    background: #36574a;
+    transform: translateX(-4px);
+    background: #444444;
   }
 
   .music-player-container.open .music-toggle {
-    background: #8a6240; 
+    background: #555555;
   }
 
   /* Panel Styling */
   .music-panel {
     position: absolute;
     bottom: auto;
-    top: 50px; 
+    top: 50px;
     right: 10px;
-    
+
     width: 340px; /* Slightly wider for APlayer */
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
@@ -200,7 +200,7 @@ const {
     transform: translateX(20px);
     pointer-events: none;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+    box-shadow: none;
     border: 1px solid rgba(0,0,0,0.05);
   }
 
@@ -243,7 +243,7 @@ const {
   /* Customize APlayer Styles to match Blog Theme */
   :global(.aplayer) {
     margin: 0 !important;
-    box-shadow: none !important;
+    box-shadow: none;
     background: transparent !important;
     font-family: inherit !important;
   }
@@ -260,17 +260,17 @@ const {
     color: #1a1a1a !important;
     font-weight: 600;
   }
-  
+
   :global(.aplayer .aplayer-list ol li) {
     border-top: 1px solid #eee !important;
   }
-  
+
   :global(.aplayer .aplayer-list ol li:hover) {
-    background: rgba(138, 98, 64, 0.05) !important;
+    background: rgba(100, 100, 100, 0.05) !important;
   }
-  
+
   :global(.aplayer .aplayer-list ol li.aplayer-list-light) {
-    background: rgba(138, 98, 64, 0.1) !important;
+    background: rgba(100, 100, 100, 0.1) !important;
   }
 
   /* Hide lyrics to save space if needed, or keep them */
@@ -283,7 +283,7 @@ const {
         padding: 8px 10px 8px 12px;
     }
     .music-toggle .label {
-        display: none; 
+        display: none;
     }
     .music-panel {
         right: 5px;

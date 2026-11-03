@@ -6,6 +6,16 @@ AI 编码代理在本仓库工作时的规范指南。
 
 ## 项目概览
 
+### 当前视觉规范（2026-11-03）
+
+- 全站采用极简个人博客风格：纯白背景、黑灰文字、736px 阅读栏、充足留白。
+- 使用本地打包的 `LXGW WenKai Lite`（霞鹜文楷 Lite），按 unicode-range 加载字形子集。
+- 颜色兼容旧 token：`paper: #ffffff`、`ink: #1a1a1a`、`forest: #333333`、`ochre: #555555`。
+- 新页面使用 `.reading-width`、`.page-main`、`.page-heading`；文章列表使用 `ArticleCard`，系列章节使用 `SeriesChapters`。
+- 导航使用 `TopNav` 与 `MobileNav`。文章与工具正文分别复用 `ArticleLayout`、`ToolLayout`。
+- 以文字列表和下划线链接组织内容，不新增装饰渐变、厚重阴影、玻璃面板、入口模糊动画或大圆角卡片。
+- 代码高亮、技术警告和相册灯箱可按阅读需要保留功能性颜色。下文旧配色与旧侧栏名称仅作历史参考，以本节为准。
+
 - **框架**: Astro 4.16 + Tailwind CSS 3.4 + TypeScript (strict)
 - **输出**: 静态站点 (SSG)，部署于 Vercel
 - **内容**: 技术美术博客 (UE、Houdini、Shader、游戏开发)

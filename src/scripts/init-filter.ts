@@ -136,6 +136,7 @@ function initFilter() {
     allTagBtns.forEach((btn) => {
       const tag = btn.getAttribute('data-tag');
       btn.classList.toggle('active', !!tag && fc.selectedTags.has(tag));
+      btn.setAttribute('aria-pressed', String(!!tag && fc.selectedTags.has(tag)));
     });
     clearFilterBtns.forEach((btn) => {
       btn.classList.toggle('hidden', fc.selectedTags.size === 0);
@@ -194,6 +195,9 @@ function initFilter() {
       btn.classList.toggle('hidden', !hasTags);
     });
   });
+
+  // Reapply once listeners are registered so URL-restored filters show their counts.
+  fc.rebuild();
 }
 
 function destroyFilter() {

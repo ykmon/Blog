@@ -19,9 +19,9 @@ export function formatDateEN(iso: string): string {
 /**
  * 格式化为中文月日：1月21日
  */
-export function formatDateCN(iso: string): string {
-  const [, month, day] = iso.split('-').map(Number);
-  return `${month}月${day}日`;
+export function formatDateCN(iso: string, includeYear = false): string {
+  const [year, month, day] = iso.split('-').map(Number);
+  return `${includeYear ? `${year}年` : ''}${month}月${day}日`;
 }
 
 /**

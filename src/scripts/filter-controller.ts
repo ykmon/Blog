@@ -166,6 +166,9 @@ class FilterController {
     });
 
     // 通知监听者
+    document.querySelectorAll<HTMLElement>('[data-role="filter-empty"]').forEach((element) => {
+      element.classList.toggle('hidden', visibleCount > 0);
+    });
     this.listeners.forEach(fn => fn(visibleCount, this.items.length));
     document.querySelectorAll<HTMLElement>('[data-section]').forEach((section) => {
       const visibleItems = section.querySelectorAll('[data-tags]:not(.is-hidden)');

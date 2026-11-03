@@ -80,6 +80,7 @@ export const seriesList: Series[] = [
     tags: ['AI', 'Code', 'Basic'],
     articles: [
       { slug: 'agent-series/agent-introduction', title: '第一章 - Agent的入门', chapter: 'Ch01', date: '2026-10-24' },
+      { slug: 'agent-series/agent-tools', title: '第二章 - 工具', chapter: 'Ch02', date: '2026-11-03' },
     ]
   }
 ];

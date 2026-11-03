@@ -361,6 +361,7 @@ a:hover { text-decoration-color: #aaa; }
 .section-heading h2 { font-size: 24px; }
 .section-heading > a { font-size: 14px; color: #888; }
 .reading-list { display: grid; gap: 34px; }
+.reading-list h2, .reading-list h3 { margin: 0; }
 .reading-list-title { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; }
 .reading-list-title h2, .reading-list-title h3 { font-size: 21px; line-height: 1.5; min-width: 0; }
 .reading-list-title time { font-size: 14px; color: #888; white-space: nowrap; flex-shrink: 0; }

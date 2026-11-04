@@ -77,4 +77,14 @@ export const videos: Video[] = [
         aid: '113946639995417',
         cid: '28217575778'
     },
+    {
+        type: 'video',
+        title: '工业级照片写实 MetaHuman 自动化管线',
+        category: 'Character / MetaHuman',
+        tags: ['UE', 'Houdini', 'AI', 'Automation'],
+        date: '2026-08-22',
+        bvid: 'BV1Qd8164Epg',
+        aid: '117137733655397',
+        cid: '41152876511'
+    },
 ];

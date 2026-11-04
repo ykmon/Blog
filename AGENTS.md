@@ -306,7 +306,7 @@ interface Props {
 01 文章列表 Articles → /articles/
 02 系列笔记 Series  → /series/
 03 工具库 Tools     → /tools/
-04 视频教程 Videos  → /videos/
+04 视频 Videos      → /videos/
 05 关于 About      → /about/
 ```
 

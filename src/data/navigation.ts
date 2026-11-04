@@ -45,7 +45,7 @@ export const navItems: NavItem[] = [
   {
     id: 'videos',
     num: '04',
-    label: '视频教程',
+    label: '视频',
     labelEn: 'Videos',
     href: '/videos/',
     description: '可视化技术演示与流程验证。',

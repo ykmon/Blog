@@ -2,8 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TopNav from '../../components/TopNav.astro';
 import Footer from '../../components/Footer.astro';
-import { formatDateCN } from '../../utils/date';
+import { formatDateCN, parseISODate } from '../../utils/date';
 import { videos } from '../../data/content';
+
+const sortedVideos = [...videos].sort((a, b) => parseISODate(b.date) - parseISODate(a.date));
 ---
 
 <BaseLayout title="视频 - TechArt Chronicle" description="Houdini、Unreal Engine 和程序化工作流的视频演示。">
@@ -11,7 +13,7 @@ import { videos } from '../../data/content';
   <main class="reading-width page-main">
     <header class="page-heading"><h1>视频</h1><p>用影像记录节点流程、效果验证和制作中的细节。</p></header>
     <div class="space-y-14">
-      {videos.map((video) => (
+      {sortedVideos.map((video) => (
         <article>
           <div class="reading-list-title mb-4">
             <h2 class="text-xl">{video.title}</h2>

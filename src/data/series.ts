@@ -83,6 +83,7 @@ export const seriesList: Series[] = [
       { slug: 'agent-series/agent-tools', title: '第二章 - 工具', chapter: 'Ch02', date: '2026-11-03' },
       { slug: 'agent-series/agent-mcp', title: '第三章 - MCP 与 Function Calling', chapter: 'Ch03', date: '2026-11-03' },
       { slug: 'agent-series/agent-context-engineering', title: '第四章 - 上下文工程', chapter: 'Ch04', date: '2026-11-05' },
+      { slug: 'agent-series/agent-memory', title: '第五章 - 用户记忆和知识库', chapter: 'Ch05', date: '2026-11-09' },
     ]
   }
 ];
